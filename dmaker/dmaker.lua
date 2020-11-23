@@ -1,3 +1,6 @@
+local DmakerInstance = require("dmaker.system.dmaker_instance")
+local StateInstance = require("dmaker.system.state_instance")
+
 local M = {}
 
 
@@ -10,13 +13,13 @@ M.PROP_SCALE_Y = "scale.y"
 
 --- Return state to use it in dmaker FSM
 function M.state(...)
-
+	return StateInstance(...)
 end
 
 
 --- Create new instance of dmaker FSM
-function M.new()
-
+function M.new(param)
+	return DmakerInstance(param)
 end
 
 

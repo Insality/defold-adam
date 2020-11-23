@@ -1,0 +1,26 @@
+local dmaker = require("dmaker.dmaker")
+local actions = require("dmaker.actions")
+
+function init(self)
+	local initial = dmaker.state()
+
+	local state = dmaker.state(
+		actions.debug.print("state 1")
+	)
+	local state2 = dmaker.state(
+		actions.debug.print("state 2")
+	)
+	local state3 = dmaker.state(
+		actions.debug.print("state 3")
+	)
+
+	local fsm = dmaker.new({
+		initial = initial,
+		edges = {
+			{initial, state},
+			{state, state2},
+			{state2, state3}
+		}
+	}
+	)
+end
