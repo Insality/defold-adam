@@ -16,3 +16,6 @@ title = DefoldMaker
 version = 0.0.1
 publisher = Insality
 
+[library]
+include_dirs = dmaker
+
