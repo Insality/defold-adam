@@ -5,13 +5,13 @@ function init(self)
 	local initial = dmaker.state()
 
 	local state = dmaker.state(
-		actions.debug.print("state 1")
+		actions.debug.print("State 1")
 	)
 	local state2 = dmaker.state(
-		actions.debug.print("state 2")
+		actions.debug.print("State 2")
 	)
 	local state3 = dmaker.state(
-		actions.debug.print("state 3"),
+		actions.debug.print("State 3"),
 		actions.time.delay(1, "tostate2")
 	)
 

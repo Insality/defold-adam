@@ -19,11 +19,21 @@ end
 
 --- Execute on enter to this state
 function StateInstance:trigger(...)
+	settings.log("On enter state", { id = self:get_id() })
 	for _, action in ipairs(self._actions) do
 		action:trigger(...)
 	end
 
 	self:event(const.FINISHED)
+end
+
+
+--- Execute on leave from this state
+function StateInstance:release(...)
+	settings.log("On leave state", { id = self:get_id() })
+	for _, action in ipairs(self._actions) do
+		action:release(...)
+	end
 end
 
 

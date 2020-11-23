@@ -27,6 +27,12 @@ function DmakerInstance:initialize(param)
 	end
 
 
+	fsm_param.callbacks["on_leave_state"] = function(_, event, from, to, ...)
+		if from == const.NONE_STATE then
+			return
+		end
+		self._states[from]:release(...)
+	end
 	fsm_param.callbacks["on_enter_state"] = function(_, event, from, to, ...)
 		self._states[to]:trigger(...)
 	end

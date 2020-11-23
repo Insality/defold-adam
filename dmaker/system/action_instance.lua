@@ -4,9 +4,13 @@ local const = require("dmaker.const")
 local ActionInstance = class("dmaker.action")
 
 
-function ActionInstance:initialize(name, callback)
+function ActionInstance:initialize(name, trigger_callback, release_callback)
 	self._name = name
-	self._callback = callback or const.EMPTY_FUNCTION
+	self._trigger_callback = trigger_callback or const.EMPTY_FUNCTION
+	self._release_callback = release_callback
+	self._state = nil
+
+	self.context = {}
 end
 
 
@@ -16,7 +20,16 @@ end
 
 
 function ActionInstance:trigger(...)
-	self._callback(self, ...)
+	self._trigger_callback(self, ...)
+end
+
+
+function ActionInstance:release(...)
+	if not self._release_callback then
+		return
+	end
+
+	self._release_callback(self, ...)
 end
 
 

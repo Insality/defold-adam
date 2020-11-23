@@ -1,5 +1,6 @@
 local M = {}
 
+M.NONE_STATE = "none"
 M.INIT_EVENT = "init"
 M.FINISHED = "finished"
 M.EMPTY_FUNCTION = function() end
