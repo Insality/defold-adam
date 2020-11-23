@@ -23,4 +23,15 @@ function M.get_next_id()
 end
 
 
+function M.log(string, context)
+	local context_string = "{ "
+	for key, value in pairs(context) do
+		context_string = context_string .. key .. ":" .. value .. " "
+	end
+	context_string = context_string .. "}"
+
+	print("[Dmaker]:", string, context_string)
+end
+
+
 return M

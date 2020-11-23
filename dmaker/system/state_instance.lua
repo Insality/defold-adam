@@ -1,4 +1,5 @@
-local class = require("dmaker.system.middleclass")
+local const = require("dmaker.const")
+local class = require("dmaker.libs.middleclass")
 local settings = require("dmaker.system.settings")
 
 local StateInstance = class("dmaker.state")
@@ -7,6 +8,40 @@ local StateInstance = class("dmaker.state")
 function StateInstance:initialize(...)
 	self._actions = {...}
 	self._id = settings.get_next_id()
+	self._event_links = {}
+	self._fsm = nil
+
+	for _, action in ipairs(self._actions) do
+		action:set_state(self)
+	end
+end
+
+
+--- Execute on enter to this state
+function StateInstance:trigger(...)
+	for _, action in ipairs(self._actions) do
+		action:trigger(...)
+	end
+
+	self:event(const.FINISHED)
+end
+
+
+function StateInstance:event(event_name, ...)
+	settings.log("Trigger event", { id = self._id, name = event_name })
+	if self._event_links[event_name] then
+		self._fsm[self._event_links[event_name]](...)
+	end
+end
+
+
+function StateInstance:set_event_link(event_name, fsm_name)
+	self._event_links[event_name] = fsm_name
+end
+
+
+function StateInstance:set_fsm(fsm)
+	self._fsm = fsm
 end
 
 

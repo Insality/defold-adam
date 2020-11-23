@@ -5,9 +5,9 @@ local M = {}
 
 --- Trigger event after time elapsed
 function M.delay(seconds, trigger_event)
-	return ActionInstance("time.delay", function()
+	return ActionInstance("time.delay", function(self)
 		local timer_id = timer.delay(seconds, false, function()
-			print("Trigger event", trigger_event)
+			self:event(trigger_event)
 		end)
 	end)
 end

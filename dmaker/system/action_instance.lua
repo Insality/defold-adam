@@ -1,4 +1,4 @@
-local class = require("dmaker.system.middleclass")
+local class = require("dmaker.libs.middleclass")
 local const = require("dmaker.const")
 
 local ActionInstance = class("dmaker.action")
@@ -16,7 +16,18 @@ end
 
 
 function ActionInstance:trigger(...)
-	self._callback(...)
+	self._callback(self, ...)
+end
+
+
+function ActionInstance:event(event_name, ...)
+	assert(self._state, const.ERRORS.NO_BINDED_STATE)
+	self._state:event(event_name, ...)
+end
+
+
+function ActionInstance:set_state(state_instance)
+	self._state = state_instance
 end
 
 
