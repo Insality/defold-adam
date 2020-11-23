@@ -10,6 +10,8 @@ FSM should have variables and ability to control from external space (like, enti
 Ability to move data to JSON? What part of data can be described as data?
 Is it possible to fnd online visual editor for states at least? With JSON export
 FSM should be described as easy as possible
+Some actions can be triggered in any time. So here is should be ability to bind/unbind stuff. State joined - bind conditions (event, value cond., trigger?), State leaved - unbind it
+Some actions can be run once, per frame (translate?). per second
 
 FSM we will use: https://github.com/unindented/lua-fsm/blob/master/src/fsm.lua
 Think about Eva integration, since we have already a lot of ready API
@@ -50,6 +52,9 @@ Entities:
 Other:
 	msg post
 	sound play
+	print
+	debug traceback?
+
 
 Camera:
 	how we can work with camera?
@@ -127,7 +132,3 @@ fsm.events.BossChooseAction(
 	dmaker.*,
 	dmaker.*
 )
-
-
-
-
