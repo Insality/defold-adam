@@ -10,7 +10,7 @@ function init(self)
 
 	local state2 = dmaker.state(
 		actions.debug.print("State 3"),
-		actions.time.delay(1)
+		actions.time.delay(1, "from_any_state")
 	):set_name("State 3")
 
 	local state3 = dmaker.state(
@@ -20,13 +20,17 @@ function init(self)
 		actions.time.delay(0.5, "tostate2")
 	):set_name("State 4")
 
+	local from_any_state = dmaker.state():set_name("any state")
+
 	self.fsm = dmaker.new({
 		initial = initial,
 		edges = {
 			{initial, state, dmaker.FINISHED},
 			{state, state2, dmaker.FINISHED},
 			{state2, state3, dmaker.FINISHED},
-			{state3, state2, "tostate2"}
+			{state3, state2, "tostate2"},
+			{dmaker.ANY_STATE, from_any_state, "from_any_state"},
+			{from_any_state, state, dmaker.FINISHED}
 		},
 		variables = {
 			counter = 0

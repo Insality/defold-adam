@@ -15,17 +15,17 @@ function DmakerInstance:initialize(param)
 	self._variables = param.variables or {}
 	self._states = {}
 	self._current_state = nil
+	self._current_depth = 0
+	self._wilcards = {}
 
 	for _, edge in ipairs(param.edges) do
-		local edge1_id = edge[1]:get_id()
+		local edge1_id = edge[1] and edge[1]:get_id() or const.WILDCARD
 		local edge2_id = edge[2]:get_id()
 		local event_name = edge[3] or const.FINISHED
-		local fsm_name = edge1_id .. "-" .. edge2_id .. "-" .. event_name
 
 		self._states[edge1_id] = edge[1]
 		self._states[edge2_id] = edge[2]
-		table.insert(fsm_param.events, { from = edge1_id, to = edge2_id, name = fsm_name })
-		edge[1]:set_event_link(event_name, fsm_name)
+		table.insert(fsm_param.events, { from = edge1_id, to = edge2_id, name = event_name })
 	end
 
 	fsm_param.callbacks["on_leave_state"] = function(_, event, from, to, ...)
@@ -36,6 +36,11 @@ function DmakerInstance:initialize(param)
 	end
 
 	fsm_param.callbacks["on_enter_state"] = function(_, event, from, to, ...)
+		self._current_depth = self._current_depth + 1
+		if self._current_depth >= const.MAX_STACK_DEPTH then
+			print("[Dmaker]: Max depth error catch. Swich from states:", self._states[from]:get_name(), self._states[to]:get_name())
+			error(const.ERROR.MAX_STACK_DEPTH_REACHED)
+		end
 		self._current_state = self._states[to]
 		self._states[to]:trigger(...)
 	end
@@ -59,6 +64,7 @@ end
 
 
 function DmakerInstance:update(dt)
+	self._current_depth = 0
 	if self._current_state then
 		self._current_state:update(dt)
 	end

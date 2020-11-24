@@ -13,6 +13,7 @@ M.PROP_SCALE_X = "scale.x"
 M.PROP_SCALE_Y = "scale.y"
 
 M.FINISHED = const.FINISHED
+M.ANY_STATE = const.ANY_STATE
 
 
 --- Return state to use it in dmaker FSM
