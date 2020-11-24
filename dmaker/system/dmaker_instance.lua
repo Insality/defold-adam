@@ -53,6 +53,8 @@ function DmakerInstance:start()
 		self._inited = true
 		self._fsm.init()
 	end
+
+	return self
 end
 
 
@@ -70,6 +72,7 @@ end
 
 function DmakerInstance:set_value(variable_name, value)
 	assert(variable_name ~= nil, const.ERROR.NO_DEFINED_VARIABLE)
+
 	self._variables[variable_name] = value
 	return value
 end

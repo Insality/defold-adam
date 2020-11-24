@@ -1,3 +1,4 @@
+local const = require("dmaker.const")
 local ActionInstance = require("dmaker.system.action_instance")
 
 local M = {}
@@ -15,7 +16,7 @@ function M.add(source, value, is_every_frame, is_every_second)
 	end
 
 	if is_every_second then
-		action:set_periodic(1)
+		action:set_periodic(const.SECOND)
 	end
 
 	return action

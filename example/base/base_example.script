@@ -12,7 +12,7 @@ function init(self)
 	)
 	local state3 = dmaker.state(
 		actions.debug.print("State 3"),
-		actions.math.add("counter", 1, nil, true),
+		actions.math.add("counter", 1),
 		actions.debug.print(actions.value("counter")),
 		actions.time.delay(2, "tostate2")
 	)

@@ -1,0 +1,65 @@
+local dmaker = require("dmaker.dmaker")
+
+local json = [[{
+	"states": {
+		"initial": {
+			"actions": []
+		},
+		"state": {
+			"actions": [
+				{
+					"name": ["debug", "print"],
+					"params": ["State 1"]
+				}
+			]
+		},
+		"state2": {
+			"actions": [
+				{
+					"name": ["debug", "print"],
+					"params": ["State 2"]
+				}
+			]
+		},
+		"state3": {
+			"actions": [
+				{
+					"name": ["debug", "print"],
+					"params": ["State 3"]
+				},
+				{
+					"name": ["math", "add"],
+					"params": ["counter", 1]
+				},
+				{
+					"name": ["debug", "print"],
+					"params": [{ "_type": "dmaker:get_action_value", "_name": "counter" }]
+				},
+				{
+					"name": ["time", "delay"],
+					"params": [2, "tostate2"]
+				}
+			]
+		}
+	},
+	"initial": "initial",
+	"edges": [
+		["initial", "state", "finished"],
+		["state", "state2", "finished"],
+		["state2", "state3", "finished"],
+		["state3", "state2", "tostate2"],
+	],
+	"variables": {
+		"counter": 0
+	}
+}]]
+
+function init(self)
+	self.fsm = dmaker.parse(json)
+	self.fsm:start()
+end
+
+
+function update(self, dt)
+	self.fsm:update(dt)
+end

@@ -1,4 +1,5 @@
 local const = require("dmaker.const")
+local dmaker_parser = require("dmaker.system.dmaker_parser")
 local DmakerInstance = require("dmaker.system.dmaker_instance")
 local StateInstance = require("dmaker.system.state_instance")
 
@@ -23,6 +24,12 @@ end
 --- Create new instance of dmaker FSM
 function M.new(param, variables)
 	return DmakerInstance(param, variables)
+end
+
+
+function M.parse(json_data)
+	local parsed_info = dmaker_parser.parse(json.decode(json_data))
+	return DmakerInstance(parsed_info.param, parsed_info.variables)
 end
 
 
