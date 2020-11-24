@@ -1,3 +1,7 @@
+--- The main state class for your states for FSM. Contains actions what will be triggered,
+-- on enter to this state
+-- @module StateInstance
+
 local const = require("dmaker.const")
 local helper = require("dmaker.system.helper")
 local class = require("dmaker.libs.middleclass")

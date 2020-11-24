@@ -1,3 +1,6 @@
+--- The main Defold-Maker instance. Instantiate it via `dmaker.new` and use it in your code
+-- @module DmakerInstance
+
 local fsm = require("dmaker.libs.fsm")
 local class = require("dmaker.libs.middleclass")
 local settings = require("dmaker.system.settings")

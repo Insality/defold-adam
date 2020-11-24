@@ -1,5 +1,5 @@
 --- Math actions perform different operations on FSM variables
--- @submodule actions
+-- @submodule Actions
 
 local const = require("dmaker.const")
 local ActionInstance = require("dmaker.system.action_instance")

@@ -39,30 +39,31 @@
 <h2>Modules</h2>
 <ul class="nowrap">
   <li><a href="../modules/Actions.html">Actions</a></li>
-  <li><strong>DMaker</strong></li>
+  <li><a href="../modules/DMaker.html">DMaker</a></li>
   <li><a href="../modules/ActionInstance.html">ActionInstance</a></li>
   <li><a href="../modules/DmakerInstance.html">DmakerInstance</a></li>
-  <li><a href="../modules/StateInstance.html">StateInstance</a></li>
+  <li><strong>StateInstance</strong></li>
 </ul>
 
 </div>
 
 <div id="content">
 
-<h1>Module <code>DMaker</code></h1>
-<p>Main module to create DMaker states and instances</p>
-<p></p>
+<h1>Module <code>StateInstance</code></h1>
+<p>The main state class for your states for FSM.</p>
+<p> Contains actions what will be triggered,
+ on enter to this state</p>
 
 
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#state">state(...)</a></td>
-	<td class="summary">Return state to use it in dmaker FSM</td>
+	<td class="name" nowrap><a href="#trigger">trigger(...)</a></td>
+	<td class="summary">Execute on enter to this state</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#new">new(params)</a></td>
-	<td class="summary">Create new instance of dmaker FSM</td>
+	<td class="name" nowrap><a href="#release">release(...)</a></td>
+	<td class="summary">Execute on leave from this state</td>
 	</tr>
 </table>
 
@@ -74,11 +75,11 @@
 
     <dl class="function">
     <dt>
-    <a name = "state"></a>
-    <strong>state(...)</strong>
+    <a name = "trigger"></a>
+    <strong>trigger(...)</strong>
     </dt>
     <dd>
-    Return state to use it in dmaker FSM
+    Execute on enter to this state
 
 
     <h3>Parameters:</h3>
@@ -94,16 +95,16 @@
 
 </dd>
     <dt>
-    <a name = "new"></a>
-    <strong>new(params)</strong>
+    <a name = "release"></a>
+    <strong>release(...)</strong>
     </dt>
     <dd>
-    Create new instance of dmaker FSM
+    Execute on leave from this state
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">params</span>
+        <li><span class="parameter">...</span>
 
         </li>
     </ul>

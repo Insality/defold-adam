@@ -1,5 +1,5 @@
 --- Useful actions for debug purposes
--- @submodule actions
+-- @submodule Actions
 
 local ActionInstance = require("dmaker.system.action_instance")
 

@@ -1,6 +1,95 @@
 -- luacheck: ignore
 
 
+---@class ActionInstance
+local ActionInstance = {}
+
+--- Trigger event to action's FSM
+---@param event_name string Name of trigger event
+function ActionInstance.event(event_name) end
+
+--- Function called when action is done.
+function ActionInstance.finished() end
+
+--- Return action's DmakerInstance.
+---@return DmakerInstance
+function ActionInstance.get_dmaker_instance() end
+
+--- Return the name of the action
+---@return string The action name
+function ActionInstance.get_name() end
+
+--- Check if param value is from FSM variables.
+---@param param any
+---@return any
+function ActionInstance.get_param(param) end
+
+--- Return variable value from FSM variables
+---@param variable_name string The name of variable in FSM
+function ActionInstance.get_value(variable_name) end
+
+--- Action Instance constructor function
+---@param name string The action name. Useful for debug
+---@param trigger_callback function The main action function
+---@param release_callback function The release function. Clean up stuff, it you need
+function ActionInstance.initialize(name, trigger_callback, release_callback) end
+
+--- Release action (cleanup), called by StateInstance
+function ActionInstance.release() end
+
+--- Set action to deferred state.
+---@param state boolean The deferred state
+function ActionInstance.set_deferred(state) end
+
+--- Set action triggered every frame
+---@param state boolean The every frame state
+function ActionInstance.set_every_frame(state) end
+
+--- Set callback when action is finished.
+---@param callback function
+function ActionInstance.set_finish_callback(callback) end
+
+--- Set periodic trigger of action.
+---@param seconds number The time between triggers
+function ActionInstance.set_periodic(seconds) end
+
+--- Set StateInstance for this action instance.
+---@param state_instance StateInstance
+function ActionInstance.set_state_instance(state_instance) end
+
+--- Set variable value in action's FSM
+---@param variable_name string The name of variable in FSM
+---@param value any New value for variable
+function ActionInstance.set_value(variable_name, value) end
+
+--- Trigger action, called by StateInstance
+function ActionInstance.trigger() end
+
+--- Update function, called by StateInstance
+---@param dt number Delta time
+function ActionInstance.update(dt) end
+
+
+---@class StateInstance
+local StateInstance = {}
+
+--- Execute on leave from this state
+---@param ... unknown
+function StateInstance.release(...) end
+
+--- Execute on enter to this state
+---@param ... unknown
+function StateInstance.trigger(...) end
+
+
+---@class actions
+---@field debug actions.debug Submodule
+---@field fsm actions.fsm Submodule
+---@field math actions.math Submodule
+---@field time actions.time Submodule
+local actions = {}
+
+
 ---@class actions.debug
 local actions__debug = {}
 
@@ -63,10 +152,6 @@ function dmaker.state(...) end
 
 
 ---@class dmaker.actions
----@field debug actions.debug Submodule
----@field fsm actions.fsm Submodule
----@field math actions.math Submodule
----@field time actions.time Submodule
 local dmaker__actions = {}
 
 --- Return value from FSM variables for action params

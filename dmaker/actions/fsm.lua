@@ -1,5 +1,5 @@
 --- FSM actions let you control other FSM instances
--- @submodule actions
+-- @submodule Actions
 
 local instances = require("dmaker.system.instances")
 local helper = require("dmaker.system.helper")

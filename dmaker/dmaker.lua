@@ -1,5 +1,6 @@
 --- Main module to create DMaker states and instances
--- @module dmaker
+-- @module DMaker
+-- @alias dmaker
 
 local const = require("dmaker.const")
 local instances = require("dmaker.system.instances")
