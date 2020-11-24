@@ -1,5 +1,6 @@
 local fsm = require("dmaker.libs.fsm")
 local class = require("dmaker.libs.middleclass")
+local settings = require("dmaker.system.settings")
 local const = require("dmaker.const")
 
 local DmakerInstance = class("dmaker.instance")
@@ -71,6 +72,14 @@ function DmakerInstance:update(dt)
 end
 
 
+function DmakerInstance:event(event_name, ...)
+	settings.log("Trigger event", { name = event_name })
+	if self._fsm[event_name] and self._fsm.can(event_name) then
+		self._fsm[event_name](...)
+	end
+end
+
+
 function DmakerInstance:get_value(variable_name)
 	return self._variables[variable_name]
 end
@@ -81,11 +90,6 @@ function DmakerInstance:set_value(variable_name, value)
 
 	self._variables[variable_name] = value
 	return value
-end
-
-
-function DmakerInstance:get_fsm()
-	return self._fsm
 end
 
 

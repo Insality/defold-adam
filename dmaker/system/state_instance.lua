@@ -8,7 +8,6 @@ local StateInstance = class("dmaker.state")
 function StateInstance:initialize(...)
 	self._actions = {...}
 	self._id = settings.get_next_id()
-	self._fsm = nil
 	self._is_processing = false
 
 	for _, action in ipairs(self._actions) do
@@ -65,10 +64,7 @@ end
 
 
 function StateInstance:event(event_name, ...)
-	settings.log("Trigger event", { id = self:get_name(), name = event_name })
-	if self._fsm[event_name] and self._fsm.can(event_name) then
-		self._fsm[event_name](...)
-	end
+	self._dmaker_instance:event(event_name, ...)
 end
 
 
@@ -84,7 +80,6 @@ end
 
 function StateInstance:set_dmaker_instance(dmaker_instance)
 	self._dmaker_instance = dmaker_instance
-	self._fsm = self._dmaker_instance:get_fsm()
 end
 
 
