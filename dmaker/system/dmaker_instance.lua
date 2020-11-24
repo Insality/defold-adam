@@ -14,6 +14,7 @@ function DmakerInstance:initialize(param, variables)
 
 	self._variables = variables or {}
 	self._states = {}
+	self._current_state = nil
 
 	for _, edge in ipairs(param.edges) do
 		local edge1_id = edge[1]:get_id()
@@ -35,6 +36,7 @@ function DmakerInstance:initialize(param, variables)
 	end
 
 	fsm_param.callbacks["on_enter_state"] = function(_, event, from, to, ...)
+		self._current_state = self._states[to]
 		self._states[to]:trigger(...)
 	end
 
@@ -43,8 +45,21 @@ function DmakerInstance:initialize(param, variables)
 	for _, state in pairs(self._states) do
 		state:set_dmaker_instance(self)
 	end
+end
 
-	self._fsm.init()
+
+function DmakerInstance:start()
+	if not self._inited then
+		self._inited = true
+		self._fsm.init()
+	end
+end
+
+
+function DmakerInstance:update(dt)
+	if self._current_state then
+		self._current_state:update(dt)
+	end
 end
 
 

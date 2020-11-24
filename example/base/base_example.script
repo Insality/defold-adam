@@ -12,12 +12,12 @@ function init(self)
 	)
 	local state3 = dmaker.state(
 		actions.debug.print("State 3"),
-		actions.math.add("counter", 1),
+		actions.math.add("counter", 1, nil, true),
 		actions.debug.print(actions.value("counter")),
-		actions.time.delay(1, "tostate2")
+		actions.time.delay(2, "tostate2")
 	)
 
-	local fsm = dmaker.new({
+	self.fsm = dmaker.new({
 		initial = initial,
 		edges = {
 			{initial, state, dmaker.FINISHED},
@@ -28,4 +28,10 @@ function init(self)
 	}, {
 		counter = 0,
 	})
+	self.fsm:start()
+end
+
+
+function update(self, dt)
+	self.fsm:update(dt)
 end

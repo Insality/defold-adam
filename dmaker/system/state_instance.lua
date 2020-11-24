@@ -17,6 +17,13 @@ function StateInstance:initialize(...)
 end
 
 
+function StateInstance:update(dt)
+	for _, action in ipairs(self._actions) do
+		action:update(dt)
+	end
+end
+
+
 --- Execute on enter to this state
 function StateInstance:trigger(...)
 	settings.log("On enter state", { id = self:get_id() })
