@@ -80,6 +80,12 @@ end
 
 function StateInstance:set_dmaker_instance(dmaker_instance)
 	self._dmaker_instance = dmaker_instance
+	return self
+end
+
+
+function StateInstance:get_dmaker_instance(dmaker_instance)
+	return self._dmaker_instance
 end
 
 

@@ -89,6 +89,11 @@ function ActionInstance:set_value(variable_name, value)
 end
 
 
+function ActionInstance:get_dmaker_instance()
+	return self._state:get_dmaker_instance()
+end
+
+
 function ActionInstance:get_param(param)
 	if type(param) == const.TYPE_TABLE and param._type == const.GET_ACTION_VALUE then
 		return self:get_value(param._name)

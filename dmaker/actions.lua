@@ -3,6 +3,7 @@ local const = require("dmaker.const")
 local time = require("dmaker.actions.time")
 local math = require("dmaker.actions.math")
 local debug = require("dmaker.actions.debug")
+local fsm = require("dmaker.actions.fsm")
 
 
 local M = {}
@@ -10,6 +11,7 @@ local M = {}
 M.time = time
 M.math = math
 M.debug = debug
+M.fsm = fsm
 
 
 --- Return value from FSM variables for action params

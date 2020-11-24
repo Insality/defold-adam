@@ -1,10 +1,10 @@
 Proof of concept TODO list:
 
-TODO: When all Actions on a state have finished, a FINISHED event is sent to the state machine.
-TODO: Send events from outside and between FSM
-TODO: Infinity loop protection
+TODO: When all Actions on a state have finished, a FINISHED event is sent to the state machine. +
+TODO: Send events from outside and between FSM +
+TODO: Infinity loop protection +-
 TODO: Send event data, example DoDamage with amount of power
-TODO: Parse from JSON files
-TODO: Global transition, from any state
+TODO: Parse from JSON files +
+TODO: Global transition, from any state +
 TODO: If an Action triggers a transition, the transition happens immediately and the Actions below it are not executed.
 TODO: More system events (example https://hutonggames.fogbugz.com/default.asp?W128)

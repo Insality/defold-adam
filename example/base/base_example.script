@@ -10,7 +10,7 @@ function init(self)
 
 	local state2 = dmaker.state(
 		actions.debug.print("State 3"),
-		actions.time.delay(1, "from_any_state")
+		actions.fsm.broadcast_event("from_any_state", false, 1)
 	):set_name("State 3")
 
 	local state3 = dmaker.state(
