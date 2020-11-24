@@ -1,3 +1,6 @@
+--- Main actions entry file. Create all DMaker actions via this file
+-- @module actions
+
 local const = require("dmaker.const")
 
 local time = require("dmaker.actions.time")
@@ -15,6 +18,7 @@ M.fsm = fsm
 
 
 --- Return value from FSM variables for action params
+-- @tparam string variable_name The variable name in DMaker instance
 function M.value(variable_name)
 	return { _name = variable_name, _type = const.GET_ACTION_VALUE }
 end

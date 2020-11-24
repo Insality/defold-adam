@@ -1,3 +1,6 @@
+--- FSM actions let you control other FSM instances
+-- @submodule actions
+
 local instances = require("dmaker.system.instances")
 local helper = require("dmaker.system.helper")
 local ActionInstance = require("dmaker.system.action_instance")
@@ -6,6 +9,7 @@ local M = {}
 
 
 --- Send event to target DMaker instance
+-- @function actions.fsm.send_event
 function M.send_event(target, event_name, delay, is_every_frame)
 	local action = ActionInstance("fsm.send_event", function(self)
 		self.context.timer_id = helper.delay(delay, function()
@@ -27,6 +31,7 @@ end
 
 
 --- Broadcast event to all active FSM
+-- @function actions.fsm.broadcast_event
 function M.broadcast_event(event_name, is_exclude_self, delay)
 	local action = ActionInstance("fsm.broadcast_event", function(self)
 		self.context.timer_id = helper.delay(delay, function()

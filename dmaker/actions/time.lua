@@ -1,9 +1,13 @@
+--- Actions with time like delay or get time info
+-- @submodule actions
+
 local ActionInstance = require("dmaker.system.action_instance")
 
 local M = {}
 
 
 --- Trigger event after time elapsed
+-- @function actions.time.delay
 function M.delay(seconds, trigger_event)
 	local action = ActionInstance("time.delay", function(self)
 		self.context.timer_id = timer.delay(seconds, false, function()

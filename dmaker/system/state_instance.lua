@@ -1,4 +1,5 @@
 local const = require("dmaker.const")
+local helper = require("dmaker.system.helper")
 local class = require("dmaker.libs.middleclass")
 local settings = require("dmaker.system.settings")
 
@@ -33,7 +34,7 @@ function StateInstance:trigger(...)
 		return
 	end
 
-	local on_all_end_callback = self:_after(#self._actions, function()
+	local on_all_end_callback = helper.after(#self._actions, function()
 		if self._is_processing then
 			self:event(const.FINISHED)
 		end
@@ -102,18 +103,6 @@ end
 
 function StateInstance:get_name()
 	return self._name or self._id
-end
-
-
-function StateInstance:_after(count, callback)
-	local closure = function()
-		count = count - 1
-		if count == 0 then
-			callback()
-		end
-	end
-
-	return closure
 end
 
 

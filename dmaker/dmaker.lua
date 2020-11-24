@@ -1,3 +1,6 @@
+--- Main module to create DMaker states and instances
+-- @module dmaker
+
 local const = require("dmaker.const")
 local instances = require("dmaker.system.instances")
 local dmaker_parser = require("dmaker.system.dmaker_parser")
@@ -14,8 +17,6 @@ M.PROP_SCALE_Y = "scale.y"
 
 M.FINISHED = const.FINISHED
 M.ANY_STATE = const.ANY_STATE
-
-
 
 
 --- Return state to use it in dmaker FSM
