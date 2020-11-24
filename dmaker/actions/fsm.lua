@@ -10,6 +10,10 @@ local M = {}
 
 --- Send event to target DMaker instance
 -- @function actions.fsm.send_event
+-- @tparam string|dmaker target The target instance for send event. If there are several instances with equal ID, event will be delivered to all of them.
+-- @tparam string event_name The event to send
+-- @tparam[opt] number delay Time delay in seconds
+-- @tparam[opt] bool is_every_frame Repeat every frame
 function M.send_event(target, event_name, delay, is_every_frame)
 	local action = ActionInstance("fsm.send_event", function(self)
 		self.context.timer_id = helper.delay(delay, function()
@@ -32,6 +36,9 @@ end
 
 --- Broadcast event to all active FSM
 -- @function actions.fsm.broadcast_event
+-- @tparam string event_name The event to send
+-- @tparam[opt] bool is_exclude_self Don't send the event to self
+-- @tparam[opt] number delay Time delay in seconds
 function M.broadcast_event(event_name, is_exclude_self, delay)
 	local action = ActionInstance("fsm.broadcast_event", function(self)
 		self.context.timer_id = helper.delay(delay, function()

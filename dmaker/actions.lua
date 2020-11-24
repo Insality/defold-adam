@@ -1,5 +1,6 @@
 --- Main actions entry file. Create all DMaker actions via this file
 -- @module actions
+-- @alias dmaker.actions
 
 local const = require("dmaker.const")
 

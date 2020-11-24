@@ -65,37 +65,37 @@
 <h2><a href="#actions_debug_Functions">actions.debug Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.debug.print">actions.debug.print()</a></td>
-	<td class="summary">Print string to console</td>
+	<td class="name" nowrap><a href="#actions.debug.print">actions.debug.print(text)</a></td>
+	<td class="summary">Print text to console</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.debug.event">actions.debug.event()</a></td>
-	<td class="summary">Trigger event on call</td>
+	<td class="name" nowrap><a href="#actions.debug.event">actions.debug.event(event_name)</a></td>
+	<td class="summary">Instantly trigger event.</td>
 	</tr>
 </table>
 <h2><a href="#actions_fsm_Functions">actions.fsm Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.fsm.send_event">actions.fsm.send_event()</a></td>
+	<td class="name" nowrap><a href="#actions.fsm.send_event">actions.fsm.send_event(target, event_name[, delay[, is_every_frame]])</a></td>
 	<td class="summary">Send event to target DMaker instance</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.fsm.broadcast_event">actions.fsm.broadcast_event()</a></td>
+	<td class="name" nowrap><a href="#actions.fsm.broadcast_event">actions.fsm.broadcast_event(event_name[, is_exclude_self[, delay]])</a></td>
 	<td class="summary">Broadcast event to all active FSM</td>
 	</tr>
 </table>
 <h2><a href="#actions_math_Functions">actions.math Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.math.add">actions.math.add()</a></td>
+	<td class="name" nowrap><a href="#actions.math.add">actions.math.add(source, value[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Add operator</td>
 	</tr>
 </table>
 <h2><a href="#actions_time_Functions">actions.time Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.time.delay">actions.time.delay()</a></td>
-	<td class="summary">Trigger event after time elapsed</td>
+	<td class="name" nowrap><a href="#actions.time.delay">actions.time.delay(seconds[, trigger_event])</a></td>
+	<td class="summary">Trigger event after time elapsed.</td>
 	</tr>
 </table>
 
@@ -133,12 +133,19 @@
     <dl class="function">
     <dt>
     <a name = "actions.debug.print"></a>
-    <strong>actions.debug.print()</strong>
+    <strong>actions.debug.print(text)</strong>
     </dt>
     <dd>
-    Print string to console
+    Print text to console
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The log message
+        </li>
+    </ul>
 
 
 
@@ -147,12 +154,19 @@
 </dd>
     <dt>
     <a name = "actions.debug.event"></a>
-    <strong>actions.debug.event()</strong>
+    <strong>actions.debug.event(event_name)</strong>
     </dt>
     <dd>
-    Trigger event on call
+    Instantly trigger event.  Useful for test something fast by changing your FSM
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">event_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send
+        </li>
+    </ul>
 
 
 
@@ -165,12 +179,33 @@
     <dl class="function">
     <dt>
     <a name = "actions.fsm.send_event"></a>
-    <strong>actions.fsm.send_event()</strong>
+    <strong>actions.fsm.send_event(target, event_name[, delay[, is_every_frame]])</strong>
     </dt>
     <dd>
     Send event to target DMaker instance
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a> or <span class="type">dmaker</span></span>
+         The target instance for send event. If there are several instances with equal ID, event will be delivered to all of them.
+        </li>
+        <li><span class="parameter">event_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Time delay in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">bool</span></span>
+         Repeat every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
 
 
 
@@ -179,12 +214,29 @@
 </dd>
     <dt>
     <a name = "actions.fsm.broadcast_event"></a>
-    <strong>actions.fsm.broadcast_event()</strong>
+    <strong>actions.fsm.broadcast_event(event_name[, is_exclude_self[, delay]])</strong>
     </dt>
     <dd>
     Broadcast event to all active FSM
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">event_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send
+        </li>
+        <li><span class="parameter">is_exclude_self</span>
+            <span class="types"><span class="type">bool</span></span>
+         Don't send the event to self
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Time delay in seconds
+         (<em>optional</em>)
+        </li>
+    </ul>
 
 
 
@@ -197,12 +249,33 @@
     <dl class="function">
     <dt>
     <a name = "actions.math.add"></a>
-    <strong>actions.math.add()</strong>
+    <strong>actions.math.add(source, value[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Add operator
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The variable name from DMaker instance
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">number</span> or <span class="type">variable</span></span>
+         The number or Dmaker variable to add
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Check true, if action should be called every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_second</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Chec true, if action should be called every second. Initial call is not skipped
+         (<em>optional</em>)
+        </li>
+    </ul>
 
 
 
@@ -215,12 +288,24 @@
     <dl class="function">
     <dt>
     <a name = "actions.time.delay"></a>
-    <strong>actions.time.delay()</strong>
+    <strong>actions.time.delay(seconds[, trigger_event])</strong>
     </dt>
     <dd>
-    Trigger event after time elapsed
+    Trigger event after time elapsed.  Trigger event is optional
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">seconds</span>
+            <span class="types"><span class="type">number</span></span>
+         Amount of seconds for delay
+        </li>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+    </ul>
 
 
 
@@ -234,7 +319,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2020-11-25 01:20:47 </i>
+<i style="float:right;">Last updated 2020-11-25 01:37:02 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

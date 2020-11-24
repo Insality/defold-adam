@@ -1,4 +1,5 @@
 local dmaker = require("dmaker.dmaker")
+---@type dmaker.actions
 local actions = require("dmaker.actions")
 
 function init(self)

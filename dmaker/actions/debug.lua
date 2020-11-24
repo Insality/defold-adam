@@ -6,17 +6,19 @@ local ActionInstance = require("dmaker.system.action_instance")
 local M = {}
 
 
---- Print string to console
+--- Print text to console
 -- @function actions.debug.print
-function M.print(string)
+-- @tparam string text The log message
+function M.print(text)
 	return ActionInstance("debug.print", function(self)
-		print(self:get_param(string))
+		print(self:get_param(text))
 	end)
 end
 
 
---- Trigger event on call
+--- Instantly trigger event. Useful for test something fast by changing your FSM
 -- @function actions.debug.event
+-- @tparam string event_name The event to send
 function M.event(event_name)
 	return ActionInstance("debug.event", function(self)
 		self:event(event_name)
