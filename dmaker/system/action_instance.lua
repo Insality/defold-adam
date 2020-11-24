@@ -13,7 +13,9 @@ function ActionInstance:initialize(name, trigger_callback, release_callback)
 	self._is_every_frame = false
 	self._is_periodic = false
 	self._periodic_timer = false
+	self._is_deferred = false
 	self._periodic_timer_current = false
+	self._on_finish_callback = nil
 
 	self.context = {}
 end
@@ -41,6 +43,9 @@ end
 function ActionInstance:trigger()
 	self:release()
 	self._trigger_callback(self)
+	if not self._is_deferred then
+		self:finished()
+	end
 end
 
 
@@ -51,6 +56,15 @@ function ActionInstance:release()
 	end
 
 	self._release_callback(self)
+end
+
+
+function ActionInstance:finished()
+	local callback = self._on_finish_callback
+	self._on_finish_callback = nil
+	if callback then
+		callback()
+	end
 end
 
 
@@ -85,6 +99,7 @@ end
 
 function ActionInstance:set_every_frame(state)
 	self._is_every_frame = state
+	self:set_deferred(true)
 end
 
 
@@ -92,6 +107,17 @@ function ActionInstance:set_periodic(seconds)
 	local is_periodic = seconds and seconds > 0
 	self._is_periodic = is_periodic
 	self._periodic_timer = seconds
+	self:set_deferred(true)
+end
+
+
+function ActionInstance:set_deferred(state)
+	self._is_deferred = state
+end
+
+
+function ActionInstance:set_finish_callback(callback)
+	self._on_finish_callback = callback
 end
 
 

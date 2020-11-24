@@ -5,10 +5,13 @@ local M = {}
 
 --- Trigger event after time elapsed
 function M.delay(seconds, trigger_event)
-	return ActionInstance("time.delay", function(self)
+	local action = ActionInstance("time.delay", function(self)
 		self.context.timer_id = timer.delay(seconds, false, function()
 			self.context.timer_id = nil
-			self:event(trigger_event)
+			if trigger_event then
+				self:event(trigger_event)
+			end
+			self:finished()
 		end)
 	end, function(self)
 		if self.context.timer_id then
@@ -16,6 +19,9 @@ function M.delay(seconds, trigger_event)
 			self.context.timer_id = nil
 		end
 	end)
+
+	action:set_deferred(true)
+	return action
 end
 
 

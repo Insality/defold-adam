@@ -2,20 +2,23 @@ local dmaker = require("dmaker.dmaker")
 local actions = require("dmaker.actions")
 
 function init(self)
-	local initial = dmaker.state()
+	local initial = dmaker.state():set_name("Initial")
 
 	local state = dmaker.state(
-		actions.debug.print("State 1")
-	)
-	local state2 = dmaker.state(
 		actions.debug.print("State 2")
-	)
-	local state3 = dmaker.state(
+	):set_name("State 2")
+
+	local state2 = dmaker.state(
 		actions.debug.print("State 3"),
+		actions.time.delay(1)
+	):set_name("State 3")
+
+	local state3 = dmaker.state(
+		actions.debug.print("State 4"),
 		actions.math.add("counter", 1),
 		actions.debug.print(actions.value("counter")),
-		actions.time.delay(2, "tostate2")
-	)
+		actions.time.delay(0.5, "tostate2")
+	):set_name("State 4")
 
 	self.fsm = dmaker.new({
 		initial = initial,
@@ -24,9 +27,10 @@ function init(self)
 			{state, state2, dmaker.FINISHED},
 			{state2, state3, dmaker.FINISHED},
 			{state3, state2, "tostate2"}
+		},
+		variables = {
+			counter = 0
 		}
-	}, {
-		counter = 0,
 	})
 	self.fsm:start()
 end

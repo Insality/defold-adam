@@ -6,28 +6,7 @@ local M = {}
 
 
 function M.parse(data)
-	local parsed_info = {}
-
-	parsed_info.param = M._parse_param(data)
-	parsed_info.variables = M._parse_variables(data)
-
-	return parsed_info
-end
-
-
-function M._parse_variables(data)
-	local variables = {}
-
-	for key, value in pairs(data.variables) do
-		variables[key] = value
-	end
-
-	return variables
-end
-
-
-function M._parse_param(data)
-	local param = {}
+	local params = {}
 
 	local states = {}
 	for state_name, state_data in pairs(data.states) do
@@ -39,10 +18,22 @@ function M._parse_param(data)
 		table.insert(edges, { states[edge[1]], states[edge[2]], edge[3] })
 	end
 
-	param.initial = states[data.initial]
-	param.edges = edges
+	params.initial = states[data.initial]
+	params.edges = edges
+	params.variables = M._parse_variables(data)
 
-	return param
+	return params
+end
+
+
+function M._parse_variables(data)
+	local variables = {}
+
+	for key, value in pairs(data.variables) do
+		variables[key] = value
+	end
+
+	return variables
 end
 
 

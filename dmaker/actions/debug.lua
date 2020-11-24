@@ -11,4 +11,12 @@ function M.print(string)
 end
 
 
+--- Trigger event on call
+function M.event(event_name)
+	return ActionInstance("debug.event", function(self)
+		self:event(event_name)
+	end)
+end
+
+
 return M

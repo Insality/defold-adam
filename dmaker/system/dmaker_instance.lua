@@ -5,14 +5,14 @@ local const = require("dmaker.const")
 local DmakerInstance = class("dmaker.instance")
 
 
-function DmakerInstance:initialize(param, variables)
+function DmakerInstance:initialize(param)
 	local fsm_param = {
 		initial = { state = param.initial:get_id(), event = const.INIT_EVENT, defer = true },
 		events = {},
 		callbacks = {}
 	}
 
-	self._variables = variables or {}
+	self._variables = param.variables or {}
 	self._states = {}
 	self._current_state = nil
 

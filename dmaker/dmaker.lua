@@ -22,14 +22,14 @@ end
 
 
 --- Create new instance of dmaker FSM
-function M.new(param, variables)
-	return DmakerInstance(param, variables)
+function M.new(params)
+	return DmakerInstance(params)
 end
 
 
 function M.parse(json_data)
 	local parsed_info = dmaker_parser.parse(json.decode(json_data))
-	return DmakerInstance(parsed_info.param, parsed_info.variables)
+	return DmakerInstance(parsed_info)
 end
 
 
