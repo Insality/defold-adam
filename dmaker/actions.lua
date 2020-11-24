@@ -8,6 +8,7 @@ local debug = require("dmaker.actions.debug")
 local fsm = require("dmaker.actions.fsm")
 local go = require("dmaker.actions.go")
 local math = require("dmaker.actions.math")
+local input = require("dmaker.actions.input")
 local time = require("dmaker.actions.time")
 local transform = require("dmaker.actions.transform")
 
@@ -18,6 +19,7 @@ M.debug = debug
 M.fsm = fsm
 M.go = go
 M.math = math
+M.input = input
 M.time = time
 M.transform = transform
 
