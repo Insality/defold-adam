@@ -1,0 +1,479 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Defold Maker API reference</title>
+    <link rel="stylesheet" href="../ldoc_pale.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Defold-Maker</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/Actions.html">Actions</a></li>
+  <li><a href="../modules/DMaker.html">DMaker</a></li>
+  <li><strong>ActionInstance</strong></li>
+  <li><a href="../modules/DmakerInstance.html">DmakerInstance</a></li>
+  <li><a href="../modules/StateInstance.html">StateInstance</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>ActionInstance</code></h1>
+<p>Basic action class for all DMaker actions</p>
+<p></p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#initialize">initialize(name, trigger_callback[, release_callback])</a></td>
+	<td class="summary">Action Instance constructor function</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#update">update(dt)</a></td>
+	<td class="summary">Update function, called by StateInstance</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#event">event(event_name)</a></td>
+	<td class="summary">Trigger event to action's FSM</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_state_instance">set_state_instance(state_instance)</a></td>
+	<td class="summary">Set StateInstance for this action instance.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_value">get_value(variable_name)</a></td>
+	<td class="summary">Return variable value from FSM variables</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_value">set_value(variable_name, value)</a></td>
+	<td class="summary">Set variable value in action's FSM</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_param">get_param(param)</a></td>
+	<td class="summary">Check if param value is from FSM variables.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_every_frame">set_every_frame([state])</a></td>
+	<td class="summary">Set action triggered every frame</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_periodic">set_periodic([seconds])</a></td>
+	<td class="summary">Set periodic trigger of action.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_deferred">set_deferred([state])</a></td>
+	<td class="summary">Set action to deferred state.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_name">get_name()</a></td>
+	<td class="summary">Return the name of the action</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#trigger">trigger()</a></td>
+	<td class="summary">Trigger action, called by StateInstance</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#release">release()</a></td>
+	<td class="summary">Release action (cleanup), called by StateInstance</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#finished">finished()</a></td>
+	<td class="summary">Function called when action is done.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_finish_callback">set_finish_callback(callback)</a></td>
+	<td class="summary">Set callback when action is finished.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_dmaker_instance">get_dmaker_instance()</a></td>
+	<td class="summary">Return action's DmakerInstance.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "initialize"></a>
+    <strong>initialize(name, trigger_callback[, release_callback])</strong>
+    </dt>
+    <dd>
+    Action Instance constructor function
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The action name. Useful for debug
+        </li>
+        <li><span class="parameter">trigger_callback</span>
+            <span class="types"><span class="type">function</span></span>
+         The main action function
+        </li>
+        <li><span class="parameter">release_callback</span>
+            <span class="types"><span class="type">function</span></span>
+         The release function. Clean up stuff, it you need
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "update"></a>
+    <strong>update(dt)</strong>
+    </dt>
+    <dd>
+    Update function, called by StateInstance
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dt</span>
+            <span class="types"><span class="type">number</span></span>
+         Delta time
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "event"></a>
+    <strong>event(event_name)</strong>
+    </dt>
+    <dd>
+    Trigger event to action's FSM
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">event_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_state_instance"></a>
+    <strong>set_state_instance(state_instance)</strong>
+    </dt>
+    <dd>
+    Set StateInstance for this action instance.  Called by StateInstance
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">state_instance</span>
+            <span class="types"><span class="type">StateInstance</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_value"></a>
+    <strong>get_value(variable_name)</strong>
+    </dt>
+    <dd>
+    Return variable value from FSM variables
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The name of variable in FSM
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_value"></a>
+    <strong>set_value(variable_name, value)</strong>
+    </dt>
+    <dd>
+    Set variable value in action's FSM
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The name of variable in FSM
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">any</span></span>
+         New value for variable
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_param"></a>
+    <strong>get_param(param)</strong>
+    </dt>
+    <dd>
+    Check if param value is from FSM variables.  If not - return itself or return variable from FSM
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">param</span>
+            <span class="types"><span class="type">any</span></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">any</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_every_frame"></a>
+    <strong>set_every_frame([state])</strong>
+    </dt>
+    <dd>
+    Set action triggered every frame
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">state</span>
+            <span class="types"><span class="type">boolean</span></span>
+         The every frame state
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_periodic"></a>
+    <strong>set_periodic([seconds])</strong>
+    </dt>
+    <dd>
+    Set periodic trigger of action.  Initial trigger not canceled
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">seconds</span>
+            <span class="types"><span class="type">number</span></span>
+         The time between triggers
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_deferred"></a>
+    <strong>set_deferred([state])</strong>
+    </dt>
+    <dd>
+    Set action to deferred state.  To complete the action `finished` should be called
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">state</span>
+            <span class="types"><span class="type">boolean</span></span>
+         The deferred state
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_name"></a>
+    <strong>get_name()</strong>
+    </dt>
+    <dd>
+    Return the name of the action
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        The action name
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "trigger"></a>
+    <strong>trigger()</strong>
+    </dt>
+    <dd>
+    Trigger action, called by StateInstance
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "release"></a>
+    <strong>release()</strong>
+    </dt>
+    <dd>
+    Release action (cleanup), called by StateInstance
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "finished"></a>
+    <strong>finished()</strong>
+    </dt>
+    <dd>
+    Function called when action is done.  Never called on actions with
+ "is_every_frame" or "is_per_second". Deferred call on several delayed actions
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_finish_callback"></a>
+    <strong>set_finish_callback(callback)</strong>
+    </dt>
+    <dd>
+    Set callback when action is finished.  Used internally
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_dmaker_instance"></a>
+    <strong>get_dmaker_instance()</strong>
+    </dt>
+    <dd>
+    Return action's DmakerInstance.  Used internally
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">DmakerInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-11-25 01:55:21 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
