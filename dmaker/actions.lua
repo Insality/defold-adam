@@ -4,18 +4,22 @@
 
 local const = require("dmaker.const")
 
-local time = require("dmaker.actions.time")
-local math = require("dmaker.actions.math")
 local debug = require("dmaker.actions.debug")
 local fsm = require("dmaker.actions.fsm")
+local go = require("dmaker.actions.go")
+local math = require("dmaker.actions.math")
+local time = require("dmaker.actions.time")
+local transform = require("dmaker.actions.transform")
 
 
 local M = {}
 
-M.time = time
-M.math = math
 M.debug = debug
 M.fsm = fsm
+M.go = go
+M.math = math
+M.time = time
+M.transform = transform
 
 
 --- Return value from FSM variables for action params

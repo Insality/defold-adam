@@ -12,7 +12,7 @@ local M = {}
 -- @tparam string source The variable name from DMaker instance
 -- @tparam number|variable value The number or Dmaker variable to add
 -- @tparam[opt] boolean is_every_frame Check true, if action should be called every frame
--- @tparam[opt] boolean is_every_second Chec true, if action should be called every second. Initial call is not skipped
+-- @tparam[opt] boolean is_every_second Check true, if action should be called every second. Initial call is not skipped
 function M.add(source, value, is_every_frame, is_every_second)
 	local action = ActionInstance("math.add", function(self)
 		local source_value = self:get_value(source) + self:get_param(value)
@@ -28,6 +28,41 @@ function M.add(source, value, is_every_frame, is_every_second)
 	end
 
 	return action
+end
+
+
+function M.substract()
+
+end
+
+
+function M.multiply()
+
+end
+
+
+function M.divide()
+
+end
+
+
+function M.clamp()
+
+end
+
+
+function M.abs()
+
+end
+
+
+function M.random()
+
+end
+
+
+function M.random_boolean()
+
 end
 
 
