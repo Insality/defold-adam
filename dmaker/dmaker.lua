@@ -21,8 +21,8 @@ end
 
 
 --- Create new instance of dmaker FSM
-function M.new(param)
-	return DmakerInstance(param)
+function M.new(param, variables)
+	return DmakerInstance(param, variables)
 end
 
 

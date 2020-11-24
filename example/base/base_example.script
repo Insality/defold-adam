@@ -12,6 +12,8 @@ function init(self)
 	)
 	local state3 = dmaker.state(
 		actions.debug.print("State 3"),
+		actions.math.add("counter", 1),
+		actions.debug.print(actions.value("counter")),
 		actions.time.delay(1, "tostate2")
 	)
 
@@ -23,6 +25,7 @@ function init(self)
 			{state2, state3, dmaker.FINISHED},
 			{state3, state2, "tostate2"}
 		}
-	}
-	)
+	}, {
+		counter = 0,
+	})
 end

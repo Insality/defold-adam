@@ -34,13 +34,31 @@ end
 
 
 function ActionInstance:event(event_name, ...)
-	assert(self._state, const.ERRORS.NO_BINDED_STATE)
+	assert(self._state, const.ERROR.NO_BINDED_STATE)
 	self._state:event(event_name, ...)
 end
 
 
-function ActionInstance:set_state(state_instance)
+function ActionInstance:set_state_instance(state_instance)
 	self._state = state_instance
+end
+
+
+function ActionInstance:get_value(variable_name)
+	return self._state:get_value(variable_name)
+end
+
+
+function ActionInstance:set_value(variable_name, value)
+	return self._state:set_value(variable_name, value)
+end
+
+
+function ActionInstance:get_param(param)
+	if type(param) == const.TYPE_TABLE and param._type == const.GET_ACTION_VALUE then
+		return self:get_value(param._name)
+	end
+	return param
 end
 
 
