@@ -3,24 +3,25 @@ For example, work name is DefoldMaker
 
 So:
 
-All available commands should be described with single line
-On enter state should run all commands, attached to them
-Transitions should not have callbacks, just switching states
-FSM should have variables and ability to control from external space (like, entity health)
-Ability to move data to JSON? What part of data can be described as data?
++ All available commands should be described with single line
++ On enter state should run all commands, attached to them
++ Transitions should not have callbacks, just switching states
++ FSM should have variables and ability to control from external space (like, entity health)
++ Ability to move data to JSON? What part of data can be described as data?
 Is it possible to fnd online visual editor for states at least? With JSON export
-FSM should be described as easy as possible
-Some actions can be triggered in any time. So here is should be ability to bind/unbind stuff. State joined - bind conditions (event, value cond., trigger?), State leaved - unbind it
-Some actions can be run once, per frame (translate?). per second
++ FSM should be described as easy as possible
++ Some actions can be triggered in any time. So here is should be ability to bind/unbind stuff.
++ State joined - bind conditions (event, value cond., trigger?), State leaved - unbind it
++ Some actions can be run once, per frame (translate?). per second
 
-FSM we will use: https://github.com/unindented/lua-fsm/blob/master/src/fsm.lua
++ FSM we will use: https://github.com/unindented/lua-fsm/blob/master/src/fsm.lua
 Think about Eva integration, since we have already a lot of ready API
 Think about Tiled integrations
 Think about Eva Events instead FSM, it can be more useful (if it will be as part of Eva module)
 
 FSM shoulbe be possible to use as script, gui_script and lua module
 Script and gui_script have additional commands to control entity
-Split commands in separate namespaces, like dmaker.gui/go/timer/operators?
++ Split commands in separate namespaces, like dmaker.gui/go/timer/operators?
 
 
 
