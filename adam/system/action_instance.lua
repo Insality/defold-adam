@@ -212,8 +212,8 @@ function ActionInstance:set_finish_callback(callback)
 end
 
 
---- Return action's DmakerInstance. Used internally
--- @treturn DmakerInstance
+--- Return action's AdamInstance. Used internally
+-- @treturn AdamInstance
 -- @local
 function ActionInstance:get_adam_instance()
 	return self._state_instance:get_adam_instance()

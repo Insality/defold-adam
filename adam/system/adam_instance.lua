@@ -7,16 +7,21 @@ local class = require("adam.libs.middleclass")
 local settings = require("adam.system.settings")
 local const = require("adam.const")
 
-local DmakerInstance = class("adam.instance")
+local AdamInstance = class("adam.instance")
 
 
-function DmakerInstance:initialize(param)
+function AdamInstance:initialize(param)
 	self._id = nil
 	self._is_removed = nil
 	self._states = {}
 	self._variables = param.variables or {}
 	self._current_state = nil
 	self._current_depth = 0
+
+	self._input_pressed = {}
+	self._input_current = {}
+	self._input_released = {}
+
 	self._fsm = self:_init_fsm(param)
 
 	for _, state in pairs(self._states) do
@@ -25,7 +30,7 @@ function DmakerInstance:initialize(param)
 end
 
 
-function DmakerInstance:start()
+function AdamInstance:start()
 	if not self._inited then
 		self._inited = true
 		self._fsm.init()
@@ -35,57 +40,74 @@ function DmakerInstance:start()
 end
 
 
-function DmakerInstance:update(dt)
+function AdamInstance:update(dt)
 	self._current_depth = 0
 	if self._current_state then
 		self._current_state:update(dt)
 	end
+
+	self:_clear_input()
 end
 
 
-function DmakerInstance:on_input(action_id, action)
-	pprint(action_id, action)
+function AdamInstance:on_input(action_id, action)
+	self:_process_input(action_id, action)
 end
 
 
-function DmakerInstance:final()
+function AdamInstance:final()
 	self._is_removed = true
 end
 
 
-function DmakerInstance:event(event_name, ...)
-	settings.log("Trigger event", { name = event_name })
+function AdamInstance:event(event_name, ...)
+	-- settings.log("Trigger event", { name = event_name })
 	if self._fsm[event_name] and self._fsm.can(event_name) then
 		self._fsm[event_name](...)
 	end
 end
 
 
-function DmakerInstance:get_value(variable_name)
+function AdamInstance:get_value(variable_name)
 	return self._variables[variable_name]
 end
 
 
-function DmakerInstance:set_value(variable_name, value)
-	assert(variable_name ~= nil, const.ERROR.NO_DEFINED_VARIABLE)
+function AdamInstance:set_value(variable_name, value)
+	assert(self._variables[variable_name] ~= nil, const.ERROR.NO_DEFINED_VARIABLE)
 
 	self._variables[variable_name] = value
 	return value
 end
 
 
-function DmakerInstance:set_id(hash)
+function AdamInstance:get_input_pressed(action_id)
+	return self._input_pressed[hash(action_id)]
+end
+
+
+function AdamInstance:get_input_current(action_id)
+	return self._input_current[hash(action_id)]
+end
+
+
+function AdamInstance:get_input_released(action_id)
+	return self._input_released[hash(action_id)]
+end
+
+
+function AdamInstance:set_id(hash)
 	self._id = hash
 	return self
 end
 
 
-function DmakerInstance:get_id()
+function AdamInstance:get_id()
 	return self._id
 end
 
 
-function DmakerInstance:_init_fsm(param)
+function AdamInstance:_init_fsm(param)
 	local fsm_param = {
 		initial = { state = param.initial:get_id(), event = const.INIT_EVENT, defer = true },
 		events = {},
@@ -114,7 +136,7 @@ function DmakerInstance:_init_fsm(param)
 end
 
 
-function DmakerInstance:_on_leave_state(event, from, to, ...)
+function AdamInstance:_on_leave_state(event, from, to, ...)
 	if from == const.NONE_STATE then
 		return
 	end
@@ -122,10 +144,10 @@ function DmakerInstance:_on_leave_state(event, from, to, ...)
 end
 
 
-function DmakerInstance:_on_enter_state(event, from, to, ...)
+function AdamInstance:_on_enter_state(event, from, to, ...)
 	self._current_depth = self._current_depth + 1
 	if self._current_depth >= const.MAX_STACK_DEPTH then
-		print("[Dmaker]: Max depth error catch. Swich from states:", self._states[from]:get_name(), self._states[to]:get_name())
+		print("[Adam]: Max depth error catch. Swich from states:", self._states[from]:get_name(), self._states[to]:get_name())
 		error(const.ERROR.MAX_STACK_DEPTH_REACHED)
 	end
 	self._current_state = self._states[to]
@@ -133,5 +155,28 @@ function DmakerInstance:_on_enter_state(event, from, to, ...)
 end
 
 
+function AdamInstance:_process_input(action_id, action)
+	if not action_id then
+		return
+	end
 
-return DmakerInstance
+	if action.pressed then
+		self._input_pressed[action_id] = action
+	end
+
+	self._input_current[action_id] = action
+
+	if action.released then
+		self._input_released[action_id] = action
+	end
+end
+
+
+function AdamInstance:_clear_input()
+	self._input_pressed = {}
+	self._input_current = {}
+	self._input_released = {}
+end
+
+
+return AdamInstance

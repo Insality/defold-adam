@@ -30,7 +30,7 @@ function M.log(string, context)
 	end
 	context_string = context_string .. "}"
 
-	print("[Dmaker]:", string, context_string)
+	print("[Adam]:", string, context_string)
 end
 
 

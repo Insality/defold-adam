@@ -9,13 +9,17 @@ local M = {}
 --- Print text to console
 -- @function actions.debug.print
 -- @tparam string text The log message
+-- @tparam bool is_every_second Repeat this action every second
 -- @treturn ActionInstance
-function M.print(text)
+function M.print(text, is_every_second)
 	local action = ActionInstance(function(self)
 		print(self:get_param(text))
 	end)
 
 	action:set_name("debug.print")
+	if is_every_second then
+		action:set_periodic(1)
+	end
 	return action
 end
 

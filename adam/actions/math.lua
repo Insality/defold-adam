@@ -7,12 +7,12 @@ local ActionInstance = require("adam.system.action_instance")
 local M = {}
 
 
---- Add operator
+--- Adds a value to a variable
 -- @function actions.math.add
--- @tparam string source The variable name from Adam instance
--- @tparam number|variable value The number or Dmaker variable to add
--- @tparam[opt] boolean is_every_frame Check true, if action should be called every frame
--- @tparam[opt] boolean is_every_second Check true, if action should be called every second. Initial call is not skipped
+-- @tparam string source Variable to add
+-- @tparam number|variable value The value to add
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] boolean is_every_second Repeat this action every second
 -- @treturn ActionInstance
 function M.add(source, value, is_every_frame, is_every_second)
 	local action = ActionInstance(function(self)
@@ -39,9 +39,23 @@ function M.substract()
 end
 
 
+--- Multiplies a variable by another value
+-- @tparam string source Variable to multiply
+-- @tparam number|variable value The multiplier
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @treturn ActionInstance
-function M.multiply()
+function M.multiply(source, value, is_every_frame)
+	local action = ActionInstance(function(self)
+		local source_value = self:get_value(source) * self:get_param(value)
+		self:set_value(source, source_value)
+	end)
 
+	if is_every_frame then
+		action:set_every_frame(true)
+	end
+
+	action:set_name("math.multiply")
+	return action
 end
 
 

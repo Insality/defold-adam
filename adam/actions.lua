@@ -11,6 +11,7 @@ local math = require("adam.actions.math")
 local input = require("adam.actions.input")
 local time = require("adam.actions.time")
 local transform = require("adam.actions.transform")
+local vmath = require("adam.actions.vmath")
 
 
 local M = {}
@@ -22,6 +23,7 @@ M.math = math
 M.input = input
 M.time = time
 M.transform = transform
+M.vmath = vmath
 
 
 --- Return value from FSM variables for action params

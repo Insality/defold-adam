@@ -32,7 +32,7 @@ end
 -- AdamInstance on enter this state
 -- @local
 function StateInstance:trigger()
-	settings.log("On enter state", { id = self:get_name() })
+	-- settings.log("On enter state", { id = self:get_name() })
 	self._is_processing = true
 
 	if #self._actions == 0 then
@@ -62,7 +62,7 @@ end
 -- AdamInstance on leave from this state
 -- @local
 function StateInstance:release()
-	settings.log("On leave state", { id = self:get_name() })
+	-- settings.log("On leave state", { id = self:get_name() })
 	self._is_processing = false
 
 	for _, action in ipairs(self._actions) do
@@ -99,12 +99,14 @@ function StateInstance:set_value(variable_name, value)
 end
 
 
+-- @tparam AdamInstance adam_instance
 function StateInstance:set_adam_instance(adam_instance)
 	self._adam_instance = adam_instance
 	return self
 end
 
 
+-- @treturn AdamInstance
 function StateInstance:get_adam_instance()
 	return self._adam_instance
 end

@@ -5,35 +5,38 @@ function init(self)
 	local initial = adam.state()
 
 	local idle = adam.state(
-		-- actions.input.get_key("key_a", "is_left")
-		actions.transform.translate(vmath.vector3(-2, 0, 0), true)
-	)
-
-	local move_left = adam.state(
-		actions.transform.translate(vmath.vector3(-1, 0, 0))
+		actions.input.get_axis_keys("key_a", "key_d", "hor_move", true),
+		actions.input.get_axis_keys("key_s", "key_w", "ver_move", true),
+		actions.math.multiply("hor_move", 5, true),
+		actions.math.multiply("ver_move", 5, true),
+		actions.vmath.set_xyz("move_vector", actions.value("hor_move"), actions.value("ver_move"), nil, true),
+		actions.transform.translate(actions.value("move_vector"), true)
 	)
 
 	self.adam = adam.new({
 		initial = initial,
 		edges = {
 			{initial, idle},
-			-- {idle, move_left},
-			-- {move_left, idle}
 		},
 		variables = {
-			is_left = false
+			hor_move = 0,
+			ver_move = 0,
+			move_vector = vmath.vector3(0)
 		}
 	}):start()
+
+	msg.post(".", "acquire_input_focus")
 end
 
 
 function final(self)
+	msg.post(".", "release_input_focus")
 	self.adam:final()
 end
 
 
 function update(self, dt)
-	self.adam:update()
+	self.adam:update(dt)
 end
 
 
