@@ -1,5 +1,4 @@
 Wannta create fsm for defold, so. It should be like playmaker for Unity (technically)
-For example, work name is DefoldMaker
 
 So:
 
@@ -21,7 +20,7 @@ Think about Eva Events instead FSM, it can be more useful (if it will be as part
 
 FSM shoulbe be possible to use as script, gui_script and lua module
 Script and gui_script have additional commands to control entity
-+ Split commands in separate namespaces, like dmaker.gui/go/timer/operators?
++ Split commands in separate namespaces, like adam.gui/go/timer/operators?
 
 
 
@@ -79,57 +78,57 @@ we should describe one state with several actions
 Somehow we trigger FSM from "initial state" to "prepare for battle" state
 
 PrepareForBattle Event:
-	- dmaker.sound.play("battle_start")
-	- dmaker.camera.center_to("go_id", 2)
-	- dmaker.animation.play_flipbook_self("battle_start", "on_next_prepare")
+	- adam.sound.play("battle_start")
+	- adam.camera.center_to("go_id", 2)
+	- adam.animation.play_flipbook_self("battle_start", "on_next_prepare")
 
 // on_next_prepate will transition to other FSM state
 PrepareForBattleLamp1 Event:
-	- dmaker.animation.play_flipbook("firelamp1")
-	- dmaker.sound.play("firelight")
-	- dmaker.time.delay(1, "on_lamp_next")
+	- adam.animation.play_flipbook("firelamp1")
+	- adam.sound.play("firelight")
+	- adam.time.delay(1, "on_lamp_next")
 
 PrepareForBattleLamp2 Event:
-	- dmaker.animation.play_flipbook("firelamp2")
-	- dmaker.sound.play("firelight")
-	- dmaker.time.delay(1, "on_lamp_next")
+	- adam.animation.play_flipbook("firelamp2")
+	- adam.sound.play("firelight")
+	- adam.time.delay(1, "on_lamp_next")
 
 PrepareForBattleLamp3 Event:
-	- dmaker.animation.play_flipbook("firelamp3")
-	- dmaker.sound.play("firelight")
-	- dmaker.time.delay(1, "start_battle")
+	- adam.animation.play_flipbook("firelamp3")
+	- adam.sound.play("firelight")
+	- adam.time.delay(1, "start_battle")
 
 StartBattle Event:
-	- dmaker.sound.play("battle")
-	- dmaker.msg.post("path-gui?", "appear_boss_gui", "params?")
-	- dmaker.event("idle")
+	- adam.sound.play("battle")
+	- adam.msg.post("path-gui?", "appear_boss_gui", "params?")
+	- adam.event("idle")
 
 IdleBoss Event:
-	- dmaker.animation.play_flipbook_self("idle")
-	- dmaker.timer.delay(0.5, "make_action")
+	- adam.animation.play_flipbook_self("idle")
+	- adam.timer.delay(0.5, "make_action")
 
 BossChooseAction Event:
-	- dmaker.operation.random(1, 3, "rndvalue")
-	- dmaker.math.eq("rndvalue", 1, "action_1")
-	- dmaker.math.eq("rndvalue", 2, "action_2")
-	- dmaker.math.eq("rndvalue", 3, "action_3")
+	- adam.operation.random(1, 3, "rndvalue")
+	- adam.math.eq("rndvalue", 1, "action_1")
+	- adam.math.eq("rndvalue", 2, "action_2")
+	- adam.math.eq("rndvalue", 3, "action_3")
 
 BossAction1 Event:
-	- dmaker.animation.play_flipbook("attack1")
-	- dmaker.go.spawn("spike1", "pos1?")
+	- adam.animation.play_flipbook("attack1")
+	- adam.go.spawn("spike1", "pos1?")
 	-- etc, spawn spikes with delay
 
 How I should it describe in code?
 How I should debug this?
 
-fsm.events.BossChooseAction:bind(dmaker.*)
-fsm.events.BossChooseAction:bind(dmaker.*)
-fsm.events.BossChooseAction:bind(dmaker.*)
+fsm.events.BossChooseAction:bind(adam.*)
+fsm.events.BossChooseAction:bind(adam.*)
+fsm.events.BossChooseAction:bind(adam.*)
 
 or
 
 fsm.events.BossChooseAction(
-	dmaker.*,
-	dmaker.*,
-	dmaker.*
+	adam.*,
+	adam.*,
+	adam.*
 )

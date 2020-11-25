@@ -2,6 +2,17 @@
 
 
 ---@class ActionInstance
+---@field _is_deferred boolean desc
+---@field _is_every_frame boolean desc
+---@field _is_periodic boolean desc
+---@field _name string The action instance name
+---@field _on_finish_callback function desc
+---@field _periodic_timer number desc
+---@field _periodic_timer_current number desc
+---@field _release_callback function(ActionInstance) desc
+---@field _state_instance StateInstance desc
+---@field _trigger_callback function<ActionInstance> desc
+---@field context table Action context table
 local ActionInstance = {}
 
 --- Trigger event to action's FSM
@@ -10,10 +21,6 @@ function ActionInstance.event(event_name) end
 
 --- Function called when action is done.
 function ActionInstance.finished() end
-
---- Return action's DmakerInstance.
----@return DmakerInstance
-function ActionInstance.get_dmaker_instance() end
 
 --- Return the name of the action
 ---@return string The action name
@@ -34,9 +41,6 @@ function ActionInstance.get_value(variable_name) end
 ---@param release_callback function The release function. Clean up stuff, it you need
 function ActionInstance.initialize(name, trigger_callback, release_callback) end
 
---- Release action (cleanup), called by StateInstance
-function ActionInstance.release() end
-
 --- Set action to deferred state.
 ---@param state boolean The deferred state
 function ActionInstance.set_deferred(state) end
@@ -45,41 +49,22 @@ function ActionInstance.set_deferred(state) end
 ---@param state boolean The every frame state
 function ActionInstance.set_every_frame(state) end
 
---- Set callback when action is finished.
----@param callback function
-function ActionInstance.set_finish_callback(callback) end
-
 --- Set periodic trigger of action.
 ---@param seconds number The time between triggers
 function ActionInstance.set_periodic(seconds) end
-
---- Set StateInstance for this action instance.
----@param state_instance StateInstance
-function ActionInstance.set_state_instance(state_instance) end
 
 --- Set variable value in action's FSM
 ---@param variable_name string The name of variable in FSM
 ---@param value any New value for variable
 function ActionInstance.set_value(variable_name, value) end
 
---- Trigger action, called by StateInstance
-function ActionInstance.trigger() end
-
---- Update function, called by StateInstance
----@param dt number Delta time
-function ActionInstance.update(dt) end
-
 
 ---@class StateInstance
 local StateInstance = {}
 
---- Execute on leave from this state
----@param ... unknown
-function StateInstance.release(...) end
-
---- Execute on enter to this state
----@param ... unknown
-function StateInstance.trigger(...) end
+--- Trigger event to FSM.
+---@param event_name string The event to send
+function StateInstance.event(event_name) end
 
 
 ---@class actions
@@ -126,7 +111,7 @@ local actions__math = {}
 ---@param source string The variable name from DMaker instance
 ---@param value number|variable The number or Dmaker variable to add
 ---@param is_every_frame boolean Check true, if action should be called every frame
----@param is_every_second boolean Chec true, if action should be called every second. Initial call is not skipped
+---@param is_every_second boolean Check true, if action should be called every second. Initial call is not skipped
 function actions__math.add(source, value, is_every_frame, is_every_second) end
 
 

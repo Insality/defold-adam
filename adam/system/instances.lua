@@ -19,12 +19,12 @@ function M.get_all_instances()
 end
 
 
-function M.get_all_instances_with_id(dmaker_id)
+function M.get_all_instances_with_id(adam_id)
 	local instances = M.get_all_instances()
 
 	local result = {}
 	for i = 1, #instances do
-		if instances[i].get_id() == dmaker_id then
+		if instances[i].get_id() == adam_id then
 			table.insert(result, instances[i])
 		end
 	end

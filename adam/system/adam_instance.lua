@@ -1,12 +1,13 @@
---- The main Defold-Maker instance. Instantiate it via `dmaker.new` and use it in your code
--- @module DmakerInstance
+--- The main Adam instance. Instantiate it via `adam.new` and use it in your code.
+-- @see adam
+-- @module AdamInstance
 
-local fsm = require("dmaker.libs.fsm")
-local class = require("dmaker.libs.middleclass")
-local settings = require("dmaker.system.settings")
-local const = require("dmaker.const")
+local fsm = require("adam.libs.fsm")
+local class = require("adam.libs.middleclass")
+local settings = require("adam.system.settings")
+local const = require("adam.const")
 
-local DmakerInstance = class("dmaker.instance")
+local DmakerInstance = class("adam.instance")
 
 
 function DmakerInstance:initialize(param)
@@ -19,7 +20,7 @@ function DmakerInstance:initialize(param)
 	self._fsm = self:_init_fsm(param)
 
 	for _, state in pairs(self._states) do
-		state:set_dmaker_instance(self)
+		state:set_adam_instance(self)
 	end
 end
 

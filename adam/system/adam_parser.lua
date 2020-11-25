@@ -1,6 +1,6 @@
-local const = require("dmaker.const")
-local actions = require("dmaker.actions")
-local StateInstance = require("dmaker.system.state_instance")
+local const = require("adam.const")
+local actions = require("adam.actions")
+local StateInstance = require("adam.system.state_instance")
 
 local M = {}
 

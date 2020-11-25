@@ -1,16 +1,16 @@
 --- FSM actions let you control other FSM instances
 -- @submodule Actions
 
-local instances = require("dmaker.system.instances")
-local helper = require("dmaker.system.helper")
-local ActionInstance = require("dmaker.system.action_instance")
+local instances = require("adam.system.instances")
+local helper = require("adam.system.helper")
+local ActionInstance = require("adam.system.action_instance")
 
 local M = {}
 
 
---- Send event to target DMaker instance
+--- Send event to target Adam instance
 -- @function actions.fsm.send_event
--- @tparam string|dmaker target The target instance for send event. If there are several instances with equal ID, event will be delivered to all of them.
+-- @tparam string|adam target The target instance for send event. If there are several instances with equal ID, event will be delivered to all of them.
 -- @tparam string event_name The event to send
 -- @tparam[opt] number delay Time delay in seconds
 -- @tparam[opt] bool is_every_frame Repeat every frame
@@ -43,7 +43,7 @@ function M.broadcast_event(event_name, is_exclude_self, delay)
 	local action = ActionInstance("fsm.broadcast_event", function(self)
 		self.context.timer_id = helper.delay(delay, function()
 			for _, instance in ipairs(instances.get_all_instances()) do
-				if not is_exclude_self or instance ~= self:get_dmaker_instance() then
+				if not is_exclude_self or instance ~= self:get_adam_instance() then
 					instance:event(event_name)
 				end
 			end

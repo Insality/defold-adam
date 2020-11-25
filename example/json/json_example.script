@@ -1,4 +1,4 @@
-local dmaker = require("dmaker.dmaker")
+local adam = require("adam.adam")
 
 local json = [[{
 	"states": {
@@ -33,7 +33,7 @@ local json = [[{
 				},
 				{
 					"name": ["debug", "print"],
-					"params": [{ "_type": "dmaker:get_action_value", "_name": "counter" }]
+					"params": [{ "_type": "adam:get_action_value", "_name": "counter" }]
 				},
 				{
 					"name": ["time", "delay"],
@@ -55,7 +55,7 @@ local json = [[{
 }]]
 
 function init(self)
-	self.fsm = dmaker.parse(json)
+	self.fsm = adam.parse(json)
 	self.fsm:start()
 end
 

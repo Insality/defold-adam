@@ -33,6 +33,8 @@
 <h2>Contents</h2>
 <ul>
 <li><a href="#Functions">Functions</a></li>
+<li><a href="#Fields">Fields</a></li>
+<li><a href="#Local_Functions">Local Functions</a></li>
 </ul>
 
 
@@ -50,8 +52,9 @@
 <div id="content">
 
 <h1>Module <code>ActionInstance</code></h1>
-<p>Basic action class for all DMaker actions</p>
-<p></p>
+<p>All actions created by this class.</p>
+<p>
+ The most of this API you should use only on develop your own custom actions.</p>
 
 
 <h2><a href="#Functions">Functions</a></h2>
@@ -61,16 +64,8 @@
 	<td class="summary">Action Instance constructor function</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#update">update(dt)</a></td>
-	<td class="summary">Update function, called by StateInstance</td>
-	</tr>
-	<tr>
 	<td class="name" nowrap><a href="#event">event(event_name)</a></td>
 	<td class="summary">Trigger event to action's FSM</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#set_state_instance">set_state_instance(state_instance)</a></td>
-	<td class="summary">Set StateInstance for this action instance.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#get_value">get_value(variable_name)</a></td>
@@ -101,6 +96,64 @@
 	<td class="summary">Return the name of the action</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#finished">finished()</a></td>
+	<td class="summary">Function called when action is done.</td>
+	</tr>
+</table>
+<h2><a href="#Fields">Fields</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#context">context</a></td>
+	<td class="summary">Action context table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_name">_name</a></td>
+	<td class="summary">The action instance name</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_trigger_callback">_trigger_callback</a></td>
+	<td class="summary">desc</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_release_callback">_release_callback</a></td>
+	<td class="summary">desc</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_state_instance">_state_instance</a></td>
+	<td class="summary">desc</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_on_finish_callback">_on_finish_callback</a></td>
+	<td class="summary">desc</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_is_every_frame">_is_every_frame</a></td>
+	<td class="summary">desc</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_is_deferred">_is_deferred</a></td>
+	<td class="summary">desc</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_is_periodic">_is_periodic</a></td>
+	<td class="summary">desc</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_periodic_timer">_periodic_timer</a></td>
+	<td class="summary">desc</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_periodic_timer_current">_periodic_timer_current</a></td>
+	<td class="summary">desc</td>
+	</tr>
+</table>
+<h2><a href="#Local_Functions">Local Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#update">update(dt)</a></td>
+	<td class="summary">Update function, called by StateInstance</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#trigger">trigger()</a></td>
 	<td class="summary">Trigger action, called by StateInstance</td>
 	</tr>
@@ -109,16 +162,16 @@
 	<td class="summary">Release action (cleanup), called by StateInstance</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#finished">finished()</a></td>
-	<td class="summary">Function called when action is done.</td>
-	</tr>
-	<tr>
 	<td class="name" nowrap><a href="#set_finish_callback">set_finish_callback(callback)</a></td>
 	<td class="summary">Set callback when action is finished.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#get_dmaker_instance">get_dmaker_instance()</a></td>
 	<td class="summary">Return action's DmakerInstance.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_state_instance">set_state_instance(state_instance)</a></td>
+	<td class="summary">Set StateInstance for this action instance.</td>
 	</tr>
 </table>
 
@@ -160,27 +213,6 @@
 
 </dd>
     <dt>
-    <a name = "update"></a>
-    <strong>update(dt)</strong>
-    </dt>
-    <dd>
-    Update function, called by StateInstance
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">dt</span>
-            <span class="types"><span class="type">number</span></span>
-         Delta time
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
     <a name = "event"></a>
     <strong>event(event_name)</strong>
     </dt>
@@ -193,27 +225,6 @@
         <li><span class="parameter">event_name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          Name of trigger event
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "set_state_instance"></a>
-    <strong>set_state_instance(state_instance)</strong>
-    </dt>
-    <dd>
-    Set StateInstance for this action instance.  Called by StateInstance
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">state_instance</span>
-            <span class="types"><span class="type">StateInstance</span></span>
-
         </li>
     </ul>
 
@@ -274,6 +285,7 @@
     </dt>
     <dd>
     Check if param value is from FSM variables.  If not - return itself or return variable from FSM
+ Pass this values to action args via `actions.value()`
 
 
     <h3>Parameters:</h3>
@@ -292,6 +304,10 @@
     </ol>
 
 
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/Actions.html#value">Actions.value</a>
+    </ul>
 
 
 </dd>
@@ -382,6 +398,271 @@
 
 </dd>
     <dt>
+    <a name = "finished"></a>
+    <strong>finished()</strong>
+    </dt>
+    <dd>
+    Function called when action is done.  Never called on actions with "is_every_frame"
+ or "is_per_second". Deferred actions should call manually this function
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Fields"></a>Fields</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "context"></a>
+    <strong>context</strong>
+    </dt>
+    <dd>
+    Action context table
+
+
+    <ul>
+        <li><span class="parameter">context</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_name"></a>
+    <strong>_name</strong>
+    </dt>
+    <dd>
+    The action instance name
+
+
+    <ul>
+        <li><span class="parameter">_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_trigger_callback"></a>
+    <strong>_trigger_callback</strong>
+    </dt>
+    <dd>
+    desc
+
+
+    <ul>
+        <li><span class="parameter">_trigger_callback</span>
+            <span class="types"><span class="type">function(ActionInstance)</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_release_callback"></a>
+    <strong>_release_callback</strong>
+    </dt>
+    <dd>
+    desc
+
+
+    <ul>
+        <li><span class="parameter">_release_callback</span>
+            <span class="types"><span class="type">function(ActionInstance)</span></span>
+
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_state_instance"></a>
+    <strong>_state_instance</strong>
+    </dt>
+    <dd>
+    desc
+
+
+    <ul>
+        <li><span class="parameter">_state_instance</span>
+            <span class="types"><span class="type">StateInstance</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_on_finish_callback"></a>
+    <strong>_on_finish_callback</strong>
+    </dt>
+    <dd>
+    desc
+
+
+    <ul>
+        <li><span class="parameter">_on_finish_callback</span>
+            <span class="types"><span class="type">function</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_is_every_frame"></a>
+    <strong>_is_every_frame</strong>
+    </dt>
+    <dd>
+    desc
+
+
+    <ul>
+        <li><span class="parameter">_is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_is_deferred"></a>
+    <strong>_is_deferred</strong>
+    </dt>
+    <dd>
+    desc
+
+
+    <ul>
+        <li><span class="parameter">_is_deferred</span>
+            <span class="types"><span class="type">boolean</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_is_periodic"></a>
+    <strong>_is_periodic</strong>
+    </dt>
+    <dd>
+    desc
+
+
+    <ul>
+        <li><span class="parameter">_is_periodic</span>
+            <span class="types"><span class="type">boolean</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_periodic_timer"></a>
+    <strong>_periodic_timer</strong>
+    </dt>
+    <dd>
+    desc
+
+
+    <ul>
+        <li><span class="parameter">_periodic_timer</span>
+            <span class="types"><span class="type">number</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_periodic_timer_current"></a>
+    <strong>_periodic_timer_current</strong>
+    </dt>
+    <dd>
+    desc
+
+
+    <ul>
+        <li><span class="parameter">_periodic_timer_current</span>
+            <span class="types"><span class="type">number</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Local_Functions"></a>Local Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "update"></a>
+    <strong>update(dt)</strong>
+    </dt>
+    <dd>
+    Update function, called by StateInstance
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dt</span>
+            <span class="types"><span class="type">number</span></span>
+         Delta time
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "trigger"></a>
     <strong>trigger()</strong>
     </dt>
@@ -401,21 +682,6 @@
     </dt>
     <dd>
     Release action (cleanup), called by StateInstance
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "finished"></a>
-    <strong>finished()</strong>
-    </dt>
-    <dd>
-    Function called when action is done.  Never called on actions with
- "is_every_frame" or "is_per_second". Deferred call on several delayed actions
 
 
 
@@ -465,14 +731,35 @@
 
 
 </dd>
+    <dt>
+    <a name = "set_state_instance"></a>
+    <strong>set_state_instance(state_instance)</strong>
+    </dt>
+    <dd>
+    Set StateInstance for this action instance.  Called by StateInstance
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">state_instance</span>
+            <span class="types"><span class="type">StateInstance</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
 </dl>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
-<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2020-11-25 01:55:21 </i>
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc TESTING</a></i>
+<i style="float:right;">Last updated 2015-01-01 12:00:00 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

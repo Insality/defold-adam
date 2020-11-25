@@ -1,8 +1,8 @@
 --- Actions with time like delay or get time info
 -- @submodule Actions
 
-local helper = require("dmaker.system.helper")
-local ActionInstance = require("dmaker.system.action_instance")
+local helper = require("adam.system.helper")
+local ActionInstance = require("adam.system.action_instance")
 
 local M = {}
 
