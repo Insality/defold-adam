@@ -5,10 +5,8 @@ function init(self)
 	local initial = adam.state()
 
 	local idle = adam.state(
-		actions.input.get_axis_keys("key_a", "key_d", "hor_move", true),
-		actions.input.get_axis_keys("key_s", "key_w", "ver_move", true),
-		actions.math.multiply("hor_move", 5, true),
-		actions.math.multiply("ver_move", 5, true),
+		actions.input.get_axis_keys("key_a", "key_d", "hor_move", true, 5),
+		actions.input.get_axis_keys("key_s", "key_w", "ver_move", true, 5),
 		actions.vmath.set_xyz("move_vector", actions.value("hor_move"), actions.value("ver_move"), nil, true),
 		actions.transform.translate(actions.value("move_vector"), true)
 	)

@@ -64,11 +64,11 @@ end
 
 --- Sets the position of a game object
 -- @tparam vector3 target_vector Position vector
--- @tparam boolean is_every_frame Repeat this action every frame
--- @tparam number time The time to translate gameobject. Incompatable with is_every_frame
--- @tparam string finish_event Name of trigger event
--- @tparam number delay Delay before translate in seconds
--- @tparam ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] number time The time to translate gameobject. Incompatable with is_every_frame
+-- @tparam[opt] string finish_event Name of trigger event
+-- @tparam[opt] number delay Delay before translate in seconds
+-- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
 -- @treturn ActionInstance
 function M.set_position(target_vector, is_every_frame, time, finish_event, delay, ease_function)
 	return change_property(".", target_vector, is_every_frame, time, finish_event, delay, ease_function,
@@ -96,11 +96,11 @@ end
 
 --- Set scale to a game object
 -- @tparam vector3 target_scale Scale vector
--- @tparam boolean is_every_frame Repeat this action every frame
--- @tparam number time The time to translate gameobject. Incompatable with is_every_frame
--- @tparam string finish_event Name of trigger event
--- @tparam number delay Delay before translate in seconds
--- @tparam ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] number time The time to translate gameobject. Incompatable with is_every_frame
+-- @tparam[opt] string finish_event Name of trigger event
+-- @tparam[opt] number delay Delay before translate in seconds
+-- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
 -- @treturn ActionInstance
 function M.set_scale(target_scale, is_every_frame, time, finish_event, delay, ease_function)
 	return change_property(".", target_scale, is_every_frame, time, finish_event, delay, ease_function,
@@ -122,11 +122,11 @@ end
 
 --- Translates a game object via delta vector
 -- @tparam vector3 delta_vector Vector with x/y/z params to translate
--- @tparam boolean is_every_frame Repeat this action every frame
--- @tparam number time The time to translate gameobject. Incompatable with is_every_frame
--- @tparam string finish_event Name of trigger event
--- @tparam number delay Delay before translate in seconds
--- @tparam ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] number time The time to translate gameobject. Incompatable with is_every_frame
+-- @tparam[opt] string finish_event Name of trigger event
+-- @tparam[opt] number delay Delay before translate in seconds
+-- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
 -- @treturn ActionInstance
 function M.translate(delta_vector, is_every_frame, time, finish_event, delay, ease_function)
 	return change_property(".", delta_vector, is_every_frame, time, finish_event, delay,

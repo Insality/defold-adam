@@ -38,8 +38,9 @@ end
 -- @tparam string positive_key The key to positive check
 -- @tparam string variable Variable to set
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt=1] number multiplier The value to multiply result
 -- @treturn ActionInstance
-function M.get_axis_keys(negative_key, positive_key, variable, is_every_frame)
+function M.get_axis_keys(negative_key, positive_key, variable, is_every_frame, multiplier)
 	local action = ActionInstance(function(self)
 		local adam_instance = self:get_adam_instance()
 		local negative = adam_instance:get_input_current(self:get_param(negative_key))
@@ -51,7 +52,7 @@ function M.get_axis_keys(negative_key, positive_key, variable, is_every_frame)
 		if positive then
 			value = value + 1
 		end
-		self:set_value(variable, value)
+		self:set_value(variable, value * self:get_param(multiplier or 1))
 	end)
 
 	if is_every_frame then
