@@ -8,8 +8,9 @@ local ActionInstance = require("adam.system.action_instance")
 local M = {}
 
 
+-- @treturn ActionInstance
 function M.get_key(key_name, variable, is_every_frame)
-	local action = ActionInstance("input.get_key", function(self)
+	local action = ActionInstance(function(self)
 		local is_pressed = 
 		self:set_value(variable, is_pressed)
 	end)
@@ -19,7 +20,6 @@ function M.get_key(key_name, variable, is_every_frame)
 	end
 
 	action:set_name("input.get_key")
-
 	return action
 end
 

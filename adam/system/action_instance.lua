@@ -59,8 +59,7 @@ local ActionInstance = class("adam.action")
 -- @tparam string name The action name. Useful for debug
 -- @tparam function trigger_callback The main action function
 -- @tparam[opt] function release_callback The release function. Clean up stuff, it you need
-function ActionInstance:initialize(name, trigger_callback, release_callback)
-	self._name = name
+function ActionInstance:initialize(trigger_callback, release_callback)
 	self._trigger_callback = trigger_callback or const.EMPTY_FUNCTION
 	self._release_callback = release_callback
 	self._state_instance = nil
@@ -71,6 +70,7 @@ function ActionInstance:initialize(name, trigger_callback, release_callback)
 	self._is_deferred = false
 	self._periodic_timer_current = false
 	self._on_finish_callback = nil
+	self._name = ""
 
 	self.context = {}
 end
@@ -152,6 +152,14 @@ end
 -- @tparam[opt] boolean state The deferred state
 function ActionInstance:set_deferred(state)
 	self._is_deferred = state
+end
+
+
+--- Set the name of the action
+-- @tparam string The action name
+function ActionInstance:set_name(name)
+	self._name = name
+	return self
 end
 
 

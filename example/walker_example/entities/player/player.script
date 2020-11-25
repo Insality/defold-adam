@@ -6,7 +6,7 @@ function init(self)
 
 	local idle = adam.state(
 		-- actions.input.get_key("key_a", "is_left")
-		actions.transform.translate(vmath.vector3(-1, 0, 0), true)
+		actions.transform.translate(vmath.vector3(-2, 0, 0), true)
 	)
 
 	local move_left = adam.state(

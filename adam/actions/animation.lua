@@ -8,8 +8,9 @@ local ActionInstance = require("adam.system.action_instance")
 local M = {}
 
 
+-- @treturn ActionInstance
 function M.animate_value(source, target, time, delay, finish_event, ease_function)
-	return ActionInstance("animation.animate_value", function(self)
+	local action = ActionInstance(function(self)
 		self.context.timer_id = helper.delay(delay, function()
 			-- how can i animate table property?
 		end)
@@ -19,6 +20,9 @@ function M.animate_value(source, target, time, delay, finish_event, ease_functio
 			self.context.timer_id = nil
 		end
 	end)
+
+	action:set_name("animation.animate_value")
+	return action
 end
 
 

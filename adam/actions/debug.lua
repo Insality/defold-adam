@@ -9,20 +9,28 @@ local M = {}
 --- Print text to console
 -- @function actions.debug.print
 -- @tparam string text The log message
+-- @treturn ActionInstance
 function M.print(text)
-	return ActionInstance("debug.print", function(self)
+	local action = ActionInstance(function(self)
 		print(self:get_param(text))
 	end)
+
+	action:set_name("debug.print")
+	return action
 end
 
 
 --- Instantly trigger event. Useful for test something fast by changing your FSM
 -- @function actions.debug.event
 -- @tparam string event_name The event to send
+-- @treturn ActionInstance
 function M.event(event_name)
-	return ActionInstance("debug.event", function(self)
+	local action = ActionInstance(function(self)
 		self:event(event_name)
 	end)
+
+	action:set_name("debug.event")
+	return action
 end
 
 

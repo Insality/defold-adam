@@ -14,8 +14,9 @@ local M = {}
 -- @tparam string event_name The event to send
 -- @tparam[opt] number delay Time delay in seconds
 -- @tparam[opt] bool is_every_frame Repeat every frame
+-- @treturn ActionInstance
 function M.send_event(target, event_name, delay, is_every_frame)
-	local action = ActionInstance("fsm.send_event", function(self)
+	local action = ActionInstance(function(self)
 		self.context.timer_id = helper.delay(delay, function()
 			for _, instance in ipairs(instances.get_all_instances_with_id(target)) do
 				instance:event(event_name)
@@ -30,6 +31,7 @@ function M.send_event(target, event_name, delay, is_every_frame)
 	end)
 
 	action:set_deferred(true)
+	action:set_name("fsm.send_event")
 	return action
 end
 
@@ -39,8 +41,9 @@ end
 -- @tparam string event_name The event to send
 -- @tparam[opt] bool is_exclude_self Don't send the event to self
 -- @tparam[opt] number delay Time delay in seconds
+-- @treturn ActionInstance
 function M.broadcast_event(event_name, is_exclude_self, delay)
-	local action = ActionInstance("fsm.broadcast_event", function(self)
+	local action = ActionInstance(function(self)
 		self.context.timer_id = helper.delay(delay, function()
 			for _, instance in ipairs(instances.get_all_instances()) do
 				if not is_exclude_self or instance ~= self:get_adam_instance() then
@@ -57,6 +60,7 @@ function M.broadcast_event(event_name, is_exclude_self, delay)
 	end)
 
 	action:set_deferred(true)
+	action:set_name("fsm.broadcast_event")
 	return action
 end
 

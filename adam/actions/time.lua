@@ -11,8 +11,9 @@ local M = {}
 -- @function actions.time.delay
 -- @tparam number seconds Amount of seconds for delay
 -- @tparam[opt] string trigger_event Name of trigger event
+-- @treturn ActionInstance
 function M.delay(seconds, trigger_event)
-	local action = ActionInstance("time.delay", function(self)
+	local action = ActionInstance(function(self)
 		self.context.timer_id = helper.delay(seconds, function()
 			self.context.timer_id = nil
 			if trigger_event then
@@ -28,6 +29,7 @@ function M.delay(seconds, trigger_event)
 	end)
 
 	action:set_deferred(true)
+	action:set_name("time.delay")
 	return action
 end
 
