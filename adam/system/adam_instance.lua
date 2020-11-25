@@ -43,6 +43,11 @@ function DmakerInstance:update(dt)
 end
 
 
+function DmakerInstance:on_input(action_id, action)
+	pprint(action_id, action)
+end
+
+
 function DmakerInstance:final()
 	self._is_removed = true
 end

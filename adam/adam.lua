@@ -10,12 +10,6 @@ local StateInstance = require("adam.system.state_instance")
 
 local M = {}
 
-M.PROP_POS_X = "position.x"
-M.PROP_POS_Y = "position.y"
-M.PROP_POS_Z = "position.z"
-M.PROP_SCALE_X = "scale.x"
-M.PROP_SCALE_Y = "scale.y"
-
 M.FINISHED = const.FINISHED
 M.ANY_STATE = const.ANY_STATE
 
@@ -42,8 +36,6 @@ function M.parse(json_data)
 	instances.add_instance(adam_instance)
 	return adam_instance
 end
-
-
 
 
 return M
