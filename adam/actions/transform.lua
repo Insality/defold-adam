@@ -25,7 +25,9 @@ local function change_property(target_id, target_vector, is_every_frame, time, f
 				-- Setup via go.animate
 				local easing = ease_function or settings.get_default_easing()
 				self.context.animate_started = true
-				go.animate(target_id, property, go.PLAYBACK_ONCE_FORWARD, target, easing, time, 0, function()
+				go.animate(target_id, property, go.PLAYBACK_ONCE_FORWARD, target, easing, time)
+
+				self.context.callback_timer_id = helper.delay(time, function()
 					self.context.animate_started = false
 					if finish_event then
 						self:event(finish_event)
@@ -50,6 +52,10 @@ local function change_property(target_id, target_vector, is_every_frame, time, f
 			go.cancel_animations(target_id, property)
 			self.context.animate_started = false
 		end
+		if self.context.callback_timer_id then
+			timer.cancel(self.context.callback_timer_id)
+			self.context.callback_timer_id = false
+		end
 	end)
 
 	if is_every_frame then
@@ -63,6 +69,7 @@ end
 
 
 --- Sets the position of a game object
+-- @function actions.transform.set_position
 -- @tparam vector3 target_vector Position vector
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] number time The time to translate gameobject. Incompatable with is_every_frame
@@ -95,6 +102,7 @@ end
 
 
 --- Set scale to a game object
+-- @function actions.transform.set_scale
 -- @tparam vector3 target_scale Scale vector
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] number time The time to translate gameobject. Incompatable with is_every_frame
@@ -121,6 +129,7 @@ end
 
 
 --- Translates a game object via delta vector
+-- @function actions.transform.translate
 -- @tparam vector3 delta_vector Vector with x/y/z params to translate
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] number time The time to translate gameobject. Incompatable with is_every_frame

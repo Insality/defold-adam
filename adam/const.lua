@@ -11,6 +11,13 @@ M.TYPE_TABLE = "table"
 M.SECOND = 1
 M.MAX_STACK_DEPTH = 10000
 
+M.TRIGGER_RESPONSE = hash("trigger_response")
+
+M.EVENT = {
+	TRIGGER_ENTER = "trigger_enter",
+	TRIGGER_LEAVE = "trigger_leave",
+}
+
 M.ERROR = {
 	NO_BINDED_STATE = "No binded state instance to action instance",
 	NO_DEFINED_VARIABLE = "The variable for FSM is not defined",

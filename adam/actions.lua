@@ -26,6 +26,9 @@ M.transform = transform
 M.vmath = vmath
 
 
+M.EVENT = const.EVENT
+
+
 --- Return value from FSM variables for action params
 -- @tparam string variable_name The variable name in Adam instance
 function M.value(variable_name)

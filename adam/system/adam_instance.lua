@@ -55,6 +55,11 @@ function AdamInstance:on_input(action_id, action)
 end
 
 
+function AdamInstance:on_message(message_id, message, sender)
+	self:_process_message(message_id, message, sender)
+end
+
+
 function AdamInstance:final()
 	self._is_removed = true
 end
@@ -113,6 +118,8 @@ function AdamInstance:_init_fsm(initial_state, transitions)
 		events = {},
 		callbacks = {}
 	}
+
+	self._states[initial_state:get_id()] = initial_state
 
 	for _, transition in ipairs(transitions) do
 		local transition1_id = transition[1] and transition[1]:get_id() or const.WILDCARD
@@ -176,6 +183,18 @@ function AdamInstance:_clear_input()
 	self._input_pressed = {}
 	self._input_current = {}
 	self._input_released = {}
+end
+
+
+function AdamInstance:_process_message(message_id, message, sender)
+	if message_id == const.TRIGGER_RESPONSE then
+		-- pprint(message_id, message)
+		if message.enter then
+			self:event(const.EVENT.TRIGGER_ENTER)
+		else
+			self:event(const.EVENT.TRIGGER_LEAVE)
+		end
+	end
 end
 
 

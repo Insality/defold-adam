@@ -9,6 +9,7 @@ local M = {}
 
 
 --- Check is key is pressed. Can set number instead of boolean on pressed key
+-- @function actions.input.get_key
 -- @tparam string key_name The key to check
 -- @tparam string variable Variable to set
 -- @tparam[opt] number value_to_set Set this number or 0 instead of true/false
@@ -34,6 +35,7 @@ end
 
 
 --- Imitate two keys as axis. Set result in variable. If both keys are pressed, result will be 0
+-- @function actions.input.get_axis_keys
 -- @tparam string negative_key The key to negative check
 -- @tparam string positive_key The key to positive check
 -- @tparam string variable Variable to set
