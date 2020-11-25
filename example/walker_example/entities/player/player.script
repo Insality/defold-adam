@@ -11,17 +11,16 @@ function init(self)
 		actions.transform.translate(actions.value("move_vector"), true)
 	)
 
-	self.adam = adam.new({
-		initial = initial,
-		edges = {
+	self.adam = adam.new(initial,
+		{
 			{initial, idle},
 		},
-		variables = {
+		{
 			hor_move = 0,
 			ver_move = 0,
 			move_vector = vmath.vector3(0)
 		}
-	}):start()
+	):start()
 
 	msg.post(".", "acquire_input_focus")
 end

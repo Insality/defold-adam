@@ -13,13 +13,13 @@ function M.parse(data)
 		states[state_name] = M._parse_state(state_data)
 	end
 
-	local edges = {}
-	for _, edge in ipairs(data.edges) do
-		table.insert(edges, { states[edge[1]], states[edge[2]], edge[3] })
+	local transitions = {}
+	for _, transition in ipairs(data.transitions) do
+		table.insert(transitions, { states[transition[1]], states[transition[2]], transition[3] })
 	end
 
 	params.initial = states[data.initial]
-	params.edges = edges
+	params.transitions = transitions
 	params.variables = M._parse_variables(data)
 
 	return params

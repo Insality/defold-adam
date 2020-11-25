@@ -10,11 +10,11 @@ local const = require("adam.const")
 local AdamInstance = class("adam.instance")
 
 
-function AdamInstance:initialize(param)
+function AdamInstance:initialize(initial_state, transitions, variables)
 	self._id = nil
 	self._is_removed = nil
 	self._states = {}
-	self._variables = param.variables or {}
+	self._variables = variables or {}
 	self._current_state = nil
 	self._current_depth = 0
 
@@ -22,7 +22,7 @@ function AdamInstance:initialize(param)
 	self._input_current = {}
 	self._input_released = {}
 
-	self._fsm = self:_init_fsm(param)
+	self._fsm = self:_init_fsm(initial_state, transitions)
 
 	for _, state in pairs(self._states) do
 		state:set_adam_instance(self)
@@ -107,21 +107,21 @@ function AdamInstance:get_id()
 end
 
 
-function AdamInstance:_init_fsm(param)
+function AdamInstance:_init_fsm(initial_state, transitions)
 	local fsm_param = {
-		initial = { state = param.initial:get_id(), event = const.INIT_EVENT, defer = true },
+		initial = { state = initial_state:get_id(), event = const.INIT_EVENT, defer = true },
 		events = {},
 		callbacks = {}
 	}
 
-	for _, edge in ipairs(param.edges) do
-		local edge1_id = edge[1] and edge[1]:get_id() or const.WILDCARD
-		local edge2_id = edge[2]:get_id()
-		local event_name = edge[3] or const.FINISHED
+	for _, transition in ipairs(transitions) do
+		local transition1_id = transition[1] and transition[1]:get_id() or const.WILDCARD
+		local transition2_id = transition[2]:get_id()
+		local event_name = transition[3] or const.FINISHED
 
-		self._states[edge1_id] = edge[1]
-		self._states[edge2_id] = edge[2]
-		table.insert(fsm_param.events, { from = edge1_id, to = edge2_id, name = event_name })
+		self._states[transition1_id] = transition[1]
+		self._states[transition2_id] = transition[2]
+		table.insert(fsm_param.events, { from = transition1_id, to = transition2_id, name = event_name })
 	end
 
 	fsm_param.callbacks["on_leave_state"] = function(_, event, from, to, ...)

@@ -21,8 +21,8 @@ end
 
 
 --- Create new instance of Adam FSM
-function M.new(params)
-	local adam_instance = AdamInstance(params)
+function M.new(initial, transitions, variables)
+	local adam_instance = AdamInstance(initial, transitions, variables)
 
 	instances.add_instance(adam_instance)
 	return adam_instance
@@ -32,7 +32,7 @@ end
 function M.parse(json_data)
 	local params = adam_parser.parse(json.decode(json_data))
 
-	local adam_instance = AdamInstance(params)
+	local adam_instance = AdamInstance(params.initial, params.transitions, params.variables)
 	instances.add_instance(adam_instance)
 	return adam_instance
 end

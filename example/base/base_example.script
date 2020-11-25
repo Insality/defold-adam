@@ -23,9 +23,8 @@ function init(self)
 
 	local from_any_state = adam.state():set_name("any state")
 
-	self.fsm = adam.new({
-		initial = initial,
-		edges = {
+	self.fsm = adam.new(initial,
+		{
 			{initial, state, adam.FINISHED},
 			{state, state2, adam.FINISHED},
 			{state2, state3, adam.FINISHED},
@@ -33,10 +32,10 @@ function init(self)
 			{adam.ANY_STATE, from_any_state, "from_any_state"},
 			{from_any_state, state, adam.FINISHED}
 		},
-		variables = {
+		{
 			counter = 0
 		}
-	})
+	)
 	self.fsm:start()
 end
 

@@ -12,14 +12,13 @@ function init(self)
 		actions.transform.set_scale(vmath.vector3(0.6), false, 1)
 	)
 
-	self.adam = adam.new({
-		initial = initial,
-		edges = {
+	self.adam = adam.new(initial,
+		{
 			{initial, scale_up},
 			{scale_up, scale_down},
 			{scale_down, scale_up}
 		}
-	}):start()
+	):start()
 end
 
 
