@@ -34,6 +34,7 @@ Or point to the ZIP file of a [specific release](https://github.com/Insality/def
 - Actions
 - Variables
 - Custom Actions
+- Template Actions
 - JSON representation
 - Performance hints/tests (is possible to use one FSM to control a lot of entities?)
 - Usage examples

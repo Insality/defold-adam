@@ -1,6 +1,7 @@
 --- Useful actions for debug purposes
 -- @submodule Actions
 
+local const = require("adam.const")
 local ActionInstance = require("adam.system.action_instance")
 
 local M = {}
@@ -18,7 +19,7 @@ function M.print(text, is_every_second)
 
 	action:set_name("debug.print")
 	if is_every_second then
-		action:set_periodic(1)
+		action:set_periodic(const.SECOND)
 	end
 	return action
 end
