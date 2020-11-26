@@ -139,6 +139,14 @@ function AdamInstance:_init_fsm(initial_state, transitions)
 		self:_on_enter_state(event, from, to, ...)
 	end
 
+	--- Case when state goes to himself
+	fsm_param.callbacks["on_after_event"] = function(_, event, from, to, ...)
+		if from == to then
+			self:_on_leave_state(event, from, to, ...)
+			self:_on_enter_state(event, from, to, ...)
+		end
+	end
+
 	return fsm.create(fsm_param)
 end
 

@@ -2,9 +2,8 @@ local adam = require("adam.adam")
 local actions = require("adam.actions")
 
 function init(self)
-
 	-- This one is template?
-	local movable_action = adam.actions(
+	local movable_action = adam.template_actions(
 		actions.input.get_axis_keys("key_a", "key_d", "hor_move", true, actions.value("speed")),
 		actions.input.get_axis_keys("key_s", "key_w", "ver_move", true, actions.value("speed")),
 		actions.vmath.set_xyz("move_vector", actions.value("hor_move"), actions.value("ver_move"), nil, true),
@@ -13,12 +12,18 @@ function init(self)
 
 	local idle = adam.state(
 		actions.math.set("speed", 5),
-		movable_action
+		actions.input.get_axis_keys("key_a", "key_d", "hor_move", true, actions.value("speed")),
+		actions.input.get_axis_keys("key_s", "key_w", "ver_move", true, actions.value("speed")),
+		actions.vmath.set_xyz("move_vector", actions.value("hor_move"), actions.value("ver_move"), nil, true),
+		actions.transform.translate(actions.value("move_vector"), true)
 	)
 
 	local consume = adam.state(
 		actions.math.set("speed", 3),
-		movable_action,
+		actions.input.get_axis_keys("key_a", "key_d", "hor_move", true, actions.value("speed")),
+		actions.input.get_axis_keys("key_s", "key_w", "ver_move", true, actions.value("speed")),
+		actions.vmath.set_xyz("move_vector", actions.value("hor_move"), actions.value("ver_move"), nil, true),
+		actions.transform.translate(actions.value("move_vector"), true),
 		actions.transform.set_scale(vmath.vector3(1.1), nil, 0.25),
 		actions.transform.set_scale(vmath.vector3(1), nil, 0.25, nil, 0.25),
 		actions.time.delay(0.5, adam.FINISHED)

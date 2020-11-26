@@ -38,4 +38,9 @@ function M.parse(json_data)
 end
 
 
+function M.template_actions(...)
+	
+end
+
+
 return M
