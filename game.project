@@ -1,5 +1,5 @@
 [bootstrap]
-main_collection = /example/walker_example/walker_example.collectionc
+main_collection = /test/test.collectionc
 
 [script]
 shared_state = 1
@@ -15,6 +15,7 @@ input_method = HiddenInputField
 title = Defold-Adam
 version = 0.0.1
 publisher = Insality
+dependencies = https://github.com/insalitygames/deftest/archive/master.zip
 
 [library]
 include_dirs = adam
