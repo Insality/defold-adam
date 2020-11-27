@@ -3,7 +3,7 @@
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <head>
-    <title>Defold Maker API reference</title>
+    <title>Adam API reference</title>
     <link rel="stylesheet" href="../ldoc_pale.css" type="text/css" />
 </head>
 <body>
@@ -24,7 +24,7 @@
 
 <div id="navigation">
 <br/>
-<h1>Defold-Maker</h1>
+<h1>Defold-Adam</h1>
 
 <ul>
   <li><a href="../index.html">Index</a></li>
@@ -35,17 +35,22 @@
 <li><a href="#Functions">Functions</a></li>
 <li><a href="#actions_debug_Functions">actions.debug Functions</a></li>
 <li><a href="#actions_fsm_Functions">actions.fsm Functions</a></li>
+<li><a href="#actions_go_Functions">actions.go Functions</a></li>
+<li><a href="#actions_input_Functions">actions.input Functions</a></li>
 <li><a href="#actions_math_Functions">actions.math Functions</a></li>
+<li><a href="#actions_template_Functions">actions.template Functions</a></li>
 <li><a href="#actions_time_Functions">actions.time Functions</a></li>
+<li><a href="#actions_transform_Functions">actions.transform Functions</a></li>
+<li><a href="#actions_vmath_Functions">actions.vmath Functions</a></li>
 </ul>
 
 
 <h2>Modules</h2>
 <ul class="nowrap">
   <li><strong>Actions</strong></li>
-  <li><a href="../modules/DMaker.html">DMaker</a></li>
+  <li><a href="../modules/Adam.html">Adam</a></li>
   <li><a href="../modules/ActionInstance.html">ActionInstance</a></li>
-  <li><a href="../modules/DmakerInstance.html">DmakerInstance</a></li>
+  <li><a href="../modules/AdamInstance.html">AdamInstance</a></li>
   <li><a href="../modules/StateInstance.html">StateInstance</a></li>
 </ul>
 
@@ -68,7 +73,7 @@
 <h2><a href="#actions_debug_Functions">actions.debug Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.debug.print">actions.debug.print(text)</a></td>
+	<td class="name" nowrap><a href="#actions.debug.print">actions.debug.print(text, is_every_second)</a></td>
 	<td class="summary">Print text to console</td>
 	</tr>
 	<tr>
@@ -80,17 +85,75 @@
 <table class="function_list">
 	<tr>
 	<td class="name" nowrap><a href="#actions.fsm.send_event">actions.fsm.send_event(target, event_name[, delay[, is_every_frame]])</a></td>
-	<td class="summary">Send event to target DMaker instance</td>
+	<td class="summary">Send event to target Adam instance</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#actions.fsm.broadcast_event">actions.fsm.broadcast_event(event_name[, is_exclude_self[, delay]])</a></td>
 	<td class="summary">Broadcast event to all active FSM</td>
 	</tr>
 </table>
+<h2><a href="#actions_go_Functions">actions.go Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#actions.go.delete_self">actions.go.delete_self([delay[, not_recursive]])</a></td>
+	<td class="summary">Delete the current game object
+ Useful for game objects that need to kill themselves, for example a projectile that explodes on impact.</td>
+	</tr>
+</table>
+<h2><a href="#actions_input_Functions">actions.input Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#actions.input.get_key">actions.input.get_key(key_name, variable[, value_to_set[, is_every_frame]])</a></td>
+	<td class="summary">Check is key is pressed.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#actions.input.get_axis_keys">actions.input.get_axis_keys(negative_key, positive_key, variable[, is_every_frame[, multiplier=1]])</a></td>
+	<td class="summary">Imitate two keys as axis.</td>
+	</tr>
+</table>
 <h2><a href="#actions_math_Functions">actions.math Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.math.add">actions.math.add(source, value[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" nowrap><a href="#set">set(source, value[, is_every_frame[, is_every_second]])</a></td>
+	<td class="summary">Set a value to a variable</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#add">add(source, value[, is_every_frame[, is_every_second]])</a></td>
+	<td class="summary">Adds a value to a variable</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#substract">substract(source, value[, is_every_frame[, is_every_second]])</a></td>
+	<td class="summary">Subtracts a value from a variable</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#multiply">multiply(source, value[, is_every_frame])</a></td>
+	<td class="summary">Multiplies a variable by another value</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#divide">divide(source, value[, is_every_frame])</a></td>
+	<td class="summary">Divides a value by another value</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#clamp">clamp(source, min, max[, is_every_frame[, is_every_second]])</a></td>
+	<td class="summary">Clamps the value of a variable to a min/max range.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#abs">abs(source[, is_every_frame])</a></td>
+	<td class="summary">Sets a float variable to its absolute value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#random">random(source, min, max[, is_every_frame[, is_every_second]])</a></td>
+	<td class="summary">Sets a variable to a random value between min/max.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#random_boolean">random_boolean(source[, is_every_frame[, is_every_second]])</a></td>
+	<td class="summary">Sets a variable to a random value true or false.</td>
+	</tr>
+</table>
+<h2><a href="#actions_template_Functions">actions.template Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#actions.template.func">actions.template.func()</a></td>
 	<td class="summary">Add operator</td>
 	</tr>
 </table>
@@ -99,6 +162,28 @@
 	<tr>
 	<td class="name" nowrap><a href="#actions.time.delay">actions.time.delay(seconds[, trigger_event])</a></td>
 	<td class="summary">Trigger event after time elapsed.</td>
+	</tr>
+</table>
+<h2><a href="#actions_transform_Functions">actions.transform Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#actions.transform.set_position">actions.transform.set_position(target_vector[, is_every_frame[, time[, finish_event[, delay[, ease_function]]]]])</a></td>
+	<td class="summary">Sets the position of a game object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#actions.transform.set_scale">actions.transform.set_scale(target_scale[, is_every_frame[, time[, finish_event[, delay[, ease_function]]]]])</a></td>
+	<td class="summary">Set scale to a game object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#actions.transform.translate">actions.transform.translate(delta_vector[, is_every_frame[, time[, finish_event[, delay[, ease_function]]]]])</a></td>
+	<td class="summary">Translates a game object via delta vector</td>
+	</tr>
+</table>
+<h2><a href="#actions_vmath_Functions">actions.vmath Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#actions.vmath.set_xyz">actions.vmath.set_xyz(source[, value_x[, value_y[, value_z[, is_every_frame]]]])</a></td>
+	<td class="summary">Sets the XYZ channels of a Vector3 variable</td>
 	</tr>
 </table>
 
@@ -121,7 +206,7 @@
     <ul>
         <li><span class="parameter">variable_name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         The variable name in DMaker instance
+         The variable name in Adam instance
         </li>
     </ul>
 
@@ -136,7 +221,7 @@
     <dl class="function">
     <dt>
     <a name = "actions.debug.print"></a>
-    <strong>actions.debug.print(text)</strong>
+    <strong>actions.debug.print(text, is_every_second)</strong>
     </dt>
     <dd>
     Print text to console
@@ -148,8 +233,18 @@
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The log message
         </li>
+        <li><span class="parameter">is_every_second</span>
+            <span class="types"><span class="type">bool</span></span>
+         Repeat this action every second
+        </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
 
 
 
@@ -171,6 +266,12 @@
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
 
 
 
@@ -185,13 +286,13 @@
     <strong>actions.fsm.send_event(target, event_name[, delay[, is_every_frame]])</strong>
     </dt>
     <dd>
-    Send event to target DMaker instance
+    Send event to target Adam instance
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">target</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a> or <span class="type">dmaker</span></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a> or <span class="type">adam</span></span>
          The target instance for send event. If there are several instances with equal ID, event will be delivered to all of them.
         </li>
         <li><span class="parameter">event_name</span>
@@ -210,6 +311,12 @@
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
 
 
 
@@ -241,6 +348,140 @@
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="actions_go_Functions"></a>actions.go Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "actions.go.delete_self"></a>
+    <strong>actions.go.delete_self([delay[, not_recursive]])</strong>
+    </dt>
+    <dd>
+    Delete the current game object
+ Useful for game objects that need to kill themselves, for example a projectile that explodes on impact.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before delete
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">not_recursive</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Set true to not delete children of deleted go
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="actions_input_Functions"></a>actions.input Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "actions.input.get_key"></a>
+    <strong>actions.input.get_key(key_name, variable[, value_to_set[, is_every_frame]])</strong>
+    </dt>
+    <dd>
+    Check is key is pressed.  Can set number instead of boolean on pressed key
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The key to check
+        </li>
+        <li><span class="parameter">variable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">value_to_set</span>
+            <span class="types"><span class="type">number</span></span>
+         Set this number or 0 instead of true/false
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.input.get_axis_keys"></a>
+    <strong>actions.input.get_axis_keys(negative_key, positive_key, variable[, is_every_frame[, multiplier=1]])</strong>
+    </dt>
+    <dd>
+    Imitate two keys as axis.  Set result in variable. If both keys are pressed, result will be 0
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">negative_key</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The key to negative check
+        </li>
+        <li><span class="parameter">positive_key</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The key to positive check
+        </li>
+        <li><span class="parameter">variable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">multiplier</span>
+            <span class="types"><span class="type">number</span></span>
+         The value to multiply result
+         (<em>default</em> 1)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
 
 
 
@@ -251,35 +492,378 @@
 
     <dl class="function">
     <dt>
-    <a name = "actions.math.add"></a>
-    <strong>actions.math.add(source, value[, is_every_frame[, is_every_second]])</strong>
+    <a name = "set"></a>
+    <strong>set(source, value[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
-    Add operator
+    Set a value to a variable
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">source</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         The variable name from DMaker instance
+         Variable to set
         </li>
         <li><span class="parameter">value</span>
-            <span class="types"><span class="type">number</span> or <span class="type">variable</span></span>
-         The number or Dmaker variable to add
+            <span class="types"><span class="type">varible</span></span>
+         The value to set
         </li>
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
-         Check true, if action should be called every frame
+         Repeat this action every frame
          (<em>optional</em>)
         </li>
         <li><span class="parameter">is_every_second</span>
             <span class="types"><span class="type">boolean</span></span>
-         Check true, if action should be called every second. Initial call is not skipped
+         Repeat this action every second
          (<em>optional</em>)
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "add"></a>
+    <strong>add(source, value[, is_every_frame[, is_every_second]])</strong>
+    </dt>
+    <dd>
+    Adds a value to a variable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to add
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">varible</span></span>
+         The value to add
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_second</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every second
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "substract"></a>
+    <strong>substract(source, value[, is_every_frame[, is_every_second]])</strong>
+    </dt>
+    <dd>
+    Subtracts a value from a variable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to substract from
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">varible</span></span>
+         The value to substract
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_second</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every second
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "multiply"></a>
+    <strong>multiply(source, value[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Multiplies a variable by another value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to multiply
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">varible</span></span>
+         The multiplier
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "divide"></a>
+    <strong>divide(source, value[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Divides a value by another value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to divide
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">varible</span></span>
+         Divide by this value
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "clamp"></a>
+    <strong>clamp(source, min, max[, is_every_frame[, is_every_second]])</strong>
+    </dt>
+    <dd>
+    Clamps the value of a variable to a min/max range.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">min</span>
+            <span class="types"><span class="type">number</span></span>
+         The minimum value allowed.
+        </li>
+        <li><span class="parameter">max</span>
+            <span class="types"><span class="type">number</span></span>
+         The maximum value allowed.
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_second</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every second
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "abs"></a>
+    <strong>abs(source[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Sets a float variable to its absolute value.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to abs
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "random"></a>
+    <strong>random(source, min, max[, is_every_frame[, is_every_second]])</strong>
+    </dt>
+    <dd>
+    Sets a variable to a random value between min/max.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">min</span>
+            <span class="types"><span class="type">variable</span></span>
+         Minimum value of the random number
+        </li>
+        <li><span class="parameter">max</span>
+            <span class="types"><span class="type">variable</span></span>
+         Maximum value of the random number.
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_second</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every second
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "random_boolean"></a>
+    <strong>random_boolean(source[, is_every_frame[, is_every_second]])</strong>
+    </dt>
+    <dd>
+    Sets a variable to a random value true or false.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_second</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every second
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="actions_template_Functions"></a>actions.template Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "actions.template.func"></a>
+    <strong>actions.template.func()</strong>
+    </dt>
+    <dd>
+    Add operator
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
 
 
 
@@ -310,6 +894,223 @@
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="actions_transform_Functions"></a>actions.transform Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "actions.transform.set_position"></a>
+    <strong>actions.transform.set_position(target_vector[, is_every_frame[, time[, finish_event[, delay[, ease_function]]]]])</strong>
+    </dt>
+    <dd>
+    Sets the position of a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_vector</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Position vector
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to translate gameobject. Incompatable with is_every_frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.set_scale"></a>
+    <strong>actions.transform.set_scale(target_scale[, is_every_frame[, time[, finish_event[, delay[, ease_function]]]]])</strong>
+    </dt>
+    <dd>
+    Set scale to a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_scale</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Scale vector
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to translate gameobject. Incompatable with is_every_frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.translate"></a>
+    <strong>actions.transform.translate(delta_vector[, is_every_frame[, time[, finish_event[, delay[, ease_function]]]]])</strong>
+    </dt>
+    <dd>
+    Translates a game object via delta vector
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">delta_vector</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Vector with x/y/z params to translate
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to translate gameobject. Incompatable with is_every_frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="actions_vmath_Functions"></a>actions.vmath Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "actions.vmath.set_xyz"></a>
+    <strong>actions.vmath.set_xyz(source[, value_x[, value_y[, value_z[, is_every_frame]]]])</strong>
+    </dt>
+    <dd>
+    Sets the XYZ channels of a Vector3 variable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">value_x</span>
+            <span class="types"><span class="type">number</span></span>
+         The x value to set. Pass nil to not change value
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">value_y</span>
+            <span class="types"><span class="type">number</span></span>
+         The y value to set. Pass nil to not change value
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">value_z</span>
+            <span class="types"><span class="type">number</span></span>
+         The z value to set. Pass nil to not change value
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
 
 
 

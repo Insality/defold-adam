@@ -1,7 +1,8 @@
-project='Defold-Maker'
-title='Defold Maker API reference'
+project='Defold-Adam'
+title='Adam API reference'
 description='FSM module for Defold with predefined actions for states'
-file={"./dmaker", exclude={"./dmaker/libs"}}
+file={"./adam", exclude={"./adam/libs"}}
 dir='./docs'
 style='!pale'
+wrap=false
 no_space_before_args=true

@@ -4,6 +4,7 @@
 
 
 local class = require("adam.libs.middleclass")
+local helper = require("adam.system.helper")
 local const = require("adam.const")
 
 --- Action context table
@@ -67,8 +68,10 @@ function ActionInstance:initialize(trigger_callback, release_callback)
 	self._is_every_frame = false
 	self._is_periodic = false
 	self._periodic_timer = false
-	self._is_deferred = false
 	self._periodic_timer_current = false
+	self._is_deferred = false
+	self._is_delayed = false
+	self._delay_seconds = nil
 	self._on_finish_callback = nil
 	self._name = ""
 
@@ -81,12 +84,12 @@ end
 -- @local
 function ActionInstance:update(dt)
 	if self._is_every_frame then
-		self:trigger()
+		self:trigger(true)
 	end
 	if self._is_periodic then
 		self._periodic_timer_current = (self._periodic_timer_current or self._periodic_timer) - dt
 		if self._periodic_timer_current <= 0 then
-			self:trigger()
+			self:trigger(true)
 			self._periodic_timer_current = self._periodic_timer
 		end
 	end
@@ -148,6 +151,16 @@ function ActionInstance:set_periodic(seconds)
 end
 
 
+--- Add delay before action is triggered. Every frame and periodic trigger will start
+-- after delay is happened. You should call finished method in action trigger function
+-- @tparam number|nil seconds Action delay
+function ActionInstance:set_delay(seconds)
+	self._is_delayed = seconds and seconds > 0
+	self._delay_seconds = seconds
+	self:set_deferred(true)
+end
+
+
 --- Set action to deferred state. To complete the action `finished` should be called
 -- @tparam[opt] boolean state The deferred state
 function ActionInstance:set_deferred(state)
@@ -173,6 +186,10 @@ end
 --- Function called when action is done. Never called on actions with "is_every_frame"
 -- or "is_per_second". Deferred actions should call manually this function
 function ActionInstance:finished()
+	if self._is_every_frame or self._is_periodic then
+		return
+	end
+
 	local callback = self._on_finish_callback
 	self._on_finish_callback = nil
 	if callback then
@@ -182,19 +199,29 @@ end
 
 
 --- Trigger action, called by StateInstance
+-- @tparam boolean skip_delay Pass true to skip action delay. Used on periodic and every frame triggers
 -- @local
-function ActionInstance:trigger()
-	self:release()
-	self._trigger_callback(self)
-	if not self._is_deferred then
-		self:finished()
-	end
+function ActionInstance:trigger(skip_delay)
+	self:_cancel_delay_timer()
+
+	local delay = skip_delay and 0 or self._delay_seconds
+	self._delay_timer_id = helper.delay(delay, function()
+		-- TODO check is need to release before action? or FSM can good control it
+		-- self:release()
+
+		self._trigger_callback(self)
+		if not self._is_deferred then
+			self:finished()
+		end
+	end)
 end
 
 
 --- Release action (cleanup), called by StateInstance
 -- @local
 function ActionInstance:release()
+	self:_cancel_delay_timer()
+
 	self._periodic_timer_current = false
 	if not self._release_callback then
 		return
@@ -225,6 +252,14 @@ end
 -- @local
 function ActionInstance:set_state_instance(state_instance)
 	self._state_instance = state_instance
+end
+
+
+function ActionInstance:_cancel_delay_timer()
+	if self._delay_timer_id then
+		timer.cancel(self._delay_timer_id)
+		self._delay_timer_id = nil
+	end
 end
 
 

@@ -2,7 +2,6 @@
 -- @submodule Actions
 
 local instances = require("adam.system.instances")
-local helper = require("adam.system.helper")
 local ActionInstance = require("adam.system.action_instance")
 
 local M = {}
@@ -17,20 +16,14 @@ local M = {}
 -- @treturn ActionInstance
 function M.send_event(target, event_name, delay, is_every_frame)
 	local action = ActionInstance(function(self)
-		self.context.timer_id = helper.delay(delay, function()
-			for _, instance in ipairs(instances.get_all_instances_with_id(target)) do
-				instance:event(event_name)
-			end
-			self:finished()
-		end)
-	end, function(self)
-		if self.context.timer_id then
-			timer.cancel(self.context.timer_id)
-			self.context.timer_id = nil
+		for _, instance in ipairs(instances.get_all_instances_with_id(target)) do
+			instance:event(event_name)
 		end
+		self:finished()
 	end)
 
-	action:set_deferred(true)
+	action:set_delay(delay)
+	action:set_every_frame(is_every_frame)
 	action:set_name("fsm.send_event")
 	return action
 end
@@ -44,22 +37,15 @@ end
 -- @treturn ActionInstance
 function M.broadcast_event(event_name, is_exclude_self, delay)
 	local action = ActionInstance(function(self)
-		self.context.timer_id = helper.delay(delay, function()
-			for _, instance in ipairs(instances.get_all_instances()) do
-				if not is_exclude_self or instance ~= self:get_adam_instance() then
-					instance:event(event_name)
-				end
+		for _, instance in ipairs(instances.get_all_instances()) do
+			if not is_exclude_self or instance ~= self:get_adam_instance() then
+				instance:event(event_name)
 			end
-			self:finished()
-		end)
-	end, function(self)
-		if self.context.timer_id then
-			timer.cancel(self.context.timer_id)
-			self.context.timer_id = nil
 		end
+		self:finished()
 	end)
 
-	action:set_deferred(true)
+	action:set_delay(delay)
 	action:set_name("fsm.broadcast_event")
 	return action
 end

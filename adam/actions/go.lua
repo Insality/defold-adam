@@ -1,7 +1,6 @@
 --- Defold Game Objects actions for create, delete and other manipulation
 -- @submodule Actions
 
-local helper = require("adam.system.helper")
 local ActionInstance = require("adam.system.action_instance")
 
 
@@ -22,19 +21,12 @@ end
 -- @treturn ActionInstance
 function M.delete_self(delay, not_recursive)
 	local action = ActionInstance(function(self)
-		self.context.timer_id = helper.delay(delay, function()
-			go.delete(".", not not_recursive)
-			self:finished()
-		end)
-	end, function(self)
-		if self.context.timer_id then
-			timer.cancel(self.context.timer_id)
-			self.context.timer_id = nil
-		end
+		go.delete(".", not not_recursive)
+		self:finished()
 	end)
 
+	action:set_delay(delay)
 	action:set_name("go.delete_self")
-	action:set_deferred(true)
 	return action
 end
 

@@ -14,40 +14,34 @@ local function change_property(target_id, target_vector, is_every_frame, time, f
 	assert(not (is_every_frame and time), const.ERROR.WRONG_TIME_PARAMS_EVERY_FRAME)
 
 	local action = ActionInstance(function(self)
-		self.context.timer_id = helper.delay(delay, function()
-			local target = self:get_param(target_vector)
+		local target = self:get_param(target_vector)
 
-			if is_relative then
-				target = target + instant_get_function(target_id, property)
-			end
+		if is_relative then
+			target = target + instant_get_function(target_id, property)
+		end
 
-			if time and time > 0 then
-				-- Setup via go.animate
-				local easing = ease_function or settings.get_default_easing()
-				self.context.animate_started = true
-				go.animate(target_id, property, go.PLAYBACK_ONCE_FORWARD, target, easing, time)
+		if time and time > 0 then
+			-- Setup via go.animate
+			local easing = ease_function or settings.get_default_easing()
+			self.context.animate_started = true
+			go.animate(target_id, property, go.PLAYBACK_ONCE_FORWARD, target, easing, time)
 
-				self.context.callback_timer_id = helper.delay(time, function()
-					self.context.animate_started = false
-					if finish_event then
-						self:event(finish_event)
-					end
-					self:finished()
-				end)
-			else
-				-- Instant property setup
-				instant_set_function(target, target_id)
+			self.context.callback_timer_id = helper.delay(time, function()
+				self.context.animate_started = false
 				if finish_event then
 					self:event(finish_event)
 				end
 				self:finished()
+			end)
+		else
+			-- Instant property setup
+			instant_set_function(target, target_id)
+			if finish_event then
+				self:event(finish_event)
 			end
-		end)
-	end, function(self)
-		if self.context.timer_id then
-			timer.cancel(self.context.timer_id)
-			self.context.timer_id = nil
+			self:finished()
 		end
+	end, function(self)
 		if self.context.animate_started then
 			go.cancel_animations(target_id, property)
 			self.context.animate_started = false
@@ -62,7 +56,7 @@ local function change_property(target_id, target_vector, is_every_frame, time, f
 		action:set_every_frame(true)
 	end
 
-	action:set_deferred(true)
+	action:set_delay(delay)
 	action:set_name(action_name)
 	return action
 end

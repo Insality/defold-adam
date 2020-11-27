@@ -1,7 +1,6 @@
 --- Actions with time like delay or get time info
 -- @submodule Actions
 
-local helper = require("adam.system.helper")
 local ActionInstance = require("adam.system.action_instance")
 
 local M = {}
@@ -14,21 +13,13 @@ local M = {}
 -- @treturn ActionInstance
 function M.delay(seconds, trigger_event)
 	local action = ActionInstance(function(self)
-		self.context.timer_id = helper.delay(seconds, function()
-			self.context.timer_id = nil
-			if trigger_event then
-				self:event(trigger_event)
-			end
-			self:finished()
-		end)
-	end, function(self)
-		if self.context.timer_id then
-			timer.cancel(self.context.timer_id)
-			self.context.timer_id = nil
+		if trigger_event then
+			self:event(trigger_event)
 		end
+		self:finished()
 	end)
 
-	action:set_deferred(true)
+	action:set_delay(seconds)
 	action:set_name("time.delay")
 	return action
 end

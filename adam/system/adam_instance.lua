@@ -159,14 +159,14 @@ function AdamInstance:_on_leave_state(event, from, to, ...)
 end
 
 
-function AdamInstance:_on_enter_state(event, from, to, ...)
+function AdamInstance:_on_enter_state(event, from, to)
 	self._current_depth = self._current_depth + 1
 	if self._current_depth >= const.MAX_STACK_DEPTH then
 		print("[Adam]: Max depth error catch. Swich from states:", self._states[from]:get_name(), self._states[to]:get_name())
 		error(const.ERROR.MAX_STACK_DEPTH_REACHED)
 	end
 	self._current_state = self._states[to]
-	self._states[to]:trigger(...)
+	self._states[to]:trigger()
 end
 
 

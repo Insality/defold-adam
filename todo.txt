@@ -1,0 +1,9 @@
+- check max stack correct (fix stack overflow)
+- add action templates
+- check pass event data (how it possible, how check group of collision for example)
+- add unit tests, how can I test the actions
+- add docs for other instance classes
+- add docs for parser, how need to form JSON doc + add meta info for visual editor
+- delay actions to actioninstance
+
+- keep add actions

@@ -3,7 +3,7 @@
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <head>
-    <title>Defold Maker API reference</title>
+    <title>Adam API reference</title>
     <link rel="stylesheet" href="../ldoc_pale.css" type="text/css" />
 </head>
 <body>
@@ -24,7 +24,7 @@
 
 <div id="navigation">
 <br/>
-<h1>Defold-Maker</h1>
+<h1>Defold-Adam</h1>
 
 <ul>
   <li><a href="../index.html">Index</a></li>
@@ -41,9 +41,9 @@
 <h2>Modules</h2>
 <ul class="nowrap">
   <li><a href="../modules/Actions.html">Actions</a></li>
-  <li><a href="../modules/DMaker.html">DMaker</a></li>
+  <li><a href="../modules/Adam.html">Adam</a></li>
   <li><strong>ActionInstance</strong></li>
-  <li><a href="../modules/DmakerInstance.html">DmakerInstance</a></li>
+  <li><a href="../modules/AdamInstance.html">AdamInstance</a></li>
   <li><a href="../modules/StateInstance.html">StateInstance</a></li>
 </ul>
 
@@ -90,6 +90,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#set_deferred">set_deferred([state])</a></td>
 	<td class="summary">Set action to deferred state.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_name">set_name(The)</a></td>
+	<td class="summary">Set the name of the action</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#get_name">get_name()</a></td>
@@ -166,8 +170,8 @@
 	<td class="summary">Set callback when action is finished.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#get_dmaker_instance">get_dmaker_instance()</a></td>
-	<td class="summary">Return action's DmakerInstance.</td>
+	<td class="name" nowrap><a href="#get_adam_instance">get_adam_instance()</a></td>
+	<td class="summary">Return action's AdamInstance.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#set_state_instance">set_state_instance(state_instance)</a></td>
@@ -369,6 +373,27 @@
             <span class="types"><span class="type">boolean</span></span>
          The deferred state
          (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_name"></a>
+    <strong>set_name(The)</strong>
+    </dt>
+    <dd>
+    Set the name of the action
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">The</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         action name
         </li>
     </ul>
 
@@ -712,18 +737,18 @@
 
 </dd>
     <dt>
-    <a name = "get_dmaker_instance"></a>
-    <strong>get_dmaker_instance()</strong>
+    <a name = "get_adam_instance"></a>
+    <strong>get_adam_instance()</strong>
     </dt>
     <dd>
-    Return action's DmakerInstance.  Used internally
+    Return action's AdamInstance.  Used internally
 
 
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">DmakerInstance</span></span>
+           <span class="types"><span class="type">AdamInstance</span></span>
 
     </ol>
 
