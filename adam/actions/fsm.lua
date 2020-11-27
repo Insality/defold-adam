@@ -19,7 +19,7 @@ function M.send_event(target, event_name, delay, is_every_frame)
 		for _, instance in ipairs(instances.get_all_instances_with_id(target)) do
 			instance:event(event_name)
 		end
-		self:finished()
+		self:finish()
 	end)
 
 	action:set_delay(delay)
@@ -42,7 +42,7 @@ function M.broadcast_event(event_name, is_exclude_self, delay)
 				instance:event(event_name)
 			end
 		end
-		self:finished()
+		self:finish()
 	end)
 
 	action:set_delay(delay)

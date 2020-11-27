@@ -60,6 +60,7 @@ function ActionInstance:initialize(trigger_callback, release_callback)
 	self._release_callback = release_callback or const.EMPTY_FUNCTION
 
 	self._state_instance = nil
+	self._is_finished = false
 
 	self._triggered_in_this_frame = false
 	self._is_every_frame = false
@@ -70,6 +71,7 @@ function ActionInstance:initialize(trigger_callback, release_callback)
 	self._is_delayed = false
 	self._delay_seconds = nil
 	self._delay_seconds_current = false
+	self._is_debug = false
 	self._name = ""
 
 	self.context = {}
@@ -83,6 +85,7 @@ function ActionInstance.static.copy(prefab)
 	local action = ActionInstance(prefab._trigger_callback, prefab._release_callback)
 
 	action._triggered_in_this_frame = prefab._triggered_in_this_frame
+	action._is_finished = prefab._is_finished
 	action._is_every_frame = prefab._is_every_frame
 	action._is_periodic = prefab._is_periodic
 	action._periodic_timer = prefab._periodic_timer
@@ -91,6 +94,7 @@ function ActionInstance.static.copy(prefab)
 	action._is_delayed = prefab._is_delayed
 	action._delay_seconds = prefab._delay_seconds
 	action._delay_seconds_current = prefab._delay_seconds_current
+	action._is_debug = prefab._is_debug
 	action._name = prefab._name
 
 	return action
@@ -101,23 +105,27 @@ end
 -- @tparam number dt Delta time
 -- @local
 function ActionInstance:update(dt)
+	if self._is_finished then
+		return
+	end
+
 	if self._delay_seconds_current and self._delay_seconds_current > 0 then
 		self._delay_seconds_current = self._delay_seconds_current - dt
 		if self._delay_seconds_current <= 0 then
-			self:trigger(true)
+			self:_trigger_action()
 		end
 	end
 
 	if self._is_periodic then
 		self._periodic_timer_current = (self._periodic_timer_current or self._periodic_timer) - dt
 		if self._periodic_timer_current <= 0 then
-			self:trigger(true)
+			self:_trigger_action()
 			self._periodic_timer_current = self._periodic_timer
 		end
 	end
 
 	if self._is_every_frame and not self._triggered_in_this_frame then
-		self:trigger(true)
+		self:_trigger_action()
 	end
 
 	self._triggered_in_this_frame = false
@@ -213,32 +221,42 @@ end
 
 
 --- Function called when action is done. Never called on actions with "is_every_frame"
--- or "is_per_second". Deferred actions should call manually this function
-function ActionInstance:finished()
+-- or "is_periodic". Deferred actions should call manually this function
+-- @tparam string trigger_event Event to trigger before finish call
+function ActionInstance:finish(trigger_event)
+	if self._is_every_frame or self._is_periodic then
+		return
+	end
+
+	if trigger_event then
+		self:event(trigger_event)
+	end
+	self:force_finish()
+end
+
+
+--- Force finish action, even with "is_every_frame" or "is_periodic". This call
+-- will stop any updates of this action
+function ActionInstance:force_finish()
+	if self._is_finished then
+		return
+	end
+
+	self._is_finished = true
 	return self._state_instance:_on_action_finish()
 end
 
 
 --- Trigger action, called by StateInstance
--- @tparam boolean skip_delay Pass true to skip action delay. Used on periodic and every frame triggers
 -- @local
-function ActionInstance:trigger(skip_delay)
+function ActionInstance:trigger()
 	self._delay_seconds_current = false
+	self._is_finished = false
 
-	local delay = skip_delay and 0 or self._delay_seconds
-	if delay and delay > 0 then
-		self._delay_seconds_current = delay
+	if self._delay_seconds and self._delay_seconds > 0 then
+		self._delay_seconds_current = self._delay_seconds
 	else
 		return self:_trigger_action()
-	end
-end
-
-
-function ActionInstance:_trigger_action()
-	self._triggered_in_this_frame = true
-	self._trigger_callback(self, self.context)
-	if not self._is_deferred then
-		return self:finished()
 	end
 end
 
@@ -249,6 +267,7 @@ function ActionInstance:release()
 	self._periodic_timer_current = false
 	self._delay_seconds_current = false
 	self._triggered_in_this_frame = false
+	self._is_finished = false
 
 	return self._release_callback(self, self.context)
 end
@@ -267,6 +286,24 @@ end
 -- @local
 function ActionInstance:set_state_instance(state_instance)
 	self._state_instance = state_instance
+end
+
+
+--- Set debug state of action. If true, will print debug info to console
+-- @tparam boolean state The debug state
+function ActionInstance:set_debug(state)
+	self._is_debug = state
+end
+
+
+--- Actual call of trigger callback. Used internally
+-- @local
+function ActionInstance:_trigger_action()
+	self._triggered_in_this_frame = true
+	self._trigger_callback(self, self.context)
+	if not self._is_deferred then
+		return self:finish()
+	end
 end
 
 

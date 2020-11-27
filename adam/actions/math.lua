@@ -21,7 +21,7 @@ local function math_operation(source, value, is_every_frame, is_every_second, ac
 		action:set_periodic(const.SECOND)
 	end
 
-	action:set_name("math.add")
+	action:set_name(action_name)
 	return action
 end
 

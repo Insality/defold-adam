@@ -16,7 +16,7 @@ function M.delay(seconds, trigger_event)
 		if trigger_event then
 			self:event(trigger_event)
 		end
-		self:finished()
+		self:finish()
 	end)
 
 	action:set_delay(seconds)
@@ -33,7 +33,7 @@ end
 function M.frames(frames, trigger_event)
 	local action = ActionInstance(function(self, context)
 		if frames <= 0 then
-			self:finished()
+			self:finish()
 		end
 
 		if context.frames == nil then
@@ -46,7 +46,7 @@ function M.frames(frames, trigger_event)
 				if trigger_event then
 					self:event(trigger_event)
 				end
-				self:finished()
+				self:force_finish()
 			end
 		end
 	end, function(self, context)

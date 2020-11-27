@@ -28,18 +28,12 @@ local function change_property(target_id, target_vector, is_every_frame, time, f
 
 			context.callback_timer_id = helper.delay(time, function()
 				context.animate_started = false
-				if finish_event then
-					self:event(finish_event)
-				end
-				self:finished()
+				self:finish(finish_event)
 			end)
 		else
 			-- Instant property setup
 			instant_set_function(target, target_id)
-			if finish_event then
-				self:event(finish_event)
-			end
-			self:finished()
+			self:finish(finish_event)
 		end
 	end, function(self, context)
 		if context.animate_started then

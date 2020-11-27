@@ -22,7 +22,7 @@ end
 function M.delete_self(delay, not_recursive)
 	local action = ActionInstance(function(self)
 		go.delete(".", not not_recursive)
-		self:finished()
+		self:finish()
 	end)
 
 	action:set_delay(delay)

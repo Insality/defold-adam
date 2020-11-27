@@ -1,22 +1,28 @@
 local M = {}
 
+
+M.SECOND = 1
+M.MAX_STACK_DEPTH = 5000
+M.EMPTY_FUNCTION = function() end
+
 M.NONE_STATE = "none"
 M.INIT_EVENT = "init"
 M.FINISHED = "finished"
-M.ACTIONS_TEMPLATE = "actions_template"
+M.TYPE_TABLE = "table"
+
 M.ANY_STATE = nil
 M.WILDCARD = "*"
-M.EMPTY_FUNCTION = function() end
+
+M.ACTIONS_TEMPLATE = "adam:actions_template"
 M.GET_ACTION_VALUE = "adam:get_action_value"
-M.TYPE_TABLE = "table"
-M.SECOND = 1
-M.MAX_STACK_DEPTH = 5000
 
 M.TRIGGER_RESPONSE = hash("trigger_response")
 
 M.EVENT = {
-	TRIGGER_ENTER = "trigger_enter",
-	TRIGGER_LEAVE = "trigger_leave",
+	TRIGGER_ENTER = "adam:trigger_enter",
+	TRIGGER_LEAVE = "adam:trigger_leave",
+	ACTION_PRESSED = "adam:action_pressed",
+	ACTION_RELEASED = "adam:action_released"
 }
 
 M.ERROR = {
@@ -25,5 +31,6 @@ M.ERROR = {
 	MAX_STACK_DEPTH_REACHED = "The Adam FSM reached max depth stack in one frame",
 	WRONG_TIME_PARAMS_EVERY_FRAME = "Action can not executed every frame and have time to execute",
 }
+
 
 return M

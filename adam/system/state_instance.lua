@@ -17,6 +17,8 @@ function StateInstance:initialize(...)
 	self._is_can_trigger_action = false
 	self._actions_in_process = 0
 
+	self._is_debug = false
+
 	for _, action in ipairs(self._actions) do
 		action:set_state_instance(self)
 	end
@@ -126,6 +128,16 @@ end
 
 function StateInstance:get_name()
 	return self._name or self._id
+end
+
+
+--- Set debug state of state. If true, will print debug info to console
+-- @tparam boolean state The debug state
+function StateInstance:set_debug(state)
+	self._is_debug = state
+	for _, action in self._actions do
+		action:set_debug(state)
+	end
 end
 
 

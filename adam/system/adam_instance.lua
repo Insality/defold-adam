@@ -168,14 +168,16 @@ function AdamInstance:_process_input(action_id, action)
 		return
 	end
 
+	self._input_current[action_id] = action
+
 	if action.pressed then
 		self._input_pressed[action_id] = action
+		self:event(const.EVENT.ACTION_PRESSED)
 	end
-
-	self._input_current[action_id] = action
 
 	if action.released then
 		self._input_released[action_id] = action
+		self:event(const.EVENT.ACTION_RELEASED)
 	end
 end
 
