@@ -3,15 +3,15 @@
 -- @module StateInstance
 
 local const = require("adam.const")
-local helper = require("adam.system.helper")
 local class = require("adam.libs.middleclass")
 local settings = require("adam.system.settings")
+local ActionInstance = require("adam.system.action_instance")
 
 local StateInstance = class("adam.state")
 
 
 function StateInstance:initialize(...)
-	self._actions = { ... }
+	self._actions = self:_load_actions({ ... })
 	self._id = settings.get_next_id()
 
 	self._is_can_trigger_action = false
@@ -126,6 +126,24 @@ end
 
 function StateInstance:get_name()
 	return self._name or self._id
+end
+
+
+function StateInstance:_load_actions(actions)
+	local loaded_actions = {}
+
+	for _, action in ipairs(actions) do
+		if action._type == const.ACTIONS_TEMPLATE then
+			local copy_actions = self:_load_actions(action._actions)
+			for _, copied_action in ipairs(copy_actions) do
+				table.insert(loaded_actions, ActionInstance.copy(copied_action))
+			end
+		else
+			table.insert(loaded_actions, action)
+		end
+	end
+
+	return loaded_actions
 end
 
 

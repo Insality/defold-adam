@@ -2,28 +2,28 @@ local adam = require("adam.adam")
 local actions = require("adam.actions")
 
 function init(self)
-	-- This one is template?
-	local movable_action = adam.template_actions(
+	-- Template example
+	local wasd_keys_get = adam.actions_template(
 		actions.input.get_axis_keys("key_a", "key_d", "hor_move", true, actions.value("speed")),
-		actions.input.get_axis_keys("key_s", "key_w", "ver_move", true, actions.value("speed")),
+		actions.input.get_axis_keys("key_s", "key_w", "ver_move", true, actions.value("speed"))
+	)
+
+	-- Nexted Template example
+	local movable_action = adam.actions_template(
+		wasd_keys_get,
 		actions.vmath.set_xyz("move_vector", actions.value("hor_move"), actions.value("ver_move"), nil, true),
 		actions.transform.translate(actions.value("move_vector"), true)
 	)
 
+	-- Template usage. It will create copy of template actions
 	local idle = adam.state(
 		actions.math.set("speed", 5),
-		actions.input.get_axis_keys("key_a", "key_d", "hor_move", true, actions.value("speed")),
-		actions.input.get_axis_keys("key_s", "key_w", "ver_move", true, actions.value("speed")),
-		actions.vmath.set_xyz("move_vector", actions.value("hor_move"), actions.value("ver_move"), nil, true),
-		actions.transform.translate(actions.value("move_vector"), true)
+		movable_action
 	)
 
 	local consume = adam.state(
 		actions.math.set("speed", 3),
-		actions.input.get_axis_keys("key_a", "key_d", "hor_move", true, actions.value("speed")),
-		actions.input.get_axis_keys("key_s", "key_w", "ver_move", true, actions.value("speed")),
-		actions.vmath.set_xyz("move_vector", actions.value("hor_move"), actions.value("ver_move"), nil, true),
-		actions.transform.translate(actions.value("move_vector"), true),
+		movable_action,
 		actions.transform.set_scale(vmath.vector3(1.1), nil, 0.25),
 		actions.transform.set_scale(vmath.vector3(1), nil, 0.25, nil, 0.25),
 		actions.time.delay(0.5, adam.FINISHED)

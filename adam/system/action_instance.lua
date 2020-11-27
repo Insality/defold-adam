@@ -4,7 +4,6 @@
 
 
 local class = require("adam.libs.middleclass")
-local helper = require("adam.system.helper")
 local const = require("adam.const")
 
 --- Action context table
@@ -58,7 +57,8 @@ local ActionInstance = class("adam.action")
 -- @tparam[opt] function release_callback The release function. Clean up stuff, it you need
 function ActionInstance:initialize(trigger_callback, release_callback)
 	self._trigger_callback = trigger_callback or const.EMPTY_FUNCTION
-	self._release_callback = release_callback
+	self._release_callback = release_callback or const.EMPTY_FUNCTION
+
 	self._state_instance = nil
 
 	self._is_every_frame = false
@@ -72,6 +72,26 @@ function ActionInstance:initialize(trigger_callback, release_callback)
 	self._name = ""
 
 	self.context = {}
+end
+
+
+--- Copy constructor
+-- @tparam ActionInstance prefab The action to copy
+-- @treturn ActionInstance Copy of prefab action
+function ActionInstance.static.copy(prefab)
+	local action = ActionInstance(prefab._trigger_callback, prefab._release_callback)
+
+	action._is_every_frame = prefab._is_every_frame
+	action._is_periodic = prefab._is_periodic
+	action._periodic_timer = prefab._periodic_timer
+	action._periodic_timer_current = prefab._periodic_timer_current
+	action._is_deferred = prefab._is_deferred
+	action._is_delayed = prefab._is_delayed
+	action._delay_seconds = prefab._delay_seconds
+	action._delay_seconds_current = prefab._delay_seconds_current
+	action._name = prefab._name
+
+	return action
 end
 
 
@@ -226,10 +246,7 @@ end
 function ActionInstance:release()
 	self._periodic_timer_current = false
 	self._delay_seconds_current = false
-
-	if self._release_callback then
-		return self._release_callback(self)
-	end
+	return self._release_callback(self)
 end
 
 

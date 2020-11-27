@@ -1,5 +1,5 @@
-- check max stack correct (fix stack overflow)
-- add action templates
++ check max stack correct (fix stack overflow)
++ add action templates
 - check pass event data (how it possible, how check group of collision for example)
 - add unit tests, how can I test the actions
 - add docs for other instance classes
@@ -7,3 +7,6 @@
 + delay actions to actioninstance
 
 - keep add actions
+
+Ideas:
+* Default variables for Adam FSM?

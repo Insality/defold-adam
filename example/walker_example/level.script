@@ -6,7 +6,8 @@ function init(self)
 
 	local idle = adam.state(
 		actions.math.add("counter", 1),
-		actions.debug.print(actions.value("counter"))
+		actions.debug.print(actions.value("counter")),
+		actions.time.delay(1)
 	):set_name("idle")
 
 	self.adam = adam.new(initial,

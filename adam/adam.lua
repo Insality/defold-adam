@@ -11,6 +11,7 @@ local StateInstance = require("adam.system.state_instance")
 local M = {}
 
 M.FINISHED = const.FINISHED
+
 M.ANY_STATE = const.ANY_STATE
 
 
@@ -38,8 +39,11 @@ function M.parse(json_data)
 end
 
 
-function M.template_actions(...)
-	
+function M.actions_template(...)
+	return {
+		_type = const.ACTIONS_TEMPLATE,
+		_actions = { ... }
+	}
 end
 
 
