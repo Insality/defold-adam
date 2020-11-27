@@ -3,11 +3,11 @@ local actions = require("adam.actions")
 
 function init(self)
 	local initial = adam.state():set_name("initial")
-	local idle = adam.state(
-		actions.debug.print("Im idle"),
-		actions.time.delay(1)
-	):set_name("idle")
 
+	local idle = adam.state(
+		actions.math.add("counter", 1),
+		actions.debug.print(actions.value("counter"))
+	):set_name("idle")
 
 	self.adam = adam.new(initial,
 		{
@@ -15,7 +15,7 @@ function init(self)
 			{idle, idle}
 		},
 		{
-			move_vector = vmath.vector3(0)
+			counter = 0
 		}
 	):start()
 end

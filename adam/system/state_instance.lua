@@ -13,7 +13,9 @@ local StateInstance = class("adam.state")
 function StateInstance:initialize(...)
 	self._actions = { ... }
 	self._id = settings.get_next_id()
-	self._is_processing = false
+
+	self._is_can_trigger_action = false
+	self._actions_in_process = 0
 
 	for _, action in ipairs(self._actions) do
 		action:set_state_instance(self)
@@ -33,28 +35,28 @@ end
 -- @local
 function StateInstance:trigger()
 	-- settings.log("On enter state", { id = self:get_name() })
-	self._is_processing = true
-
 	if #self._actions == 0 then
-		self:event(const.FINISHED)
-		return
+		return self:event(const.FINISHED)
 	end
 
-	local on_all_end_callback = helper.after(#self._actions, function()
-		if self._is_processing then
-			self:event(const.FINISHED)
-		end
-	end)
+	self._is_can_trigger_action = true
+	self._actions_in_process = #self._actions
 
 	for _, action in ipairs(self._actions) do
-		action:set_finish_callback(on_all_end_callback)
-	end
-
-	for _, action in ipairs(self._actions) do
-		if self._is_processing then
+		if self._is_can_trigger_action then
 			action:trigger()
 		end
 	end
+end
+
+
+function StateInstance:_on_action_finish()
+	self._actions_in_process = self._actions_in_process - 1
+	if self._actions_in_process > 0 or not self._is_can_trigger_action then
+		return
+	end
+
+	return self:event(const.FINISHED)
 end
 
 
@@ -63,11 +65,10 @@ end
 -- @local
 function StateInstance:release()
 	-- settings.log("On leave state", { id = self:get_name() })
-	self._is_processing = false
+	self._is_can_trigger_action = false
 
 	for _, action in ipairs(self._actions) do
 		action:release()
-		action:set_finish_callback(nil)
 	end
 end
 
@@ -75,8 +76,8 @@ end
 --- Trigger event to FSM. If state changed by one of Action, other actions below
 -- of it will not executed
 -- @tparam string event_name The event to send
-function StateInstance:event(event_name, ...)
-	self._adam_instance:event(event_name, ...)
+function StateInstance:event(event_name)
+	return self._adam_instance:event(event_name)
 end
 
 

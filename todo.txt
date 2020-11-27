@@ -4,6 +4,6 @@
 - add unit tests, how can I test the actions
 - add docs for other instance classes
 - add docs for parser, how need to form JSON doc + add meta info for visual editor
-- delay actions to actioninstance
++ delay actions to actioninstance
 
 - keep add actions

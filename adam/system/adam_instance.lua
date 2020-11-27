@@ -4,7 +4,6 @@
 
 local fsm = require("adam.libs.fsm")
 local class = require("adam.libs.middleclass")
-local settings = require("adam.system.settings")
 local const = require("adam.const")
 
 local AdamInstance = class("adam.instance")
@@ -65,11 +64,13 @@ function AdamInstance:final()
 end
 
 
-function AdamInstance:event(event_name, ...)
+function AdamInstance:event(event_name)
 	-- settings.log("Trigger event", { name = event_name })
-	if self._fsm[event_name] and self._fsm.can(event_name) then
-		self._fsm[event_name](...)
+	if not self._fsm[event_name] or not self._fsm.can(event_name) then
+		return
 	end
+
+	return self._fsm[event_name]()
 end
 
 
@@ -131,31 +132,23 @@ function AdamInstance:_init_fsm(initial_state, transitions)
 		table.insert(fsm_param.events, { from = transition1_id, to = transition2_id, name = event_name })
 	end
 
-	fsm_param.callbacks["on_leave_state"] = function(_, event, from, to, ...)
-		self:_on_leave_state(event, from, to, ...)
+	fsm_param.callbacks["on_leave_state"] = function(_, event, from, to)
+		return self:_on_leave_state(event, from, to)
 	end
 
-	fsm_param.callbacks["on_enter_state"] = function(_, event, from, to, ...)
-		self:_on_enter_state(event, from, to, ...)
-	end
-
-	--- Case when state goes to himself
-	fsm_param.callbacks["on_after_event"] = function(_, event, from, to, ...)
-		if from == to then
-			self:_on_leave_state(event, from, to, ...)
-			self:_on_enter_state(event, from, to, ...)
-		end
+	fsm_param.callbacks["on_enter_state"] = function(_, event, from, to)
+		return self:_on_enter_state(event, from, to)
 	end
 
 	return fsm.create(fsm_param)
 end
 
 
-function AdamInstance:_on_leave_state(event, from, to, ...)
+function AdamInstance:_on_leave_state(event, from, to)
 	if from == const.NONE_STATE then
 		return
 	end
-	self._states[from]:release(...)
+	return self._states[from]:release()
 end
 
 
@@ -166,7 +159,7 @@ function AdamInstance:_on_enter_state(event, from, to)
 		error(const.ERROR.MAX_STACK_DEPTH_REACHED)
 	end
 	self._current_state = self._states[to]
-	self._states[to]:trigger()
+	return self._states[to]:trigger()
 end
 
 

@@ -17,10 +17,10 @@ function M.print(text, is_every_second)
 		print(self:get_param(text))
 	end)
 
-	action:set_name("debug.print")
 	if is_every_second then
 		action:set_periodic(const.SECOND)
 	end
+	action:set_name("debug.print")
 	return action
 end
 

@@ -27,10 +27,6 @@ local const = require("adam.const")
 -- @local
 
 --- desc
--- @tfield function _on_finish_callback
--- @local
-
---- desc
 -- @tfield boolean _is_every_frame
 -- @local
 
@@ -72,7 +68,7 @@ function ActionInstance:initialize(trigger_callback, release_callback)
 	self._is_deferred = false
 	self._is_delayed = false
 	self._delay_seconds = nil
-	self._on_finish_callback = nil
+	self._delay_seconds_current = false
 	self._name = ""
 
 	self.context = {}
@@ -86,11 +82,19 @@ function ActionInstance:update(dt)
 	if self._is_every_frame then
 		self:trigger(true)
 	end
+
 	if self._is_periodic then
 		self._periodic_timer_current = (self._periodic_timer_current or self._periodic_timer) - dt
 		if self._periodic_timer_current <= 0 then
 			self:trigger(true)
 			self._periodic_timer_current = self._periodic_timer
+		end
+	end
+
+	if self._delay_seconds_current and self._delay_seconds_current > 0 then
+		self._delay_seconds_current = self._delay_seconds_current - dt
+		if self._delay_seconds_current <= 0 then
+			self:trigger(true)
 		end
 	end
 end
@@ -190,11 +194,7 @@ function ActionInstance:finished()
 		return
 	end
 
-	local callback = self._on_finish_callback
-	self._on_finish_callback = nil
-	if callback then
-		callback()
-	end
+	return self._state_instance:_on_action_finish()
 end
 
 
@@ -202,40 +202,34 @@ end
 -- @tparam boolean skip_delay Pass true to skip action delay. Used on periodic and every frame triggers
 -- @local
 function ActionInstance:trigger(skip_delay)
-	self:_cancel_delay_timer()
+	self._delay_seconds_current = false
 
 	local delay = skip_delay and 0 or self._delay_seconds
-	self._delay_timer_id = helper.delay(delay, function()
-		-- TODO check is need to release before action? or FSM can good control it
-		-- self:release()
+	if delay and delay > 0 then
+		self._delay_seconds_current = delay
+	else
+		return self:_trigger_action()
+	end
+end
 
-		self._trigger_callback(self)
-		if not self._is_deferred then
-			self:finished()
-		end
-	end)
+
+function ActionInstance:_trigger_action()
+	self._trigger_callback(self)
+	if not self._is_deferred then
+		return self:finished()
+	end
 end
 
 
 --- Release action (cleanup), called by StateInstance
 -- @local
 function ActionInstance:release()
-	self:_cancel_delay_timer()
-
 	self._periodic_timer_current = false
-	if not self._release_callback then
-		return
+	self._delay_seconds_current = false
+
+	if self._release_callback then
+		return self._release_callback(self)
 	end
-
-	self._release_callback(self)
-end
-
-
---- Set callback when action is finished. Used internally
--- @tparam function callback
--- @local
-function ActionInstance:set_finish_callback(callback)
-	self._on_finish_callback = callback
 end
 
 
@@ -253,15 +247,6 @@ end
 function ActionInstance:set_state_instance(state_instance)
 	self._state_instance = state_instance
 end
-
-
-function ActionInstance:_cancel_delay_timer()
-	if self._delay_timer_id then
-		timer.cancel(self._delay_timer_id)
-		self._delay_timer_id = nil
-	end
-end
-
 
 
 return ActionInstance

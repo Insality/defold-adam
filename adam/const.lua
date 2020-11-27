@@ -9,7 +9,7 @@ M.EMPTY_FUNCTION = function() end
 M.GET_ACTION_VALUE = "adam:get_action_value"
 M.TYPE_TABLE = "table"
 M.SECOND = 1
-M.MAX_STACK_DEPTH = 10000
+M.MAX_STACK_DEPTH = 5000
 
 M.TRIGGER_RESPONSE = hash("trigger_response")
 
