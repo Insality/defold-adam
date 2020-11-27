@@ -4,8 +4,8 @@ local actions = require("adam.actions")
 function init(self)
 	-- Template example
 	local wasd_keys_get = adam.actions_template(
-		actions.input.get_axis_keys("key_a", "key_d", "hor_move", true, actions.value("speed")),
-		actions.input.get_axis_keys("key_s", "key_w", "ver_move", true, actions.value("speed"))
+		actions.input.get_axis_actions("key_a", "key_d", "hor_move", true, actions.value("speed")),
+		actions.input.get_axis_actions("key_s", "key_w", "ver_move", true, actions.value("speed"))
 	)
 
 	-- Nexted Template example

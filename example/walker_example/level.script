@@ -2,11 +2,11 @@ local adam = require("adam.adam")
 local actions = require("adam.actions")
 
 function init(self)
-	local initial = adam.state():set_name("initial")
+	local initial = adam.state()
 
 	local idle = adam.state(
-		actions.math.add("counter", 1),
-		actions.debug.print(actions.value("counter")),
+		actions.input.get_action("touch", "is_touch"),
+		actions.debug.print(actions.value("is_touch")),
 		actions.time.delay(1)
 	):set_name("idle")
 
@@ -16,9 +16,12 @@ function init(self)
 			{idle, idle}
 		},
 		{
-			counter = 0
+			counter = 0,
+			is_touch = 0
 		}
 	):start()
+
+	msg.post(".", "acquire_input_focus")
 end
 
 
