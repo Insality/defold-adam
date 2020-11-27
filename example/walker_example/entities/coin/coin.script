@@ -5,15 +5,15 @@ function init(self)
 	local initial = adam.state()
 
 	local scale_down = adam.state(
-		actions.transform.set_scale(vmath.vector3(0.5), false, 1)
+		actions.transform.animate_scale(vmath.vector3(0.5), 1)
 	)
 
 	local scale_up = adam.state(
-		actions.transform.set_scale(vmath.vector3(0.6), false, 1)
+		actions.transform.animate_scale(vmath.vector3(0.6), 1)
 	)
 
 	local collect = adam.state(
-		actions.transform.set_scale(vmath.vector3(0.1), false, 0.2),
+		actions.transform.animate_scale(vmath.vector3(0.1), 0.2),
 		actions.go.delete_self(0.2)
 	)
 

@@ -228,21 +228,23 @@ function ActionInstance:finish(trigger_event)
 		return
 	end
 
-	if trigger_event then
-		self:event(trigger_event)
-	end
-	self:force_finish()
+	self:force_finish(trigger_event)
 end
 
 
 --- Force finish action, even with "is_every_frame" or "is_periodic". This call
 -- will stop any updates of this action
-function ActionInstance:force_finish()
+-- @tparam string trigger_event Event to trigger before finish call
+function ActionInstance:force_finish(trigger_event)
 	if self._is_finished then
 		return
 	end
 
 	self._is_finished = true
+
+	if trigger_event then
+		self:event(trigger_event)
+	end
 	return self._state_instance:_on_action_finish()
 end
 
