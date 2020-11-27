@@ -25,4 +25,38 @@ function M.delay(seconds, trigger_event)
 end
 
 
+--- Trigger event after amount of frames. Trigger event is optional
+-- @function actions.time.frames
+-- @tparam number frmes Amount of frames to wait
+-- @tparam[opt] string trigger_event Name of trigger event
+-- @treturn ActionInstance
+function M.frames(frames, trigger_event)
+	local action = ActionInstance(function(self, context)
+		if frames <= 0 then
+			self:finished()
+		end
+
+		if context.frames == nil then
+			context.frames = frames
+		end
+
+		if context.frames >= 0 then
+			context.frames = context.frames - 1
+			if context.frames < 0 then
+				if trigger_event then
+					self:event(trigger_event)
+				end
+				self:finished()
+			end
+		end
+	end, function(self, context)
+		context.frames = nil
+	end)
+
+	action:set_every_frame(true)
+	action:set_name("time.frames")
+	return action
+end
+
+
 return M

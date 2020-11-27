@@ -13,7 +13,7 @@ local M = {}
 local function change_property(target_id, target_vector, is_every_frame, time, finish_event, delay, ease_function, action_name, property, instant_set_function, instant_get_function, is_relative)
 	assert(not (is_every_frame and time), const.ERROR.WRONG_TIME_PARAMS_EVERY_FRAME)
 
-	local action = ActionInstance(function(self)
+	local action = ActionInstance(function(self, context)
 		local target = self:get_param(target_vector)
 
 		if is_relative then
@@ -23,11 +23,11 @@ local function change_property(target_id, target_vector, is_every_frame, time, f
 		if time and time > 0 then
 			-- Setup via go.animate
 			local easing = ease_function or settings.get_default_easing()
-			self.context.animate_started = true
+			context.animate_started = true
 			go.animate(target_id, property, go.PLAYBACK_ONCE_FORWARD, target, easing, time)
 
-			self.context.callback_timer_id = helper.delay(time, function()
-				self.context.animate_started = false
+			context.callback_timer_id = helper.delay(time, function()
+				context.animate_started = false
 				if finish_event then
 					self:event(finish_event)
 				end
@@ -41,14 +41,14 @@ local function change_property(target_id, target_vector, is_every_frame, time, f
 			end
 			self:finished()
 		end
-	end, function(self)
-		if self.context.animate_started then
+	end, function(self, context)
+		if context.animate_started then
 			go.cancel_animations(target_id, property)
-			self.context.animate_started = false
+			context.animate_started = false
 		end
-		if self.context.callback_timer_id then
-			timer.cancel(self.context.callback_timer_id)
-			self.context.callback_timer_id = false
+		if context.callback_timer_id then
+			timer.cancel(context.callback_timer_id)
+			context.callback_timer_id = false
 		end
 	end)
 

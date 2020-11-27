@@ -61,6 +61,7 @@ function ActionInstance:initialize(trigger_callback, release_callback)
 
 	self._state_instance = nil
 
+	self._triggered_in_this_frame = false
 	self._is_every_frame = false
 	self._is_periodic = false
 	self._periodic_timer = false
@@ -81,6 +82,7 @@ end
 function ActionInstance.static.copy(prefab)
 	local action = ActionInstance(prefab._trigger_callback, prefab._release_callback)
 
+	action._triggered_in_this_frame = prefab._triggered_in_this_frame
 	action._is_every_frame = prefab._is_every_frame
 	action._is_periodic = prefab._is_periodic
 	action._periodic_timer = prefab._periodic_timer
@@ -99,8 +101,11 @@ end
 -- @tparam number dt Delta time
 -- @local
 function ActionInstance:update(dt)
-	if self._is_every_frame then
-		self:trigger(true)
+	if self._delay_seconds_current and self._delay_seconds_current > 0 then
+		self._delay_seconds_current = self._delay_seconds_current - dt
+		if self._delay_seconds_current <= 0 then
+			self:trigger(true)
+		end
 	end
 
 	if self._is_periodic then
@@ -111,12 +116,11 @@ function ActionInstance:update(dt)
 		end
 	end
 
-	if self._delay_seconds_current and self._delay_seconds_current > 0 then
-		self._delay_seconds_current = self._delay_seconds_current - dt
-		if self._delay_seconds_current <= 0 then
-			self:trigger(true)
-		end
+	if self._is_every_frame and not self._triggered_in_this_frame then
+		self:trigger(true)
 	end
+
+	self._triggered_in_this_frame = false
 end
 
 
@@ -157,7 +161,8 @@ function ActionInstance:get_param(param)
 end
 
 
---- Set action triggered every frame
+--- Set action triggered every frame. Initial trigger not canceled.
+-- Action will not call in trigger action frame
 -- @tparam[opt] boolean state The every frame state
 function ActionInstance:set_every_frame(state)
 	self._is_every_frame = state
@@ -210,10 +215,6 @@ end
 --- Function called when action is done. Never called on actions with "is_every_frame"
 -- or "is_per_second". Deferred actions should call manually this function
 function ActionInstance:finished()
-	if self._is_every_frame or self._is_periodic then
-		return
-	end
-
 	return self._state_instance:_on_action_finish()
 end
 
@@ -234,7 +235,8 @@ end
 
 
 function ActionInstance:_trigger_action()
-	self._trigger_callback(self)
+	self._triggered_in_this_frame = true
+	self._trigger_callback(self, self.context)
 	if not self._is_deferred then
 		return self:finished()
 	end
@@ -246,7 +248,9 @@ end
 function ActionInstance:release()
 	self._periodic_timer_current = false
 	self._delay_seconds_current = false
-	return self._release_callback(self)
+	self._triggered_in_this_frame = false
+
+	return self._release_callback(self, self.context)
 end
 
 
