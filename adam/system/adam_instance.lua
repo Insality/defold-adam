@@ -1,5 +1,5 @@
 --- All Adam instances created by this calss. Instantiate it via `adam.new()`.
--- @module Adam
+-- @module AdamInstance
 
 local fsm = require("adam.libs.fsm")
 local class = require("adam.libs.middleclass")
@@ -263,6 +263,7 @@ end
 
 
 --- Process messages to send it to Adam FSM is possile
+-- @local
 function AdamInstance:_process_message(message_id, message, sender)
 	if message_id == const.TRIGGER_RESPONSE then
 		-- pprint(message_id, message)
