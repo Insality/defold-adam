@@ -8,8 +8,18 @@ local M = {}
 
 
 -- @treturn ActionInstance
-function M.create_object()
+function M.create_object(factory_url, position, variable, delay)
+	local action = ActionInstance(function(self)
+		local go_id = factory.create(factory_url, position)
+		if variable then
+			self:set_value(variable, go_id)
+		end
+		self:finish()
+	end)
 
+	action:set_delay(delay)
+	action:set_name("go.create_object")
+	return action
 end
 
 

@@ -3,43 +3,41 @@ local adam = require("adam.adam")
 local actions = require("adam.actions")
 
 function init(self)
-	local initial = adam.state():set_name("Initial")
+	local initial = adam.state()
 
 	local state = adam.state(
+		actions.debug.print("State 1")
+	):set_name("State 1")
+
+	local state2 = adam.state(
 		actions.debug.print("State 2")
 	):set_name("State 2")
 
-	local state2 = adam.state(
-		actions.debug.print("State 3"),
-		actions.fsm.broadcast_event("from_any_state", false, 1)
-	):set_name("State 3")
-
 	local state3 = adam.state(
-		actions.debug.print("State 4"),
+		actions.debug.print("State 3"),
 		actions.math.add("counter", 1),
 		actions.debug.print(actions.value("counter")),
-		actions.time.delay(0.5, "tostate2")
-	):set_name("State 4")
+		actions.time.delay(1, "to_state_2")
+	):set_name("State 3")
 
-	local from_any_state = adam.state():set_name("any state")
+	local from_any_state = adam.state():set_name("State Any")
 
-	self.fsm = adam.new(initial,
+	self.adam = adam.new(initial,
 		{
 			{initial, state, adam.FINISHED},
 			{state, state2, adam.FINISHED},
 			{state2, state3, adam.FINISHED},
-			{state3, state2, "tostate2"},
+			{state3, state2, "to_state_2"},
 			{adam.ANY_STATE, from_any_state, "from_any_state"},
 			{from_any_state, state, adam.FINISHED}
 		},
 		{
 			counter = 0
 		}
-	)
-	self.fsm:start()
+	):start()
 end
 
 
 function update(self, dt)
-	self.fsm:update(dt)
+	self.adam:update(dt)
 end

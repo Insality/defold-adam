@@ -2,24 +2,30 @@ local adam = require("adam.adam")
 local actions = require("adam.actions")
 
 function init(self)
-	local initial = adam.state()
+	local initial = adam.state(
+	):set_name("Initial")
 
 	local idle = adam.state(
-		actions.input.get_action("touch", "is_touch"),
-		actions.debug.print(actions.value("is_touch")),
-		actions.time.delay(1)
+		-- actions.input.get_action("touch", "is_touch"),
+		-- actions.debug.print(actions.value("is_touch")),
+		actions.time.delay(0.2, "experiment")
 	):set_name("idle")
+
+	local error_state = adam.state(
+		actions.debug.print("Error state")
+	)
 
 	self.adam = adam.new(initial,
 		{
 			{initial, idle},
-			{idle, idle}
+			{idle, initial, "experiment"},
+			{idle, error_state}
 		},
 		{
 			counter = 0,
 			is_touch = 0
 		}
-	)--:start()
+	):start()
 
 	msg.post(".", "acquire_input_focus")
 end

@@ -9,8 +9,7 @@ function init(self)
 		actions.input.get_axis_actions("key_a", "key_d", "hor_move", true, actions.value("speed")),
 		actions.input.get_axis_actions("key_s", "key_w", "ver_move", true, actions.value("speed"))
 	)
-
-	-- Nexted Template example
+	-- Nested Template example
 	local movable_action = adam.actions_template(
 		wasd_keys_get,
 		actions.vmath.set_xyz("move_vector", actions.value("hor_move"), actions.value("ver_move"), nil, true),
@@ -19,14 +18,12 @@ function init(self)
 
 	-- Template usage. It will create copy of template actions
 	local idle = adam.state(
-		actions.debug.print("idle state"),
 		actions.math.set("speed", 5),
-		actions.input.get_action("key_space", nil, true, "touch_pressed"),
+		actions.input.get_action_pressed("touch", nil, true, "on_fire"),
 		movable_action
 	)
 
 	local consume = adam.state(
-		actions.debug.print("consume state"),
 		actions.math.set("speed", 3),
 		movable_action,
 		actions.transform.animate_scale(vmath.vector3(1.1), 0.25),
@@ -34,11 +31,17 @@ function init(self)
 		actions.time.delay(0.5, adam.FINISHED)
 	)
 
+	local shoot = adam.state(
+		actions.debug.print("SHOOT"),
+		actions.go.create_object("#projectiles")
+	)
+
 	self.adam = adam.new(idle,
 		{
 			{idle, consume, actions.EVENT.TRIGGER_ENTER},
 			{consume, idle},
-			{idle, consume, "touch_pressed"}
+			{idle, shoot, "on_fire"},
+			{shoot, idle}
 		},
 		{
 			speed = 5,
