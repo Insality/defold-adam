@@ -70,6 +70,7 @@ function ActionInstance:initialize(trigger_callback, release_callback)
 	self._is_delayed = false
 	self._delay_seconds = nil
 	self._delay_seconds_current = false
+	self._is_skip_initial_call = false
 	self._is_debug = false
 	self._name = ""
 
@@ -93,6 +94,7 @@ function ActionInstance.static.copy(prefab)
 	action._is_delayed = prefab._is_delayed
 	action._delay_seconds = prefab._delay_seconds
 	action._delay_seconds_current = prefab._delay_seconds_current
+	action._is_skip_initial_call = prefab._is_skip_initial_call
 	action._is_debug = prefab._is_debug
 	action._name = prefab._name
 
@@ -168,22 +170,32 @@ function ActionInstance:get_param(param)
 end
 
 
---- Set action triggered every frame. Initial trigger not canceled.
+--- Set action triggered every frame.
 -- Action will not call in trigger action frame
 -- @tparam[opt] boolean state The every frame state
-function ActionInstance:set_every_frame(state)
+-- @tparam[opt] boolean skip_initial_call If true, skip first initial call on state enter
+function ActionInstance:set_every_frame(state, skip_initial_call)
 	self._is_every_frame = state
 	self:set_deferred(true)
+
+	if skip_initial_call then
+		self._is_skip_initial_call = skip_initial_call
+	end
 end
 
 
---- Set periodic trigger of action. Initial trigger not canceled
+--- Set periodic trigger of action.
 -- @tparam[opt] number seconds The time between triggers
-function ActionInstance:set_periodic(seconds)
+-- @tparam[opt] boolean skip_initial_call If true, skip first initial call on state enter
+function ActionInstance:set_periodic(seconds, skip_initial_call)
 	local is_periodic = seconds and seconds > 0
 	self._is_periodic = is_periodic
 	self._periodic_timer = seconds
 	self:set_deferred(true)
+
+	if skip_initial_call then
+		self._is_skip_initial_call = skip_initial_call
+	end
 end
 
 
@@ -263,6 +275,9 @@ function ActionInstance:trigger()
 	if self._delay_seconds and self._delay_seconds > 0 then
 		self._delay_seconds_current = self._delay_seconds
 	else
+		if self._is_skip_initial_call then
+			return
+		end
 		return self:_trigger_action()
 	end
 end

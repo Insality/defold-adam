@@ -7,7 +7,7 @@ local ActionInstance = require("adam.system.action_instance")
 local M = {}
 
 
-local function get_input_status(action_id, variable, is_every_frame, trigger_event, func_to_get_name)
+local function get_input_status(action_id, variable, in_update_only, trigger_event, func_to_get_name)
 	local action = ActionInstance(function(self)
 		local adam_instance = self:get_adam_instance()
 		local value = adam_instance[func_to_get_name](adam_instance, self:get_param(action_id)) and true or false
@@ -19,8 +19,8 @@ local function get_input_status(action_id, variable, is_every_frame, trigger_eve
 		end
 	end)
 
-	if is_every_frame then
-		action:set_every_frame(true)
+	if in_update_only then
+		action:set_every_frame(true, true)
 	end
 
 	return action
@@ -31,10 +31,10 @@ end
 -- @function actions.input.get_action
 -- @tparam string key_name The key to check
 -- @tparam string variable Variable to set
--- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] boolean in_update_only Repeat this action every frame
 -- @treturn ActionInstance
-function M.get_action(action_id, variable, is_every_frame, trigger_event)
-	local action = get_input_status(action_id, variable, is_every_frame, trigger_event, "get_input_current")
+function M.get_action(action_id, variable, in_update_only, trigger_event)
+	local action = get_input_status(action_id, variable, in_update_only, trigger_event, "get_input_current")
 	action:set_name("input.get_action")
 	return action
 end
@@ -44,10 +44,10 @@ end
 -- @function actions.input.get_action_pressed
 -- @tparam string key_name The key to check
 -- @tparam string variable Variable to set
--- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] boolean in_update_only Repeat this action every frame
 -- @treturn ActionInstance
-function M.get_action_pressed(action_id, variable, is_every_frame, trigger_event)
-	local action = get_input_status(action_id, variable, is_every_frame, trigger_event, "get_input_pressed")
+function M.get_action_pressed(action_id, variable, in_update_only, trigger_event)
+	local action = get_input_status(action_id, variable, in_update_only, trigger_event, "get_input_pressed")
 	action:set_name("input.get_action_pressed")
 	return action
 end
@@ -57,10 +57,10 @@ end
 -- @function actions.input.get_action_released
 -- @tparam string key_name The key to check
 -- @tparam string variable Variable to set
--- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] boolean in_update_only Repeat this action every frame
 -- @treturn ActionInstance
-function M.get_action_released(action_id, variable, is_every_frame, trigger_event)
-	local action = get_input_status(action_id, variable, is_every_frame, trigger_event, "get_input_released")
+function M.get_action_released(action_id, variable, in_update_only, trigger_event)
+	local action = get_input_status(action_id, variable, in_update_only, trigger_event, "get_input_released")
 	action:set_name("input.get_action_released")
 	return action
 end
