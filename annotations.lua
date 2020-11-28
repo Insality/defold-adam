@@ -47,6 +47,7 @@ function ActionInstance.initialize(trigger_callback, release_callback) end
 
 --- Set debug state of action.
 ---@param state boolean The debug state
+---@return ActionInstance Self
 function ActionInstance.set_debug(state) end
 
 --- Set action to deferred state.
@@ -59,7 +60,8 @@ function ActionInstance.set_delay(seconds) end
 
 --- Set action triggered every frame.
 ---@param state boolean The every frame state
-function ActionInstance.set_every_frame(state) end
+---@param skip_initial_call boolean If true, skip first initial call on state enter
+function ActionInstance.set_every_frame(state, skip_initial_call) end
 
 --- Set the name of the action
 ---@param name string The action name
@@ -67,7 +69,8 @@ function ActionInstance.set_name(name) end
 
 --- Set periodic trigger of action.
 ---@param seconds number The time between triggers
-function ActionInstance.set_periodic(seconds) end
+---@param skip_initial_call boolean If true, skip first initial call on state enter
+function ActionInstance.set_periodic(seconds, skip_initial_call) end
 
 --- Set variable value in action's FSM
 ---@param variable_name string The name of variable in FSM
@@ -82,6 +85,75 @@ local ActionInstance__static = {}
 ---@param prefab ActionInstance The action to copy
 ---@return ActionInstance Copy of prefab action
 function ActionInstance__static.copy(prefab) end
+
+
+---@class AdamInstance
+local AdamInstance = {}
+
+--- Check available to make transition from current state with event
+---@param event string name The trigger event
+---@return boolean True, if FSM will make transition on this event
+function AdamInstance.can_transition(event) end
+
+--- Trigger event in Adam FSM.
+---@param event_name string The trigger event name
+function AdamInstance.event(event_name) end
+
+--- Adam final function.
+function AdamInstance.final() end
+
+--- Get id of current Adam instance
+---@return hash The Adam Instance id
+function AdamInstance.get_id() end
+
+--- Return variable value from Adam instance
+---@param variable_name string The name of variable in FSM
+---@return variable
+function AdamInstance.get_value(variable_name) end
+
+--- Adam Instance constructor function.
+---@param initial_state StateInstance The initial FSM state. It will be triggered on start
+---@param transitions StateInstance[] The array of next structure: {state_instance, state_instance, [event]},  describe transitiom from first state to second on event. By default event is adam.FINISHED
+---@param variables table Defined FSM variables. All variables should be defined before use
+---@return AdamInstance
+function AdamInstance.initialize(initial_state, transitions, variables) end
+
+--- Adam on_input function.
+---@param action_id hash The input action_id
+---@param action table The input action info
+function AdamInstance.on_input(action_id, action) end
+
+--- Adam on_message function.
+---@param message_id hash The message_id
+---@param message table The message info
+---@param sender hash The message sender id
+function AdamInstance.on_message(message_id, message, sender) end
+
+--- Set debug state of state.
+---@param is_debug boolean The debug state
+---@return AdamInstance Self
+function AdamInstance.set_debug(is_debug) end
+
+--- Set id for Adam instance.
+---@param hash hash The Adam Instance id
+function AdamInstance.set_id(hash) end
+
+--- Set name for Adam Instance.
+---@param name string The Adam Instance name
+function AdamInstance.set_name(name) end
+
+--- Set variable value in Adam instance
+---@param variable_name string The name of variable in FSM
+---@param value any New value for variable
+function AdamInstance.set_value(variable_name, value) end
+
+--- Start the Adam Instance.
+---@return AdamInstance
+function AdamInstance.start() end
+
+--- Adam update functions.
+---@param dt numbet The delta time
+function AdamInstance.update(dt) end
 
 
 ---@class StateInstance
@@ -105,6 +177,7 @@ function StateInstance.initialize(...) end
 
 --- Set debug state of state.
 ---@param state boolean The debug state
+---@return StateInstance Self
 function StateInstance.set_debug(state) end
 
 --- Set name for State Instance.
@@ -118,6 +191,7 @@ function StateInstance.set_name(name) end
 ---@field go actions.go Submodule
 ---@field input actions.input Submodule
 ---@field math actions.math Submodule
+---@field msg actions.msg Submodule
 ---@field template actions.template Submodule
 ---@field time actions.time Submodule
 ---@field transform actions.transform Submodule
@@ -162,11 +236,41 @@ function actions__fsm.send_event(target, event_name, delay, is_every_frame) end
 ---@class actions.go
 local actions__go = {}
 
+--- Spawn game object via factory
+---@param factory_url url The factory component to be used
+---@param position vector3 The position to set
+---@param variable variable The variable to store created game object id
+---@param delay number The Time delay in seconds
+---@param scale vector3 The scale to set
+---@param rotation vector3 The rotation to set
+---@param properties table The properties to set
+---@return ActionInstance
+function actions__go.create_object(factory_url, position, variable, delay, scale, rotation, properties) end
+
+--- Delete the game object
+---@param target url The game object to delete, self by default
+---@param delay number Delay before delete
+---@param not_recursive boolean Set true to not delete children of deleted go
+---@return ActionInstance
+function actions__go.delete_object(target, delay, not_recursive) end
+
 --- Delete the current game object  Useful for game objects that need to kill themselves, for example a projectile that explodes on impact.
 ---@param delay number Delay before delete
 ---@param not_recursive boolean Set true to not delete children of deleted go
 ---@return ActionInstance
 function actions__go.delete_self(delay, not_recursive) end
+
+--- Enable the receiving component
+---@param target url The game object to delete
+---@param delay number Delay before delete
+---@return ActionInstance
+function actions__go.disable_object(target, delay) end
+
+--- Enable the receiving component
+---@param target url The game object to delete
+---@param delay number Delay before delete
+---@return ActionInstance
+function actions__go.enable_object(target, delay) end
 
 
 ---@class actions.input
@@ -175,23 +279,26 @@ local actions__input = {}
 --- Check is action_id is active now.
 ---@param key_name string The key to check
 ---@param variable string Variable to set
----@param is_every_frame boolean Repeat this action every frame
+---@param in_update_only boolean Repeat this action every frame
+---@param trigger_event string The event to trigger on true condition
 ---@return ActionInstance
-function actions__input.get_action(key_name, variable, is_every_frame) end
+function actions__input.get_action(key_name, variable, in_update_only, trigger_event) end
 
 --- Check is action_id was pressed.
 ---@param key_name string The key to check
 ---@param variable string Variable to set
----@param is_every_frame boolean Repeat this action every frame
+---@param in_update_only boolean Repeat this action every frame
+---@param trigger_event string The event to trigger on true condition
 ---@return ActionInstance
-function actions__input.get_action_pressed(key_name, variable, is_every_frame) end
+function actions__input.get_action_pressed(key_name, variable, in_update_only, trigger_event) end
 
 --- Check is action_id was released.
 ---@param key_name string The key to check
 ---@param variable string Variable to set
----@param is_every_frame boolean Repeat this action every frame
+---@param in_update_only boolean Repeat this action every frame
+---@param trigger_event string The event to trigger on true condition
 ---@return ActionInstance
-function actions__input.get_action_released(key_name, variable, is_every_frame) end
+function actions__input.get_action_released(key_name, variable, in_update_only, trigger_event) end
 
 --- Imitate two keys as axis.
 ---@param negative_action string The action_id to negative check
@@ -201,6 +308,33 @@ function actions__input.get_action_released(key_name, variable, is_every_frame) 
 ---@param multiplier number The value to multiply result
 ---@return ActionInstance
 function actions__input.get_axis_actions(negative_action, positive_action, variable, is_every_frame, multiplier) end
+
+--- Check is action_id is active now on sprite_url
+---@param key_name string The key to check
+---@param sprite_url url The sprite url to check input action
+---@param variable string Variable to set
+---@param in_update_only boolean Repeat this action every frame
+---@param trigger_event string The event to trigger on true condition
+---@return ActionInstance
+function actions__input.get_sprite_action(key_name, sprite_url, variable, in_update_only, trigger_event) end
+
+--- Check is action_id is active now on sprite_url
+---@param key_name string The key to check
+---@param sprite_url url The sprite url to check input action
+---@param variable string Variable to set
+---@param in_update_only boolean Repeat this action every frame
+---@param trigger_event string The event to trigger on true condition
+---@return ActionInstance
+function actions__input.get_sprite_action_pressed(key_name, sprite_url, variable, in_update_only, trigger_event) end
+
+--- Check is action_id is active now on sprite_url
+---@param key_name string The key to check
+---@param sprite_url url The sprite url to check input action
+---@param variable string Variable to set
+---@param in_update_only boolean Repeat this action every frame
+---@param trigger_event string The event to trigger on true condition
+---@return ActionInstance
+function actions__input.get_sprite_action_released(key_name, sprite_url, variable, in_update_only, trigger_event) end
 
 
 ---@class actions.math
@@ -274,6 +408,17 @@ function actions__math.set(source, min, max, is_every_frame, is_every_second) en
 ---@param is_every_second boolean Repeat this action every second
 ---@return ActionInstance
 function actions__math.substract(source, value, is_every_frame, is_every_second) end
+
+
+---@class actions.msg
+local actions__msg = {}
+
+--- Post message via msg.post
+---@param target url The receiver url
+---@param message_id string The message id to send
+---@param A table lua table with message parameters to send
+---@return ActionInstance
+function actions__msg.post(target, message_id, A) end
 
 
 ---@class actions.template
@@ -366,6 +511,17 @@ function adam.state(...) end
 
 ---@class adam.actions
 local adam__actions = {}
+
+--- Spawn game objects via collection factory
+---@param collection_factory_url url The colection factory component to be used
+---@param position vector3 The position to set
+---@param variable variable The variable to store created game object id
+---@param delay number The Time delay in seconds
+---@param scale vector3 The scale to set
+---@param rotation vector3 The rotation to set
+---@param properties table The properties to set
+---@return ActionInstance
+function adam__actions.create_objects(collection_factory_url, position, variable, delay, scale, rotation, properties) end
 
 --- Return value from FSM variables for action params
 ---@param variable_name string The variable name in Adam instance

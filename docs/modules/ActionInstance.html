@@ -43,7 +43,8 @@
   <li><a href="../modules/Actions.html">Actions</a></li>
   <li><a href="../modules/Adam.html">Adam</a></li>
   <li><strong>ActionInstance</strong></li>
-  <li><a href="../modules/Adam.html">Adam</a></li>
+  <li><a href="../modules/AdamInstance.html">AdamInstance</a></li>
+  <li><a href="../modules/system.helper.html">system.helper</a></li>
   <li><a href="../modules/StateInstance.html">StateInstance</a></li>
 </ul>
 
@@ -84,11 +85,11 @@
 	<td class="summary">Check if param value is from FSM variables.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#set_every_frame">set_every_frame([state])</a></td>
+	<td class="name" nowrap><a href="#set_every_frame">set_every_frame([state[, skip_initial_call]])</a></td>
 	<td class="summary">Set action triggered every frame.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#set_periodic">set_periodic([seconds])</a></td>
+	<td class="name" nowrap><a href="#set_periodic">set_periodic([seconds[, skip_initial_call]])</a></td>
 	<td class="summary">Set periodic trigger of action.</td>
 	</tr>
 	<tr>
@@ -352,10 +353,10 @@
 </dd>
     <dt>
     <a name = "set_every_frame"></a>
-    <strong>set_every_frame([state])</strong>
+    <strong>set_every_frame([state[, skip_initial_call]])</strong>
     </dt>
     <dd>
-    Set action triggered every frame.  Initial trigger not canceled.
+    Set action triggered every frame.
  Action will not call in trigger action frame
 
 
@@ -364,6 +365,11 @@
         <li><span class="parameter">state</span>
             <span class="types"><span class="type">boolean</span></span>
          The every frame state
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">skip_initial_call</span>
+            <span class="types"><span class="type">boolean</span></span>
+         If true, skip first initial call on state enter
          (<em>optional</em>)
         </li>
     </ul>
@@ -375,10 +381,10 @@
 </dd>
     <dt>
     <a name = "set_periodic"></a>
-    <strong>set_periodic([seconds])</strong>
+    <strong>set_periodic([seconds[, skip_initial_call]])</strong>
     </dt>
     <dd>
-    Set periodic trigger of action.  Initial trigger not canceled
+    Set periodic trigger of action.
 
 
     <h3>Parameters:</h3>
@@ -386,6 +392,11 @@
         <li><span class="parameter">seconds</span>
             <span class="types"><span class="type">number</span></span>
          The time between triggers
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">skip_initial_call</span>
+            <span class="types"><span class="type">boolean</span></span>
+         If true, skip first initial call on state enter
          (<em>optional</em>)
         </li>
     </ul>
@@ -540,6 +551,12 @@
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+        Self
+    </ol>
 
 
 

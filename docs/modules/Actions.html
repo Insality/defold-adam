@@ -38,6 +38,7 @@
 <li><a href="#actions_go_Functions">actions.go Functions</a></li>
 <li><a href="#actions_input_Functions">actions.input Functions</a></li>
 <li><a href="#actions_math_Functions">actions.math Functions</a></li>
+<li><a href="#actions_msg_Functions">actions.msg Functions</a></li>
 <li><a href="#actions_template_Functions">actions.template Functions</a></li>
 <li><a href="#actions_time_Functions">actions.time Functions</a></li>
 <li><a href="#actions_transform_Functions">actions.transform Functions</a></li>
@@ -50,7 +51,8 @@
   <li><strong>Actions</strong></li>
   <li><a href="../modules/Adam.html">Adam</a></li>
   <li><a href="../modules/ActionInstance.html">ActionInstance</a></li>
-  <li><a href="../modules/Adam.html">Adam</a></li>
+  <li><a href="../modules/AdamInstance.html">AdamInstance</a></li>
+  <li><a href="../modules/system.helper.html">system.helper</a></li>
   <li><a href="../modules/StateInstance.html">StateInstance</a></li>
 </ul>
 
@@ -95,24 +97,56 @@
 <h2><a href="#actions_go_Functions">actions.go Functions</a></h2>
 <table class="function_list">
 	<tr>
+	<td class="name" nowrap><a href="#actions.go.create_object">actions.go.create_object(factory_url[, position[, variable[, delay[, scale[, rotation[, properties]]]]]])</a></td>
+	<td class="summary">Spawn game object via factory</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#create_objects">create_objects(collection_factory_url[, position[, variable[, delay[, scale[, rotation[, properties]]]]]])</a></td>
+	<td class="summary">Spawn game objects via collection factory</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#actions.go.delete_self">actions.go.delete_self([delay[, not_recursive]])</a></td>
 	<td class="summary">Delete the current game object
  Useful for game objects that need to kill themselves, for example a projectile that explodes on impact.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#actions.go.delete_object">actions.go.delete_object([target="."[, delay[, not_recursive]]])</a></td>
+	<td class="summary">Delete the game object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#actions.go.enable_object">actions.go.enable_object([target="."[, delay]])</a></td>
+	<td class="summary">Enable the receiving component</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#actions.go.disable_object">actions.go.disable_object([target="."[, delay]])</a></td>
+	<td class="summary">Enable the receiving component</td>
 	</tr>
 </table>
 <h2><a href="#actions_input_Functions">actions.input Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.input.get_action">actions.input.get_action(key_name, variable[, is_every_frame])</a></td>
+	<td class="name" nowrap><a href="#actions.input.get_action">actions.input.get_action(key_name[, variable[, in_update_only[, trigger_event]]])</a></td>
 	<td class="summary">Check is action_id is active now.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.input.get_action_pressed">actions.input.get_action_pressed(key_name, variable[, is_every_frame])</a></td>
+	<td class="name" nowrap><a href="#actions.input.get_action_pressed">actions.input.get_action_pressed(key_name[, variable[, in_update_only[, trigger_event]]])</a></td>
 	<td class="summary">Check is action_id was pressed.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.input.get_action_released">actions.input.get_action_released(key_name, variable[, is_every_frame])</a></td>
+	<td class="name" nowrap><a href="#actions.input.get_action_released">actions.input.get_action_released(key_name[, variable[, in_update_only[, trigger_event]]])</a></td>
 	<td class="summary">Check is action_id was released.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#actions.input.get_sprite_action">actions.input.get_sprite_action(key_name, sprite_url[, variable[, in_update_only[, trigger_event]]])</a></td>
+	<td class="summary">Check is action_id is active now on sprite_url</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#actions.input.get_sprite_action_pressed">actions.input.get_sprite_action_pressed(key_name, sprite_url[, variable[, in_update_only[, trigger_event]]])</a></td>
+	<td class="summary">Check is action_id is active now on sprite_url</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#actions.input.get_sprite_action_released">actions.input.get_sprite_action_released(key_name, sprite_url[, variable[, in_update_only[, trigger_event]]])</a></td>
+	<td class="summary">Check is action_id is active now on sprite_url</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#actions.input.get_axis_actions">actions.input.get_axis_actions(negative_action, positive_action, variable[, is_every_frame[, multiplier=1]])</a></td>
@@ -156,6 +190,13 @@
 	<tr>
 	<td class="name" nowrap><a href="#actions.math.random_boolean">actions.math.random_boolean(source[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Sets a variable to a random value true or false</td>
+	</tr>
+</table>
+<h2><a href="#actions_msg_Functions">actions.msg Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#actions.msg.post">actions.msg.post(target, message_id[, A])</a></td>
+	<td class="summary">Post message via msg.post</td>
 	</tr>
 </table>
 <h2><a href="#actions_template_Functions">actions.template Functions</a></h2>
@@ -380,6 +421,120 @@
 
     <dl class="function">
     <dt>
+    <a name = "actions.go.create_object"></a>
+    <strong>actions.go.create_object(factory_url[, position[, variable[, delay[, scale[, rotation[, properties]]]]]])</strong>
+    </dt>
+    <dd>
+    Spawn game object via factory
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">factory_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The factory component to be used
+        </li>
+        <li><span class="parameter">position</span>
+            <span class="types"><span class="type">vector3</span></span>
+         The position to set
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         The variable to store created game object id
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         The Time delay in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">scale</span>
+            <span class="types"><span class="type">vector3</span></span>
+         The scale to set
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">rotation</span>
+            <span class="types"><span class="type">vector3</span></span>
+         The rotation to set
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">properties</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         The properties to set
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "create_objects"></a>
+    <strong>create_objects(collection_factory_url[, position[, variable[, delay[, scale[, rotation[, properties]]]]]])</strong>
+    </dt>
+    <dd>
+    Spawn game objects via collection factory
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">collection_factory_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The colection factory component to be used
+        </li>
+        <li><span class="parameter">position</span>
+            <span class="types"><span class="type">vector3</span></span>
+         The position to set
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         The variable to store created game object id
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         The Time delay in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">scale</span>
+            <span class="types"><span class="type">vector3</span></span>
+         The scale to set
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">rotation</span>
+            <span class="types"><span class="type">vector3</span></span>
+         The rotation to set
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">properties</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         The properties to set
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "actions.go.delete_self"></a>
     <strong>actions.go.delete_self([delay[, not_recursive]])</strong>
     </dt>
@@ -413,16 +568,120 @@
 
 
 </dd>
+    <dt>
+    <a name = "actions.go.delete_object"></a>
+    <strong>actions.go.delete_object([target="."[, delay[, not_recursive]]])</strong>
+    </dt>
+    <dd>
+    Delete the game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target</span>
+            <span class="types"><span class="type">url</span></span>
+         The game object to delete, self by default
+         (<em>default</em> ".")
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before delete
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">not_recursive</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Set true to not delete children of deleted go
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.go.enable_object"></a>
+    <strong>actions.go.enable_object([target="."[, delay]])</strong>
+    </dt>
+    <dd>
+    Enable the receiving component
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target</span>
+            <span class="types"><span class="type">url</span></span>
+         The game object to delete
+         (<em>default</em> ".")
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before delete
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.go.disable_object"></a>
+    <strong>actions.go.disable_object([target="."[, delay]])</strong>
+    </dt>
+    <dd>
+    Enable the receiving component
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target</span>
+            <span class="types"><span class="type">url</span></span>
+         The game object to delete
+         (<em>default</em> ".")
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before delete
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
 </dl>
     <h2 class="section-header "><a name="actions_input_Functions"></a>actions.input Functions</h2>
 
     <dl class="function">
     <dt>
     <a name = "actions.input.get_action"></a>
-    <strong>actions.input.get_action(key_name, variable[, is_every_frame])</strong>
+    <strong>actions.input.get_action(key_name[, variable[, in_update_only[, trigger_event]]])</strong>
     </dt>
     <dd>
-    Check is action_id is active now.  Can set number instead of boolean on pressed key
+    Check is action_id is active now.
 
 
     <h3>Parameters:</h3>
@@ -434,10 +693,16 @@
         <li><span class="parameter">variable</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          Variable to set
+         (<em>optional</em>)
         </li>
-        <li><span class="parameter">is_every_frame</span>
+        <li><span class="parameter">in_update_only</span>
             <span class="types"><span class="type">boolean</span></span>
          Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to trigger on true condition
          (<em>optional</em>)
         </li>
     </ul>
@@ -455,10 +720,10 @@
 </dd>
     <dt>
     <a name = "actions.input.get_action_pressed"></a>
-    <strong>actions.input.get_action_pressed(key_name, variable[, is_every_frame])</strong>
+    <strong>actions.input.get_action_pressed(key_name[, variable[, in_update_only[, trigger_event]]])</strong>
     </dt>
     <dd>
-    Check is action_id was pressed.  Can set number instead of boolean on pressed key
+    Check is action_id was pressed.
 
 
     <h3>Parameters:</h3>
@@ -470,10 +735,16 @@
         <li><span class="parameter">variable</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          Variable to set
+         (<em>optional</em>)
         </li>
-        <li><span class="parameter">is_every_frame</span>
+        <li><span class="parameter">in_update_only</span>
             <span class="types"><span class="type">boolean</span></span>
          Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to trigger on true condition
          (<em>optional</em>)
         </li>
     </ul>
@@ -491,10 +762,10 @@
 </dd>
     <dt>
     <a name = "actions.input.get_action_released"></a>
-    <strong>actions.input.get_action_released(key_name, variable[, is_every_frame])</strong>
+    <strong>actions.input.get_action_released(key_name[, variable[, in_update_only[, trigger_event]]])</strong>
     </dt>
     <dd>
-    Check is action_id was released.  Can set number instead of boolean on pressed key
+    Check is action_id was released.
 
 
     <h3>Parameters:</h3>
@@ -506,10 +777,154 @@
         <li><span class="parameter">variable</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          Variable to set
+         (<em>optional</em>)
         </li>
-        <li><span class="parameter">is_every_frame</span>
+        <li><span class="parameter">in_update_only</span>
             <span class="types"><span class="type">boolean</span></span>
          Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to trigger on true condition
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.input.get_sprite_action"></a>
+    <strong>actions.input.get_sprite_action(key_name, sprite_url[, variable[, in_update_only[, trigger_event]]])</strong>
+    </dt>
+    <dd>
+    Check is action_id is active now on sprite_url
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The key to check
+        </li>
+        <li><span class="parameter">sprite_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The sprite url to check input action
+        </li>
+        <li><span class="parameter">variable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to set
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">in_update_only</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to trigger on true condition
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.input.get_sprite_action_pressed"></a>
+    <strong>actions.input.get_sprite_action_pressed(key_name, sprite_url[, variable[, in_update_only[, trigger_event]]])</strong>
+    </dt>
+    <dd>
+    Check is action_id is active now on sprite_url
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The key to check
+        </li>
+        <li><span class="parameter">sprite_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The sprite url to check input action
+        </li>
+        <li><span class="parameter">variable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to set
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">in_update_only</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to trigger on true condition
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.input.get_sprite_action_released"></a>
+    <strong>actions.input.get_sprite_action_released(key_name, sprite_url[, variable[, in_update_only[, trigger_event]]])</strong>
+    </dt>
+    <dd>
+    Check is action_id is active now on sprite_url
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The key to check
+        </li>
+        <li><span class="parameter">sprite_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The sprite url to check input action
+        </li>
+        <li><span class="parameter">variable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to set
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">in_update_only</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to trigger on true condition
          (<em>optional</em>)
         </li>
     </ul>
@@ -913,6 +1328,46 @@
         <li><span class="parameter">is_every_second</span>
             <span class="types"><span class="type">boolean</span></span>
          Repeat this action every second
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="actions_msg_Functions"></a>actions.msg Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "actions.msg.post"></a>
+    <strong>actions.msg.post(target, message_id[, A])</strong>
+    </dt>
+    <dd>
+    Post message via msg.post
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target</span>
+            <span class="types"><span class="type">url</span></span>
+         The receiver url
+        </li>
+        <li><span class="parameter">message_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The message id to send
+        </li>
+        <li><span class="parameter">A</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         lua table with message parameters to send
          (<em>optional</em>)
         </li>
     </ul>

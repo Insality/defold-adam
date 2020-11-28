@@ -30,6 +30,11 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Local_Functions">Local Functions</a></li>
+</ul>
 
 
 <h2>Modules</h2>
@@ -38,6 +43,7 @@
   <li><a href="../modules/Adam.html">Adam</a></li>
   <li><a href="../modules/ActionInstance.html">ActionInstance</a></li>
   <li><strong>AdamInstance</strong></li>
+  <li><a href="../modules/system.helper.html">system.helper</a></li>
   <li><a href="../modules/StateInstance.html">StateInstance</a></li>
 </ul>
 
@@ -46,18 +52,677 @@
 <div id="content">
 
 <h1>Module <code>AdamInstance</code></h1>
-<p>The main Adam instance.</p>
-<p> Instantiate it via `adam.new` and use it in your code.</p>
-    <h3>See also:</h3>
+<p>All Adam instances created by this calss.</p>
+<p> Instantiate it via `adam.new()`.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#initialize">initialize(initial_state, transitions, variables)</a></td>
+	<td class="summary">Adam Instance constructor function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#start">start()</a></td>
+	<td class="summary">Start the Adam Instance.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#update">update(dt)</a></td>
+	<td class="summary">Adam update functions.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#on_input">on_input(action_id, action)</a></td>
+	<td class="summary">Adam on_input function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#on_message">on_message(message_id, message, sender)</a></td>
+	<td class="summary">Adam on_message function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#final">final()</a></td>
+	<td class="summary">Adam final function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#event">event(event_name)</a></td>
+	<td class="summary">Trigger event in Adam FSM.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#can_transition">can_transition(event)</a></td>
+	<td class="summary">Check available to make transition from current state with event</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_value">get_value(variable_name)</a></td>
+	<td class="summary">Return variable value from Adam instance</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_value">set_value(variable_name, value)</a></td>
+	<td class="summary">Set variable value in Adam instance</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_id">set_id(hash)</a></td>
+	<td class="summary">Set id for Adam instance.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_id">get_id()</a></td>
+	<td class="summary">Get id of current Adam instance</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_name">set_name(name)</a></td>
+	<td class="summary">Set name for Adam Instance.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_debug">set_debug(is_debug)</a></td>
+	<td class="summary">Set debug state of state.</td>
+	</tr>
+</table>
+<h2><a href="#Local_Functions">Local Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#get_input_pressed">get_input_pressed(action_id)</a></td>
+	<td class="summary">Return input state of pressed action</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_input_current">get_input_current(action_id)</a></td>
+	<td class="summary">Return input state of current action</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_input_released">get_input_released(action_id)</a></td>
+	<td class="summary">Return input state of released action</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_init_fsm">_init_fsm(initial_state, transitions)</a></td>
+	<td class="summary">Parse Adam Instance params to create fsm</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_on_leave_state">_on_leave_state(event, from, to)</a></td>
+	<td class="summary">Adam callback on leave state</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_on_enter_state">_on_enter_state(event, from, to)</a></td>
+	<td class="summary">Adam callback on enter state</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_process_input">_process_input(action_id, action)</a></td>
+	<td class="summary">Store input info to process it later</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_clear_input">_clear_input()</a></td>
+	<td class="summary">Clear stored input info.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_process_message">_process_message(message_id, message, sender)</a></td>
+	<td class="summary">Process messages to send it to Adam FSM is possile</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "initialize"></a>
+    <strong>initialize(initial_state, transitions, variables)</strong>
+    </dt>
+    <dd>
+    Adam Instance constructor function.
+
+
+    <h3>Parameters:</h3>
     <ul>
+        <li><span class="parameter">initial_state</span>
+            <span class="types"><span class="type">StateInstance</span></span>
+         The initial FSM state. It will be triggered on start
+        </li>
+        <li><span class="parameter">transitions</span>
+            <span class="types"><span class="type">StateInstance[]</span></span>
+         The array of next structure: {state_instance, state_instance, [event]},
+ describe transitiom from first state to second on event. By default event is adam.FINISHED
+        </li>
+        <li><span class="parameter">variables</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Defined FSM variables. All variables should be defined before use
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">AdamInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "start"></a>
+    <strong>start()</strong>
+    </dt>
+    <dd>
+    Start the Adam Instance.  On create FSM is not started and should be started manually.
+ You can use `local adam = AdamInstance({}):start()`
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">AdamInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "update"></a>
+    <strong>update(dt)</strong>
+    </dt>
+    <dd>
+    Adam update functions.  Place in script/gui_script update function
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dt</span>
+            <span class="types"><span class="type">numbet</span></span>
+         The delta time
+        </li>
     </ul>
 
 
 
-<br/>
-<br/>
 
 
+</dd>
+    <dt>
+    <a name = "on_input"></a>
+    <strong>on_input(action_id, action)</strong>
+    </dt>
+    <dd>
+    Adam on_input function.  Place in script/gui_script on_input function
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">action_id</span>
+            <span class="types"><span class="type">hash</span></span>
+         The input action_id
+        </li>
+        <li><span class="parameter">action</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         The input action info
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "on_message"></a>
+    <strong>on_message(message_id, message, sender)</strong>
+    </dt>
+    <dd>
+    Adam on_message function.  Place in script/gui_script on_message function
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">message_id</span>
+            <span class="types"><span class="type">hash</span></span>
+         The message_id
+        </li>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         The message info
+        </li>
+        <li><span class="parameter">sender</span>
+            <span class="types"><span class="type">hash</span></span>
+         The message sender id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "final"></a>
+    <strong>final()</strong>
+    </dt>
+    <dd>
+    Adam final function.  Place in script/gui_script final function on when you wanna to stop FSM.
+ Important function, since it track global list of Adam instances
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "event"></a>
+    <strong>event(event_name)</strong>
+    </dt>
+    <dd>
+    Trigger event in Adam FSM.  If any transitions on this event exists, go to next state instantly
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">event_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The trigger event name
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "can_transition"></a>
+    <strong>can_transition(event)</strong>
+    </dt>
+    <dd>
+    Check available to make transition from current state with event
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         name The trigger event
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">boolean</span></span>
+        True, if FSM will make transition on this event
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_value"></a>
+    <strong>get_value(variable_name)</strong>
+    </dt>
+    <dd>
+    Return variable value from Adam instance
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The name of variable in FSM
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">variable</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_value"></a>
+    <strong>set_value(variable_name, value)</strong>
+    </dt>
+    <dd>
+    Set variable value in Adam instance
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The name of variable in FSM
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">any</span></span>
+         New value for variable
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_id"></a>
+    <strong>set_id(hash)</strong>
+    </dt>
+    <dd>
+    Set id for Adam instance.  Several Adam instances can have single id
+ Useful for select multiply Adam instances on fsm actions
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">hash</span>
+            <span class="types"><span class="type">hash</span></span>
+         The Adam Instance id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_id"></a>
+    <strong>get_id()</strong>
+    </dt>
+    <dd>
+    Get id of current Adam instance
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">hash</span></span>
+        The Adam Instance id
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_name"></a>
+    <strong>set_name(name)</strong>
+    </dt>
+    <dd>
+    Set name for Adam Instance.  Useful for Debug.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The Adam Instance name
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_debug"></a>
+    <strong>set_debug(is_debug)</strong>
+    </dt>
+    <dd>
+    Set debug state of state.  If true, will print debug info to console
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">is_debug</span>
+            <span class="types"><span class="type">boolean</span></span>
+         The debug state
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">AdamInstance</span></span>
+        Self
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Local_Functions"></a>Local Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "get_input_pressed"></a>
+    <strong>get_input_pressed(action_id)</strong>
+    </dt>
+    <dd>
+    Return input state of pressed action
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">action_id</span>
+            <span class="types"><span class="type">hash</span></span>
+         The input action_id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+        The input info
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_input_current"></a>
+    <strong>get_input_current(action_id)</strong>
+    </dt>
+    <dd>
+    Return input state of current action
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">action_id</span>
+            <span class="types"><span class="type">hash</span></span>
+         The input action_id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+        The input info
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_input_released"></a>
+    <strong>get_input_released(action_id)</strong>
+    </dt>
+    <dd>
+    Return input state of released action
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">action_id</span>
+            <span class="types"><span class="type">hash</span></span>
+         The input action_id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+        The input info
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_init_fsm"></a>
+    <strong>_init_fsm(initial_state, transitions)</strong>
+    </dt>
+    <dd>
+    Parse Adam Instance params to create fsm
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">initial_state</span>
+
+        </li>
+        <li><span class="parameter">transitions</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_on_leave_state"></a>
+    <strong>_on_leave_state(event, from, to)</strong>
+    </dt>
+    <dd>
+    Adam callback on leave state
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">event</span>
+
+        </li>
+        <li><span class="parameter">from</span>
+
+        </li>
+        <li><span class="parameter">to</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_on_enter_state"></a>
+    <strong>_on_enter_state(event, from, to)</strong>
+    </dt>
+    <dd>
+    Adam callback on enter state
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">event</span>
+
+        </li>
+        <li><span class="parameter">from</span>
+
+        </li>
+        <li><span class="parameter">to</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_process_input"></a>
+    <strong>_process_input(action_id, action)</strong>
+    </dt>
+    <dd>
+    Store input info to process it later
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">action_id</span>
+
+        </li>
+        <li><span class="parameter">action</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_clear_input"></a>
+    <strong>_clear_input()</strong>
+    </dt>
+    <dd>
+    Clear stored input info.  Called as last step of update on every frame
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_process_message"></a>
+    <strong>_process_message(message_id, message, sender)</strong>
+    </dt>
+    <dd>
+    Process messages to send it to Adam FSM is possile
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">message_id</span>
+
+        </li>
+        <li><span class="parameter">message</span>
+
+        </li>
+        <li><span class="parameter">sender</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->
