@@ -62,6 +62,10 @@
 	<td class="name" nowrap><a href="#event">event(event_name)</a></td>
 	<td class="summary">Trigger event to FSM.</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_debug">set_debug(state)</a></td>
+	<td class="summary">Set debug state of state.</td>
+	</tr>
 </table>
 <h2><a href="#Local_Functions">Local Functions</a></h2>
 <table class="function_list">
@@ -104,6 +108,27 @@
         <li><span class="parameter">event_name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The event to send
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_debug"></a>
+    <strong>set_debug(state)</strong>
+    </dt>
+    <dd>
+    Set debug state of state.  If true, will print debug info to console
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">state</span>
+            <span class="types"><span class="type">boolean</span></span>
+         The debug state
         </li>
     </ul>
 

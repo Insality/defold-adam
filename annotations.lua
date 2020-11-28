@@ -6,13 +6,13 @@
 ---@field _is_every_frame boolean desc
 ---@field _is_periodic boolean desc
 ---@field _name string The action instance name
----@field _on_finish_callback function desc
 ---@field _periodic_timer number desc
 ---@field _periodic_timer_current number desc
 ---@field _release_callback function(ActionInstance) desc
 ---@field _state_instance StateInstance desc
 ---@field _trigger_callback function(ActionInstance) desc
 ---@field context table Action context table
+---@field static ActionInstance.static Submodule
 local ActionInstance = {}
 
 --- Trigger event to action's FSM
@@ -20,7 +20,12 @@ local ActionInstance = {}
 function ActionInstance.event(event_name) end
 
 --- Function called when action is done.
-function ActionInstance.finished() end
+---@param trigger_event string Event to trigger before finish call
+function ActionInstance.finish(trigger_event) end
+
+--- Force finish action, even with "is_every_frame" or "is_periodic".
+---@param trigger_event string Event to trigger before finish call
+function ActionInstance.force_finish(trigger_event) end
 
 --- Return the name of the action
 ---@return string The action name
@@ -41,11 +46,19 @@ function ActionInstance.get_value(variable_name) end
 ---@param release_callback function The release function. Clean up stuff, it you need
 function ActionInstance.initialize(name, trigger_callback, release_callback) end
 
+--- Set debug state of action.
+---@param state boolean The debug state
+function ActionInstance.set_debug(state) end
+
 --- Set action to deferred state.
 ---@param state boolean The deferred state
 function ActionInstance.set_deferred(state) end
 
---- Set action triggered every frame
+--- Add delay before action is triggered.
+---@param seconds number|nil Action delay
+function ActionInstance.set_delay(seconds) end
+
+--- Set action triggered every frame.
 ---@param state boolean The every frame state
 function ActionInstance.set_every_frame(state) end
 
@@ -63,6 +76,15 @@ function ActionInstance.set_periodic(seconds) end
 function ActionInstance.set_value(variable_name, value) end
 
 
+---@class ActionInstance.static
+local ActionInstance__static = {}
+
+--- Copy constructor
+---@param prefab ActionInstance The action to copy
+---@return ActionInstance Copy of prefab action
+function ActionInstance__static.copy(prefab) end
+
+
 ---@class StateInstance
 local StateInstance = {}
 
@@ -70,12 +92,17 @@ local StateInstance = {}
 ---@param event_name string The event to send
 function StateInstance.event(event_name) end
 
+--- Set debug state of state.
+---@param state boolean The debug state
+function StateInstance.set_debug(state) end
+
 
 ---@class actions
 ---@field debug actions.debug Submodule
 ---@field fsm actions.fsm Submodule
 ---@field go actions.go Submodule
 ---@field input actions.input Submodule
+---@field math actions.math Submodule
 ---@field template actions.template Submodule
 ---@field time actions.time Submodule
 ---@field transform actions.transform Submodule
@@ -130,22 +157,108 @@ function actions__go.delete_self(delay, not_recursive) end
 ---@class actions.input
 local actions__input = {}
 
+--- Check is action_id is active now.
+---@param key_name string The key to check
+---@param variable string Variable to set
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__input.get_action(key_name, variable, is_every_frame) end
+
+--- Check is action_id was pressed.
+---@param key_name string The key to check
+---@param variable string Variable to set
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__input.get_action_pressed(key_name, variable, is_every_frame) end
+
+--- Check is action_id was released.
+---@param key_name string The key to check
+---@param variable string Variable to set
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__input.get_action_released(key_name, variable, is_every_frame) end
+
 --- Imitate two keys as axis.
----@param negative_key string The key to negative check
----@param positive_key string The key to positive check
+---@param negative_action string The action_id to negative check
+---@param positive_action string The action_id to positive check
 ---@param variable string Variable to set
 ---@param is_every_frame boolean Repeat this action every frame
 ---@param multiplier number The value to multiply result
 ---@return ActionInstance
-function actions__input.get_axis_keys(negative_key, positive_key, variable, is_every_frame, multiplier) end
+function actions__input.get_axis_actions(negative_action, positive_action, variable, is_every_frame, multiplier) end
 
---- Check is key is pressed.
----@param key_name string The key to check
----@param variable string Variable to set
----@param value_to_set number Set this number or 0 instead of true/false
+
+---@class actions.math
+local actions__math = {}
+
+--- Sets a float variable to its absolute value.
+---@param source string Variable to abs
 ---@param is_every_frame boolean Repeat this action every frame
 ---@return ActionInstance
-function actions__input.get_key(key_name, variable, value_to_set, is_every_frame) end
+function actions__math.abs(source, is_every_frame) end
+
+--- Adds a value to a variable
+---@param source string Variable to add
+---@param value varible The value to add
+---@param is_every_frame boolean Repeat this action every frame
+---@param is_every_second boolean Repeat this action every second
+---@return ActionInstance
+function actions__math.add(source, value, is_every_frame, is_every_second) end
+
+--- Divides a value by another value
+---@param source string Variable to divide
+---@param value varible Divide by this value
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__math.divide(source, value, is_every_frame) end
+
+--- Multiplies a variable by another value
+---@param source string Variable to multiply
+---@param value varible The multiplier
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__math.multiply(source, value, is_every_frame) end
+
+--- Sets a variable to a random value between min/max.
+---@param source string Variable to set
+---@param min variable Minimum value of the random number
+---@param max variable Maximum value of the random number.
+---@param is_every_frame boolean Repeat this action every frame
+---@param is_every_second boolean Repeat this action every second
+---@return ActionInstance
+function actions__math.random(source, min, max, is_every_frame, is_every_second) end
+
+--- Sets a variable to a random value true or false
+---@param source string Variable to set
+---@param is_every_frame boolean Repeat this action every frame
+---@param is_every_second boolean Repeat this action every second
+---@return ActionInstance
+function actions__math.random_boolean(source, is_every_frame, is_every_second) end
+
+--- Set a value to a variable
+---@param source string Variable to set
+---@param value varible The value to set
+---@param is_every_frame boolean Repeat this action every frame
+---@param is_every_second boolean Repeat this action every second
+---@return ActionInstance
+function actions__math.set(source, value, is_every_frame, is_every_second) end
+
+--- Clamps the value of a variable to a min/max range.
+---@param source string Variable to set
+---@param min number The minimum value allowed.
+---@param max number The maximum value allowed.
+---@param is_every_frame boolean Repeat this action every frame
+---@param is_every_second boolean Repeat this action every second
+---@return ActionInstance
+function actions__math.set(source, min, max, is_every_frame, is_every_second) end
+
+--- Subtracts a value from a variable
+---@param source string Variable to substract from
+---@param value varible The value to substract
+---@param is_every_frame boolean Repeat this action every frame
+---@param is_every_second boolean Repeat this action every second
+---@return ActionInstance
+function actions__math.substract(source, value, is_every_frame, is_every_second) end
 
 
 ---@class actions.template
@@ -165,39 +278,48 @@ local actions__time = {}
 ---@return ActionInstance
 function actions__time.delay(seconds, trigger_event) end
 
+--- Trigger event after amount of frames.
+---@param frmes number Amount of frames to wait
+---@param trigger_event string Name of trigger event
+---@return ActionInstance
+function actions__time.frames(frmes, trigger_event) end
+
 
 ---@class actions.transform
 local actions__transform = {}
 
---- Sets the position of a game object
----@param target_vector vector3 Position vector
----@param is_every_frame boolean Repeat this action every frame
+--- Animate scale to a game object
+---@param target_scale vector3 Scale vector
 ---@param time number The time to translate gameobject. Incompatable with is_every_frame
 ---@param finish_event string Name of trigger event
 ---@param delay number Delay before translate in seconds
 ---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
 ---@return ActionInstance
-function actions__transform.set_position(target_vector, is_every_frame, time, finish_event, delay, ease_function) end
+function actions__transform.animate_scale(target_scale, time, finish_event, delay, ease_function) end
+
+--- Sets the position of a game object
+---@param target_vector vector3 Position vector
+---@param is_every_frame boolean Repeat this action every frame
+---@param delay number Delay before translate in seconds
+---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@return ActionInstance
+function actions__transform.set_position(target_vector, is_every_frame, delay, ease_function) end
 
 --- Set scale to a game object
 ---@param target_scale vector3 Scale vector
 ---@param is_every_frame boolean Repeat this action every frame
----@param time number The time to translate gameobject. Incompatable with is_every_frame
----@param finish_event string Name of trigger event
 ---@param delay number Delay before translate in seconds
 ---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
 ---@return ActionInstance
-function actions__transform.set_scale(target_scale, is_every_frame, time, finish_event, delay, ease_function) end
+function actions__transform.set_scale(target_scale, is_every_frame, delay, ease_function) end
 
 --- Translates a game object via delta vector
 ---@param delta_vector vector3 Vector with x/y/z params to translate
 ---@param is_every_frame boolean Repeat this action every frame
----@param time number The time to translate gameobject. Incompatable with is_every_frame
----@param finish_event string Name of trigger event
 ---@param delay number Delay before translate in seconds
 ---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
 ---@return ActionInstance
-function actions__transform.translate(delta_vector, is_every_frame, time, finish_event, delay, ease_function) end
+function actions__transform.translate(delta_vector, is_every_frame, delay, ease_function) end
 
 
 ---@class actions.vmath
@@ -229,75 +351,6 @@ function adam.state(...) end
 
 ---@class adam.actions
 local adam__actions = {}
-
---- Sets a float variable to its absolute value.
----@param source string Variable to abs
----@param is_every_frame boolean Repeat this action every frame
----@return ActionInstance
-function adam__actions.abs(source, is_every_frame) end
-
---- Adds a value to a variable
----@param source string Variable to add
----@param value varible The value to add
----@param is_every_frame boolean Repeat this action every frame
----@param is_every_second boolean Repeat this action every second
----@return ActionInstance
-function adam__actions.add(source, value, is_every_frame, is_every_second) end
-
---- Clamps the value of a variable to a min/max range.
----@param source string Variable to set
----@param min number The minimum value allowed.
----@param max number The maximum value allowed.
----@param is_every_frame boolean Repeat this action every frame
----@param is_every_second boolean Repeat this action every second
----@return ActionInstance
-function adam__actions.clamp(source, min, max, is_every_frame, is_every_second) end
-
---- Divides a value by another value
----@param source string Variable to divide
----@param value varible Divide by this value
----@param is_every_frame boolean Repeat this action every frame
----@return ActionInstance
-function adam__actions.divide(source, value, is_every_frame) end
-
---- Multiplies a variable by another value
----@param source string Variable to multiply
----@param value varible The multiplier
----@param is_every_frame boolean Repeat this action every frame
----@return ActionInstance
-function adam__actions.multiply(source, value, is_every_frame) end
-
---- Sets a variable to a random value between min/max.
----@param source string Variable to set
----@param min variable Minimum value of the random number
----@param max variable Maximum value of the random number.
----@param is_every_frame boolean Repeat this action every frame
----@param is_every_second boolean Repeat this action every second
----@return ActionInstance
-function adam__actions.random(source, min, max, is_every_frame, is_every_second) end
-
---- Sets a variable to a random value true or false.
----@param source string Variable to set
----@param is_every_frame boolean Repeat this action every frame
----@param is_every_second boolean Repeat this action every second
----@return ActionInstance
-function adam__actions.random_boolean(source, is_every_frame, is_every_second) end
-
---- Set a value to a variable
----@param source string Variable to set
----@param value varible The value to set
----@param is_every_frame boolean Repeat this action every frame
----@param is_every_second boolean Repeat this action every second
----@return ActionInstance
-function adam__actions.set(source, value, is_every_frame, is_every_second) end
-
---- Subtracts a value from a variable
----@param source string Variable to substract from
----@param value varible The value to substract
----@param is_every_frame boolean Repeat this action every frame
----@param is_every_second boolean Repeat this action every second
----@return ActionInstance
-function adam__actions.substract(source, value, is_every_frame, is_every_second) end
 
 --- Return value from FSM variables for action params
 ---@param variable_name string The variable name in Adam instance

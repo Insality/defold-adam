@@ -64,6 +64,10 @@
 	<td class="summary">Action Instance constructor function</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#ActionInstance.static.copy">ActionInstance.static.copy(prefab)</a></td>
+	<td class="summary">Copy constructor</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#event">event(event_name)</a></td>
 	<td class="summary">Trigger event to action's FSM</td>
 	</tr>
@@ -81,11 +85,15 @@
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#set_every_frame">set_every_frame([state])</a></td>
-	<td class="summary">Set action triggered every frame</td>
+	<td class="summary">Set action triggered every frame.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#set_periodic">set_periodic([seconds])</a></td>
 	<td class="summary">Set periodic trigger of action.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_delay">set_delay(seconds)</a></td>
+	<td class="summary">Add delay before action is triggered.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#set_deferred">set_deferred([state])</a></td>
@@ -100,8 +108,16 @@
 	<td class="summary">Return the name of the action</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#finished">finished()</a></td>
+	<td class="name" nowrap><a href="#finish">finish(trigger_event)</a></td>
 	<td class="summary">Function called when action is done.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#force_finish">force_finish(trigger_event)</a></td>
+	<td class="summary">Force finish action, even with "is_every_frame" or "is_periodic".</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_debug">set_debug(state)</a></td>
+	<td class="summary">Set debug state of action.</td>
 	</tr>
 </table>
 <h2><a href="#Fields">Fields</a></h2>
@@ -124,10 +140,6 @@
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#_state_instance">_state_instance</a></td>
-	<td class="summary">desc</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#_on_finish_callback">_on_finish_callback</a></td>
 	<td class="summary">desc</td>
 	</tr>
 	<tr>
@@ -166,16 +178,16 @@
 	<td class="summary">Release action (cleanup), called by StateInstance</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#set_finish_callback">set_finish_callback(callback)</a></td>
-	<td class="summary">Set callback when action is finished.</td>
-	</tr>
-	<tr>
 	<td class="name" nowrap><a href="#get_adam_instance">get_adam_instance()</a></td>
 	<td class="summary">Return action's AdamInstance.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#set_state_instance">set_state_instance(state_instance)</a></td>
 	<td class="summary">Set StateInstance for this action instance.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_trigger_action">_trigger_action()</a></td>
+	<td class="summary">Actual call of trigger callback.</td>
 	</tr>
 </table>
 
@@ -211,6 +223,33 @@
         </li>
     </ul>
 
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ActionInstance.static.copy"></a>
+    <strong>ActionInstance.static.copy(prefab)</strong>
+    </dt>
+    <dd>
+    Copy constructor
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">prefab</span>
+            <span class="types"><span class="type">ActionInstance</span></span>
+         The action to copy
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+        Copy of prefab action
+    </ol>
 
 
 
@@ -320,7 +359,8 @@
     <strong>set_every_frame([state])</strong>
     </dt>
     <dd>
-    Set action triggered every frame
+    Set action triggered every frame.  Initial trigger not canceled.
+ Action will not call in trigger action frame
 
 
     <h3>Parameters:</h3>
@@ -351,6 +391,28 @@
             <span class="types"><span class="type">number</span></span>
          The time between triggers
          (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_delay"></a>
+    <strong>set_delay(seconds)</strong>
+    </dt>
+    <dd>
+    Add delay before action is triggered.  Every frame and periodic trigger will start
+ after delay is happened. You should call finished method in action trigger function
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">seconds</span>
+            <span class="types"><span class="type">number</span> or <span class="type">nil</span></span>
+         Action delay
         </li>
     </ul>
 
@@ -423,14 +485,64 @@
 
 </dd>
     <dt>
-    <a name = "finished"></a>
-    <strong>finished()</strong>
+    <a name = "finish"></a>
+    <strong>finish(trigger_event)</strong>
     </dt>
     <dd>
     Function called when action is done.  Never called on actions with "is_every_frame"
- or "is_per_second". Deferred actions should call manually this function
+ or "is_periodic". Deferred actions should call manually this function
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Event to trigger before finish call
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "force_finish"></a>
+    <strong>force_finish(trigger_event)</strong>
+    </dt>
+    <dd>
+    Force finish action, even with "is_every_frame" or "is_periodic".  This call
+ will stop any updates of this action
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Event to trigger before finish call
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_debug"></a>
+    <strong>set_debug(state)</strong>
+    </dt>
+    <dd>
+    Set debug state of action.  If true, will print debug info to console
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">state</span>
+            <span class="types"><span class="type">boolean</span></span>
+         The debug state
+        </li>
+    </ul>
 
 
 
@@ -533,26 +645,6 @@
     <ul>
         <li><span class="parameter">_state_instance</span>
             <span class="types"><span class="type">StateInstance</span></span>
-
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "_on_finish_callback"></a>
-    <strong>_on_finish_callback</strong>
-    </dt>
-    <dd>
-    desc
-
-
-    <ul>
-        <li><span class="parameter">_on_finish_callback</span>
-            <span class="types"><span class="type">function</span></span>
 
         </li>
     </ul>
@@ -716,27 +808,6 @@
 
 </dd>
     <dt>
-    <a name = "set_finish_callback"></a>
-    <strong>set_finish_callback(callback)</strong>
-    </dt>
-    <dd>
-    Set callback when action is finished.  Used internally
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">callback</span>
-            <span class="types"><span class="type">function</span></span>
-
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
     <a name = "get_adam_instance"></a>
     <strong>get_adam_instance()</strong>
     </dt>
@@ -771,6 +842,20 @@
 
         </li>
     </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_trigger_action"></a>
+    <strong>_trigger_action()</strong>
+    </dt>
+    <dd>
+    Actual call of trigger callback.  Used internally
+
+
 
 
 

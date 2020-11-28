@@ -103,51 +103,59 @@
 <h2><a href="#actions_input_Functions">actions.input Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.input.get_key">actions.input.get_key(key_name, variable[, value_to_set[, is_every_frame]])</a></td>
-	<td class="summary">Check is key is pressed.</td>
+	<td class="name" nowrap><a href="#actions.input.get_action">actions.input.get_action(key_name, variable[, is_every_frame])</a></td>
+	<td class="summary">Check is action_id is active now.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.input.get_axis_keys">actions.input.get_axis_keys(negative_key, positive_key, variable[, is_every_frame[, multiplier=1]])</a></td>
+	<td class="name" nowrap><a href="#actions.input.get_action_pressed">actions.input.get_action_pressed(key_name, variable[, is_every_frame])</a></td>
+	<td class="summary">Check is action_id was pressed.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#actions.input.get_action_released">actions.input.get_action_released(key_name, variable[, is_every_frame])</a></td>
+	<td class="summary">Check is action_id was released.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#actions.input.get_axis_actions">actions.input.get_axis_actions(negative_action, positive_action, variable[, is_every_frame[, multiplier=1]])</a></td>
 	<td class="summary">Imitate two keys as axis.</td>
 	</tr>
 </table>
 <h2><a href="#actions_math_Functions">actions.math Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#set">set(source, value[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" nowrap><a href="#actions.math.set">actions.math.set(source, value[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Set a value to a variable</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#add">add(source, value[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" nowrap><a href="#actions.math.add">actions.math.add(source, value[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Adds a value to a variable</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#substract">substract(source, value[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" nowrap><a href="#actions.math.substract">actions.math.substract(source, value[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Subtracts a value from a variable</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#multiply">multiply(source, value[, is_every_frame])</a></td>
+	<td class="name" nowrap><a href="#actions.math.multiply">actions.math.multiply(source, value[, is_every_frame])</a></td>
 	<td class="summary">Multiplies a variable by another value</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#divide">divide(source, value[, is_every_frame])</a></td>
+	<td class="name" nowrap><a href="#actions.math.divide">actions.math.divide(source, value[, is_every_frame])</a></td>
 	<td class="summary">Divides a value by another value</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#clamp">clamp(source, min, max[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" nowrap><a href="#actions.math.set">actions.math.set(source, min, max[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Clamps the value of a variable to a min/max range.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#abs">abs(source[, is_every_frame])</a></td>
+	<td class="name" nowrap><a href="#actions.math.abs">actions.math.abs(source[, is_every_frame])</a></td>
 	<td class="summary">Sets a float variable to its absolute value.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#random">random(source, min, max[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" nowrap><a href="#actions.math.random">actions.math.random(source, min, max[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Sets a variable to a random value between min/max.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#random_boolean">random_boolean(source[, is_every_frame[, is_every_second]])</a></td>
-	<td class="summary">Sets a variable to a random value true or false.</td>
+	<td class="name" nowrap><a href="#actions.math.random_boolean">actions.math.random_boolean(source[, is_every_frame[, is_every_second]])</a></td>
+	<td class="summary">Sets a variable to a random value true or false</td>
 	</tr>
 </table>
 <h2><a href="#actions_template_Functions">actions.template Functions</a></h2>
@@ -163,19 +171,27 @@
 	<td class="name" nowrap><a href="#actions.time.delay">actions.time.delay(seconds[, trigger_event])</a></td>
 	<td class="summary">Trigger event after time elapsed.</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#actions.time.frames">actions.time.frames(frmes[, trigger_event])</a></td>
+	<td class="summary">Trigger event after amount of frames.</td>
+	</tr>
 </table>
 <h2><a href="#actions_transform_Functions">actions.transform Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.transform.set_position">actions.transform.set_position(target_vector[, is_every_frame[, time[, finish_event[, delay[, ease_function]]]]])</a></td>
+	<td class="name" nowrap><a href="#actions.transform.set_position">actions.transform.set_position(target_vector[, is_every_frame[, delay[, ease_function]]])</a></td>
 	<td class="summary">Sets the position of a game object</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.transform.set_scale">actions.transform.set_scale(target_scale[, is_every_frame[, time[, finish_event[, delay[, ease_function]]]]])</a></td>
+	<td class="name" nowrap><a href="#actions.transform.set_scale">actions.transform.set_scale(target_scale[, is_every_frame[, delay[, ease_function]]])</a></td>
 	<td class="summary">Set scale to a game object</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.transform.translate">actions.transform.translate(delta_vector[, is_every_frame[, time[, finish_event[, delay[, ease_function]]]]])</a></td>
+	<td class="name" nowrap><a href="#actions.transform.animate_scale">actions.transform.animate_scale(target_scale[, time[, finish_event[, delay[, ease_function]]]])</a></td>
+	<td class="summary">Animate scale to a game object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#actions.transform.translate">actions.transform.translate(delta_vector[, is_every_frame[, delay[, ease_function]]])</a></td>
 	<td class="summary">Translates a game object via delta vector</td>
 	</tr>
 </table>
@@ -402,11 +418,11 @@
 
     <dl class="function">
     <dt>
-    <a name = "actions.input.get_key"></a>
-    <strong>actions.input.get_key(key_name, variable[, value_to_set[, is_every_frame]])</strong>
+    <a name = "actions.input.get_action"></a>
+    <strong>actions.input.get_action(key_name, variable[, is_every_frame])</strong>
     </dt>
     <dd>
-    Check is key is pressed.  Can set number instead of boolean on pressed key
+    Check is action_id is active now.  Can set number instead of boolean on pressed key
 
 
     <h3>Parameters:</h3>
@@ -418,11 +434,6 @@
         <li><span class="parameter">variable</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          Variable to set
-        </li>
-        <li><span class="parameter">value_to_set</span>
-            <span class="types"><span class="type">number</span></span>
-         Set this number or 0 instead of true/false
-         (<em>optional</em>)
         </li>
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
@@ -443,8 +454,80 @@
 
 </dd>
     <dt>
-    <a name = "actions.input.get_axis_keys"></a>
-    <strong>actions.input.get_axis_keys(negative_key, positive_key, variable[, is_every_frame[, multiplier=1]])</strong>
+    <a name = "actions.input.get_action_pressed"></a>
+    <strong>actions.input.get_action_pressed(key_name, variable[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Check is action_id was pressed.  Can set number instead of boolean on pressed key
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The key to check
+        </li>
+        <li><span class="parameter">variable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.input.get_action_released"></a>
+    <strong>actions.input.get_action_released(key_name, variable[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Check is action_id was released.  Can set number instead of boolean on pressed key
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The key to check
+        </li>
+        <li><span class="parameter">variable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.input.get_axis_actions"></a>
+    <strong>actions.input.get_axis_actions(negative_action, positive_action, variable[, is_every_frame[, multiplier=1]])</strong>
     </dt>
     <dd>
     Imitate two keys as axis.  Set result in variable. If both keys are pressed, result will be 0
@@ -452,13 +535,13 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">negative_key</span>
+        <li><span class="parameter">negative_action</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         The key to negative check
+         The action_id to negative check
         </li>
-        <li><span class="parameter">positive_key</span>
+        <li><span class="parameter">positive_action</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         The key to positive check
+         The action_id to positive check
         </li>
         <li><span class="parameter">variable</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
@@ -492,8 +575,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "set"></a>
-    <strong>set(source, value[, is_every_frame[, is_every_second]])</strong>
+    <a name = "actions.math.set"></a>
+    <strong>actions.math.set(source, value[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Set a value to a variable
@@ -533,8 +616,8 @@
 
 </dd>
     <dt>
-    <a name = "add"></a>
-    <strong>add(source, value[, is_every_frame[, is_every_second]])</strong>
+    <a name = "actions.math.add"></a>
+    <strong>actions.math.add(source, value[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Adds a value to a variable
@@ -574,8 +657,8 @@
 
 </dd>
     <dt>
-    <a name = "substract"></a>
-    <strong>substract(source, value[, is_every_frame[, is_every_second]])</strong>
+    <a name = "actions.math.substract"></a>
+    <strong>actions.math.substract(source, value[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Subtracts a value from a variable
@@ -615,8 +698,8 @@
 
 </dd>
     <dt>
-    <a name = "multiply"></a>
-    <strong>multiply(source, value[, is_every_frame])</strong>
+    <a name = "actions.math.multiply"></a>
+    <strong>actions.math.multiply(source, value[, is_every_frame])</strong>
     </dt>
     <dd>
     Multiplies a variable by another value
@@ -651,8 +734,8 @@
 
 </dd>
     <dt>
-    <a name = "divide"></a>
-    <strong>divide(source, value[, is_every_frame])</strong>
+    <a name = "actions.math.divide"></a>
+    <strong>actions.math.divide(source, value[, is_every_frame])</strong>
     </dt>
     <dd>
     Divides a value by another value
@@ -687,8 +770,8 @@
 
 </dd>
     <dt>
-    <a name = "clamp"></a>
-    <strong>clamp(source, min, max[, is_every_frame[, is_every_second]])</strong>
+    <a name = "actions.math.set"></a>
+    <strong>actions.math.set(source, min, max[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Clamps the value of a variable to a min/max range.
@@ -732,8 +815,8 @@
 
 </dd>
     <dt>
-    <a name = "abs"></a>
-    <strong>abs(source[, is_every_frame])</strong>
+    <a name = "actions.math.abs"></a>
+    <strong>actions.math.abs(source[, is_every_frame])</strong>
     </dt>
     <dd>
     Sets a float variable to its absolute value.
@@ -764,8 +847,8 @@
 
 </dd>
     <dt>
-    <a name = "random"></a>
-    <strong>random(source, min, max[, is_every_frame[, is_every_second]])</strong>
+    <a name = "actions.math.random"></a>
+    <strong>actions.math.random(source, min, max[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Sets a variable to a random value between min/max.
@@ -809,11 +892,11 @@
 
 </dd>
     <dt>
-    <a name = "random_boolean"></a>
-    <strong>random_boolean(source[, is_every_frame[, is_every_second]])</strong>
+    <a name = "actions.math.random_boolean"></a>
+    <strong>actions.math.random_boolean(source[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
-    Sets a variable to a random value true or false.
+    Sets a variable to a random value true or false
 
 
     <h3>Parameters:</h3>
@@ -905,13 +988,45 @@
 
 
 </dd>
+    <dt>
+    <a name = "actions.time.frames"></a>
+    <strong>actions.time.frames(frmes[, trigger_event])</strong>
+    </dt>
+    <dd>
+    Trigger event after amount of frames.  Trigger event is optional
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frmes</span>
+            <span class="types"><span class="type">number</span></span>
+         Amount of frames to wait
+        </li>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
 </dl>
     <h2 class="section-header "><a name="actions_transform_Functions"></a>actions.transform Functions</h2>
 
     <dl class="function">
     <dt>
     <a name = "actions.transform.set_position"></a>
-    <strong>actions.transform.set_position(target_vector[, is_every_frame[, time[, finish_event[, delay[, ease_function]]]]])</strong>
+    <strong>actions.transform.set_position(target_vector[, is_every_frame[, delay[, ease_function]]])</strong>
     </dt>
     <dd>
     Sets the position of a game object
@@ -926,16 +1041,6 @@
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
          Repeat this action every frame
-         (<em>optional</em>)
-        </li>
-        <li><span class="parameter">time</span>
-            <span class="types"><span class="type">number</span></span>
-         The time to translate gameobject. Incompatable with is_every_frame
-         (<em>optional</em>)
-        </li>
-        <li><span class="parameter">finish_event</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         Name of trigger event
          (<em>optional</em>)
         </li>
         <li><span class="parameter">delay</span>
@@ -963,7 +1068,7 @@
 </dd>
     <dt>
     <a name = "actions.transform.set_scale"></a>
-    <strong>actions.transform.set_scale(target_scale[, is_every_frame[, time[, finish_event[, delay[, ease_function]]]]])</strong>
+    <strong>actions.transform.set_scale(target_scale[, is_every_frame[, delay[, ease_function]]])</strong>
     </dt>
     <dd>
     Set scale to a game object
@@ -979,6 +1084,43 @@
             <span class="types"><span class="type">boolean</span></span>
          Repeat this action every frame
          (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.animate_scale"></a>
+    <strong>actions.transform.animate_scale(target_scale[, time[, finish_event[, delay[, ease_function]]]])</strong>
+    </dt>
+    <dd>
+    Animate scale to a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_scale</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Scale vector
         </li>
         <li><span class="parameter">time</span>
             <span class="types"><span class="type">number</span></span>
@@ -1015,7 +1157,7 @@
 </dd>
     <dt>
     <a name = "actions.transform.translate"></a>
-    <strong>actions.transform.translate(delta_vector[, is_every_frame[, time[, finish_event[, delay[, ease_function]]]]])</strong>
+    <strong>actions.transform.translate(delta_vector[, is_every_frame[, delay[, ease_function]]])</strong>
     </dt>
     <dd>
     Translates a game object via delta vector
@@ -1030,16 +1172,6 @@
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
          Repeat this action every frame
-         (<em>optional</em>)
-        </li>
-        <li><span class="parameter">time</span>
-            <span class="types"><span class="type">number</span></span>
-         The time to translate gameobject. Incompatable with is_every_frame
-         (<em>optional</em>)
-        </li>
-        <li><span class="parameter">finish_event</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         Name of trigger event
          (<em>optional</em>)
         </li>
         <li><span class="parameter">delay</span>
