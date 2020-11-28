@@ -208,7 +208,7 @@ end
 --- Set the name of the action
 -- @tparam string The action name
 function ActionInstance:set_name(name)
-	self._name = name
+	self._name = name or ""
 	return self
 end
 
@@ -216,7 +216,7 @@ end
 --- Return the name of the action
 -- @treturn string The action name
 function ActionInstance:get_name()
-	return self._name
+	return self._state_instance:get_name() .. self._name
 end
 
 

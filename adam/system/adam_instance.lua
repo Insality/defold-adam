@@ -11,9 +11,12 @@ local AdamInstance = class("adam.instance")
 
 function AdamInstance:initialize(initial_state, transitions, variables)
 	self._id = nil
+	self._name = ""
+
 	self._is_removed = nil
 	self._states = {}
 	self._variables = variables or {}
+
 	self._current_state = nil
 	self._current_depth = 0
 
@@ -110,6 +113,17 @@ end
 
 function AdamInstance:get_id()
 	return self._id
+end
+
+
+function AdamInstance:set_name(name)
+	self._name = name or ""
+	return self
+end
+
+
+function AdamInstance:get_name()
+	return self._name
 end
 
 

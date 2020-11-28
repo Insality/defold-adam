@@ -121,13 +121,13 @@ end
 
 
 function StateInstance:set_name(name)
-	self._name = name
+	self._name = name or ""
 	return self
 end
 
 
 function StateInstance:get_name()
-	return self._name or self._id
+	return self._adam_instance:get_name() .. (self._name or self._id)
 end
 
 

@@ -1,6 +1,7 @@
 --- Game Object transform actions: move, rotate, scale, etc
 -- @submodule Actions
 
+local const = require("adam.const")
 local helper = require("adam.system.helper")
 local settings = require("adam.system.settings")
 local ActionInstance = require("adam.system.action_instance")
@@ -73,7 +74,7 @@ end
 -- @treturn ActionInstance
 function M.set_position(target_vector, is_every_frame, delay, ease_function)
 	return set_property(".", target_vector, is_every_frame, delay, ease_function,
-		"transform.set_position", helper.PROP_POS, go.set_position, go.get_position, false)
+		"transform.set_position", const.PROP_POS, go.set_position, go.get_position, false)
 end
 
 
@@ -104,7 +105,7 @@ end
 -- @treturn ActionInstance
 function M.set_scale(target_scale, is_every_frame, delay, ease_function)
 	return set_property(".", target_scale, is_every_frame, nil, nil, delay, ease_function,
-		"transform.set_scale", helper.PROP_SCALE, go.set_scale, go.get_scale, false)
+		"transform.set_scale", const.PROP_SCALE, go.set_scale, go.get_scale, false)
 end
 
 
@@ -118,7 +119,7 @@ end
 -- @treturn ActionInstance
 function M.animate_scale(target_scale, time, finish_event, delay, ease_function)
 	return animate_property(".", target_scale, time, finish_event, delay, ease_function,
-		"transform.animate_scale", helper.PROP_SCALE, go.set_scale, go.get_scale, false)
+		"transform.animate_scale", const.PROP_SCALE, go.set_scale, go.get_scale, false)
 end
 
 
@@ -143,7 +144,7 @@ end
 -- @treturn ActionInstance
 function M.translate(delta_vector, is_every_frame, delay, ease_function)
 	return set_property(".", delta_vector, is_every_frame, delay,
-		ease_function, "transform.translate", helper.PROP_POS, go.set_position, go.get_position, true)
+		ease_function, "transform.translate", const.PROP_POS, go.set_position, go.get_position, true)
 end
 
 

@@ -1,5 +1,13 @@
 local M = {}
 
+M.PROP_POS = "position"
+M.PROP_POS_X = "position.x"
+M.PROP_POS_Y = "position.y"
+M.PROP_POS_Z = "position.z"
+M.PROP_SCALE = "scale"
+M.PROP_SCALE_X = "scale.x"
+M.PROP_SCALE_Y = "scale.y"
+M.PROP_SCALE_Z = "scale.z"
 
 M.SECOND = 1
 M.MAX_STACK_DEPTH = 5000

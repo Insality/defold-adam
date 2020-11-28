@@ -3,7 +3,7 @@
 
 ![](media/adam-logo.png)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/insality/defold-adam/Run%20tests)](https://github.com/Insality/defold-adam/actions)
-[![codecov](https://codecov.io/gh/Insality/defold-adam/branch/master/graph/badge.svg)](https://codecov.io/gh/Insality/defold-adam)
+[![codecov](https://codecov.io/gh/Insality/defold-adam/branch/main/graph/badge.svg?token=VIN9pcSlpF)](https://codecov.io/gh/Insality/defold-adam)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/insality/defold-adam)
 ---
 The FSM plugin for Defold to describe states like Playmaker in Unity with predefined actions

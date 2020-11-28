@@ -33,7 +33,7 @@ end
 function M.frames(frames, trigger_event)
 	local action = ActionInstance(function(self, context)
 		if frames <= 0 then
-			self:finish()
+			self:force_finish()
 		end
 
 		if context.frames == nil then
