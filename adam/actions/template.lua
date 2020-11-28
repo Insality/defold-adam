@@ -1,5 +1,6 @@
 --- Template for action file
 -- @submodule Actions
+-- @local
 
 local const = require("adam.const")
 local helper = require("adam.system.helper")

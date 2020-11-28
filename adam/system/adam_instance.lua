@@ -1,6 +1,6 @@
---- The main Adam instance. Instantiate it via `adam.new` and use it in your code.
+--- All Adam instances created by this calss. Instantiate it via `adam.new()`.
 -- @see adam
--- @module AdamInstance
+-- @module Adam
 
 local fsm = require("adam.libs.fsm")
 local class = require("adam.libs.middleclass")
@@ -9,6 +9,12 @@ local const = require("adam.const")
 local AdamInstance = class("adam.instance")
 
 
+--- Adam Instance constructor function.
+-- @tparam StateInstance initial_state The initial FSM state. It will be triggered on start
+-- @tparam StateInstance[] transitions The array of next structure: {state_instance, state_instance, [event]},
+-- describe transitiom from first state to second on event. By default event is adam.FINISHED
+-- @tparam table variabled Defined FSM variables. All variables should be defined before use
+-- @treturn AdamInstance
 function AdamInstance:initialize(initial_state, transitions, variables)
 	self._id = nil
 	self._name = ""
@@ -32,6 +38,9 @@ function AdamInstance:initialize(initial_state, transitions, variables)
 end
 
 
+--- Start the Adam Instance. On create FSM is not started and should be started manually.
+-- You can use `local adam = AdamInstance({}):start()`
+-- @treturn AdamInstance
 function AdamInstance:start()
 	if not self._inited then
 		self._inited = true
@@ -42,6 +51,8 @@ function AdamInstance:start()
 end
 
 
+--- Adam update functions. Place in script/gui_script update function
+-- @tparam numbet dt The delta time
 function AdamInstance:update(dt)
 	self._current_depth = 0
 	if self._current_state then
@@ -52,21 +63,33 @@ function AdamInstance:update(dt)
 end
 
 
+--- Adam on_input function. Place in script/gui_script on_input function
+-- @tparam hash action_id The input action_id
+-- @tparam table action The input action info
 function AdamInstance:on_input(action_id, action)
 	self:_process_input(action_id, action)
 end
 
 
+--- Adam on_message function. Place in script/gui_script on_message function
+-- @tparam hash message_id The message_id
+-- @tparam table message The message info
+-- @tparam hash sender The message sender id
 function AdamInstance:on_message(message_id, message, sender)
 	self:_process_message(message_id, message, sender)
 end
 
 
+--- Adam final function. Place in script/gui_script final function on when you wanna to stop FSM.
+-- Important function, since it track global list of Adam instances
 function AdamInstance:final()
+	-- TODO: Add stop FSM
 	self._is_removed = true
 end
 
 
+--- Trigger event in Adam FSM. If any transitions on this event exists, go to next state instantly
+-- @tparam string event_name The trigger event name
 function AdamInstance:event(event_name)
 	-- settings.log("Trigger event", { name = event_name })
 	if not self._fsm[event_name] or not self._fsm.can(event_name) then
@@ -77,11 +100,17 @@ function AdamInstance:event(event_name)
 end
 
 
+--- Return variable value from Adam instance
+-- @tparam string variable_name The name of variable in FSM
+-- @treturn variable
 function AdamInstance:get_value(variable_name)
 	return self._variables[variable_name]
 end
 
 
+--- Set variable value in Adam instance
+-- @tparam string variable_name The name of variable in FSM
+-- @tparam any value New value for variable
 function AdamInstance:set_value(variable_name, value)
 	assert(self._variables[variable_name] ~= nil, const.ERROR.NO_DEFINED_VARIABLE)
 
@@ -90,16 +119,25 @@ function AdamInstance:set_value(variable_name, value)
 end
 
 
+--- Return input state of pressed action
+-- @tparam hash action_id The input action_id
+-- @local
 function AdamInstance:get_input_pressed(action_id)
 	return self._input_pressed[hash(action_id)]
 end
 
 
+--- Return input state of current action
+-- @tparam hash action_id The input action_id
+-- @local
 function AdamInstance:get_input_current(action_id)
 	return self._input_current[hash(action_id)]
 end
 
 
+--- Return input state of released action
+-- @tparam hash action_id The input action_id
+-- @local
 function AdamInstance:get_input_released(action_id)
 	return self._input_released[hash(action_id)]
 end

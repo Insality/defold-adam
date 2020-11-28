@@ -206,7 +206,7 @@ end
 
 
 --- Set the name of the action
--- @tparam string The action name
+-- @tparam string name The action name
 function ActionInstance:set_name(name)
 	self._name = name or ""
 	return self

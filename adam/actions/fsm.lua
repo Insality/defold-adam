@@ -6,6 +6,7 @@ local ActionInstance = require("adam.system.action_instance")
 
 local M = {}
 
+-- TODO: start/finish/random_event/
 
 --- Send event to target Adam instance
 -- @function actions.fsm.send_event

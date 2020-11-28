@@ -1,5 +1,5 @@
---- User to describe the states for your FSM. Contain actions what will be triggered,
--- on enter to this state.
+--- All state instances created by this class.
+-- Used to describe the states for your FSM. Contain actions what will be triggered.
 -- @module StateInstance
 
 local const = require("adam.const")

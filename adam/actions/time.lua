@@ -27,7 +27,7 @@ end
 
 --- Trigger event after amount of frames. Trigger event is optional
 -- @function actions.time.frames
--- @tparam number frmes Amount of frames to wait
+-- @tparam number frames Amount of frames to wait
 -- @tparam[opt] string trigger_event Name of trigger event
 -- @treturn ActionInstance
 function M.frames(frames, trigger_event)

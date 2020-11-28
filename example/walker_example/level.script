@@ -19,7 +19,7 @@ function init(self)
 			counter = 0,
 			is_touch = 0
 		}
-	):start()
+	)--:start()
 
 	msg.post(".", "acquire_input_focus")
 end

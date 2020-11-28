@@ -4,26 +4,21 @@
 
 local const = require("adam.const")
 
-local debug = require("adam.actions.debug")
-local fsm = require("adam.actions.fsm")
-local go = require("adam.actions.go")
-local math = require("adam.actions.math")
-local input = require("adam.actions.input")
-local time = require("adam.actions.time")
-local transform = require("adam.actions.transform")
-local vmath = require("adam.actions.vmath")
-
-
 local M = {}
 
-M.debug = debug
-M.fsm = fsm
-M.go = go
-M.math = math
-M.input = input
-M.time = time
-M.transform = transform
-M.vmath = vmath
+M.debug = require("adam.actions.debug")
+M.device = require("adam.actions.device")
+M.fsm = require("adam.actions.fsm")
+M.go = require("adam.actions.go")
+M.http = require("adam.actions.http")
+M.input = require("adam.actions.input")
+M.logic = require("adam.actions.logic")
+M.math = require("adam.actions.math")
+M.sound = require("adam.actions.sound")
+M.string = require("adam.actions.string")
+M.time = require("adam.actions.time")
+M.transform = require("adam.actions.transform")
+M.vmath = require("adam.actions.vmath")
 
 
 M.EVENT = const.EVENT
