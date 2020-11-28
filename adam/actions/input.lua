@@ -57,6 +57,7 @@ end
 
 
 --- Check is action_id is active now.
+-- @function actions.input.get_action
 -- @tparam string action_id The key to check
 -- @tparam[opt] string variable Variable to set
 -- @tparam[opt] boolean in_update_only Repeat this action every frame, skip initial call
@@ -70,6 +71,7 @@ end
 
 
 --- Check is action_id was pressed.
+-- @function actions.input.get_action_pressed
 -- @tparam string action_id The key to check
 -- @tparam[opt] string variable Variable to set
 -- @tparam[opt] boolean in_update_only Repeat this action every frame, skip initial call
@@ -83,6 +85,7 @@ end
 
 
 --- Check is action_id was released.
+-- @function actions.input.get_action_released
 -- @tparam string action_id The key to check
 -- @tparam[opt] string variable Variable to set
 -- @tparam[opt] boolean in_update_only Repeat this action every frame, skip initial call
@@ -96,6 +99,7 @@ end
 
 
 --- Check is action_id is active now on sprite_url
+-- @function actions.input.get_sprite_action
 -- @tparam string action_id The key to check
 -- @tparam url sprite_url The sprite url to check input action
 -- @tparam[opt] string variable Variable to set
@@ -110,6 +114,7 @@ end
 
 
 --- Check is action_id is active now on sprite_url
+-- @function actions.input.get_sprite_action_pressed
 -- @tparam string action_id The key to check
 -- @tparam url sprite_url The sprite url to check input action
 -- @tparam[opt] string variable Variable to set
@@ -124,6 +129,7 @@ end
 
 
 --- Check is action_id is active now on sprite_url
+-- @function actions.input.get_sprite_action_released
 -- @tparam string action_id The key to check
 -- @tparam url sprite_url The sprite url to check input action
 -- @tparam[opt] string variable Variable to set
@@ -138,6 +144,7 @@ end
 
 
 --- Imitate two keys as axis. Set result in variable. If both keys are pressed, result will be 0
+-- @function actions.input.get_axis_actions
 -- @tparam string negative_action The action_id to negative check
 -- @tparam string positive_action The action_id to positive check
 -- @tparam string variable Variable to set

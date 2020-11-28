@@ -58,98 +58,98 @@
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#initialize">initialize(initial_state, transitions, variables)</a></td>
+	<td class="name" ><a href="#initialize">initialize(initial_state, transitions, variables)</a></td>
 	<td class="summary">Adam Instance constructor function.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#start">start()</a></td>
+	<td class="name" ><a href="#start">start()</a></td>
 	<td class="summary">Start the Adam Instance.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#update">update(dt)</a></td>
+	<td class="name" ><a href="#update">update(dt)</a></td>
 	<td class="summary">Adam update functions.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#on_input">on_input(action_id, action)</a></td>
+	<td class="name" ><a href="#on_input">on_input(action_id, action)</a></td>
 	<td class="summary">Adam on_input function.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#on_message">on_message(message_id, message, sender)</a></td>
+	<td class="name" ><a href="#on_message">on_message(message_id, message, sender)</a></td>
 	<td class="summary">Adam on_message function.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#final">final()</a></td>
+	<td class="name" ><a href="#final">final()</a></td>
 	<td class="summary">Adam final function.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#event">event(event_name)</a></td>
+	<td class="name" ><a href="#event">event(event_name)</a></td>
 	<td class="summary">Trigger event in Adam FSM.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#can_transition">can_transition(event_name)</a></td>
+	<td class="name" ><a href="#can_transition">can_transition(event_name)</a></td>
 	<td class="summary">Check available to make transition from current state with event</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#get_value">get_value(variable_name)</a></td>
+	<td class="name" ><a href="#get_value">get_value(variable_name)</a></td>
 	<td class="summary">Return variable value from Adam instance</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#set_value">set_value(variable_name, value)</a></td>
+	<td class="name" ><a href="#set_value">set_value(variable_name, value)</a></td>
 	<td class="summary">Set variable value in Adam instance</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#set_id">set_id(hash)</a></td>
+	<td class="name" ><a href="#set_id">set_id(hash)</a></td>
 	<td class="summary">Set id for Adam instance.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#get_id">get_id()</a></td>
+	<td class="name" ><a href="#get_id">get_id()</a></td>
 	<td class="summary">Get id of current Adam instance</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#set_name">set_name(name)</a></td>
+	<td class="name" ><a href="#set_name">set_name(name)</a></td>
 	<td class="summary">Set name for Adam Instance.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#set_debug">set_debug(is_debug)</a></td>
+	<td class="name" ><a href="#set_debug">set_debug(is_debug)</a></td>
 	<td class="summary">Set debug state of state.</td>
 	</tr>
 </table>
 <h2><a href="#Local_Functions">Local Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#get_input_pressed">get_input_pressed(action_id)</a></td>
+	<td class="name" ><a href="#get_input_pressed">get_input_pressed(action_id)</a></td>
 	<td class="summary">Return input state of pressed action</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#get_input_current">get_input_current(action_id)</a></td>
+	<td class="name" ><a href="#get_input_current">get_input_current(action_id)</a></td>
 	<td class="summary">Return input state of current action</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#get_input_released">get_input_released(action_id)</a></td>
+	<td class="name" ><a href="#get_input_released">get_input_released(action_id)</a></td>
 	<td class="summary">Return input state of released action</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#_init_fsm">_init_fsm(initial_state, transitions)</a></td>
+	<td class="name" ><a href="#_init_fsm">_init_fsm(initial_state, transitions)</a></td>
 	<td class="summary">Parse Adam Instance params to create fsm</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#_on_leave_state">_on_leave_state(event, from, to)</a></td>
+	<td class="name" ><a href="#_on_leave_state">_on_leave_state(event, from, to)</a></td>
 	<td class="summary">Adam callback on leave state</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#_on_enter_state">_on_enter_state(event, from, to)</a></td>
+	<td class="name" ><a href="#_on_enter_state">_on_enter_state(event, from, to)</a></td>
 	<td class="summary">Adam callback on enter state</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#_process_input">_process_input(action_id, action)</a></td>
+	<td class="name" ><a href="#_process_input">_process_input(action_id, action)</a></td>
 	<td class="summary">Store input info to process it later</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#_clear_input">_clear_input()</a></td>
+	<td class="name" ><a href="#_clear_input">_clear_input()</a></td>
 	<td class="summary">Clear stored input info.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#_process_message">_process_message(message_id, message, sender)</a></td>
+	<td class="name" ><a href="#_process_message">_process_message(message_id, message, sender)</a></td>
 	<td class="summary">Process messages to send it to Adam FSM is possile</td>
 	</tr>
 </table>

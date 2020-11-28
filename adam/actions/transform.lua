@@ -66,6 +66,7 @@ end
 
 
 --- Sets the position of a game object
+-- @function actions.transform.set_position
 -- @tparam vector3 target_vector Position vector
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] number delay Delay before translate in seconds
@@ -96,6 +97,7 @@ end
 
 
 --- Set scale to a game object
+-- @function actions.transform.set_scale
 -- @tparam vector3 target_scale Scale vector
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] number delay Delay before translate in seconds
@@ -108,6 +110,7 @@ end
 
 
 --- Animate scale to a game object
+-- @function actions.transform.animate_scale
 -- @tparam vector3 target_scale Scale vector
 -- @tparam[opt] number time The time to translate gameobject. Incompatable with is_every_frame
 -- @tparam[opt] string finish_event Name of trigger event
@@ -133,6 +136,7 @@ end
 
 
 --- Translates a game object via delta vector
+-- @function actions.transform.translate
 -- @tparam vector3 delta_vector Vector with x/y/z params to translate
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] number delay Delay before translate in seconds

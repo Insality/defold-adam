@@ -8,6 +8,7 @@ local M = {}
 
 
 --- Spawn game object via factory
+-- @function actions.go.create_object
 -- @tparam url factory_url The factory component to be used
 -- @tparam[opt] vector3 position The position to set
 -- @tparam[opt] variable variable The variable to store created game object id
@@ -33,6 +34,7 @@ end
 
 
 --- Spawn game objects via collection factory
+-- @function actions.go.create_objects
 -- @tparam url collection_factory_url The colection factory component to be used
 -- @tparam[opt] vector3 position The position to set
 -- @tparam[opt] variable variable The variable to store created game object id
@@ -59,6 +61,7 @@ end
 
 --- Delete the current game object
 -- Useful for game objects that need to kill themselves, for example a projectile that explodes on impact.
+-- @function actions.go.delete_self
 -- @tparam[opt] number delay Delay before delete
 -- @tparam[opt] boolean not_recursive Set true to not delete children of deleted go
 -- @treturn ActionInstance
@@ -70,6 +73,7 @@ end
 
 
 --- Delete the game object
+-- @function actions.go.delete_object
 -- @tparam[opt="."] url target The game object to delete, self by default
 -- @tparam[opt] number delay Delay before delete
 -- @tparam[opt] boolean not_recursive Set true to not delete children of deleted go
@@ -87,6 +91,7 @@ end
 
 
 --- Enable the receiving component
+-- @function actions.go.enable_object
 -- @tparam[opt="."] url target The game object to delete, self by default
 -- @tparam[opt] number delay Delay before delete
 -- @treturn ActionInstance
@@ -103,6 +108,7 @@ end
 
 
 --- Enable the receiving component
+-- @function actions.go.disable_object
 -- @tparam[opt="."] url target The game object to delete, self by default
 -- @tparam[opt] number delay Delay before delete
 -- @treturn ActionInstance

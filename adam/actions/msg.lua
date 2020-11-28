@@ -8,6 +8,7 @@ local M = {}
 
 
 --- Post message via msg.post
+-- @function actions.msg.post
 -- @tparam url target The receiver url
 -- @tparam string message_id The message id to send
 -- @tparam[opt] table message A lua table with message parameters to send
