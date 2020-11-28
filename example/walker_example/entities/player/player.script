@@ -2,16 +2,17 @@ local adam = require("adam.adam")
 local actions = require("adam.actions")
 
 function init(self)
-	-- Template example
-	-- TODO: how can I do make templates with custom parameters. For example pass speed
-	-- in template usage place?
-	local wasd_keys_get = adam.actions_template(
-		actions.input.get_axis_actions("key_a", "key_d", "hor_move", true, actions.value("speed")),
-		actions.input.get_axis_actions("key_s", "key_w", "ver_move", true, actions.value("speed"))
-	)
-	-- Nested Template example
+	-- Template example with params
+	local wasd_keys_params = function(speed)
+		return adam.actions_template(
+			actions.input.get_axis_actions("key_a", "key_d", "hor_move", true, speed),
+			actions.input.get_axis_actions("key_s", "key_w", "ver_move", true, speed)
+		)
+	end
+
+	-- Nested Template works too
 	local movable_action = adam.actions_template(
-		wasd_keys_get,
+		wasd_keys_params(actions.value("speed")), -- here can use as FSM variables or hard-coded values
 		actions.vmath.set_xyz("move_vector", actions.value("hor_move"), actions.value("ver_move"), nil, true),
 		actions.transform.translate(actions.value("move_vector"), true)
 	)
@@ -19,7 +20,8 @@ function init(self)
 	-- Template usage. It will create copy of template actions
 	local idle = adam.state(
 		actions.math.set("speed", 5),
-		actions.input.get_action_pressed("key_space", nil, true, "on_fire"),
+		-- actions.input.get_action_pressed("key_space", nil, "on_fire", true),
+		actions.input.get_sprite_action_pressed("touch", "#sprite", nil, true, "on_fire"),
 		movable_action
 	)
 
