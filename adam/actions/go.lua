@@ -10,7 +10,7 @@ local M = {}
 -- @treturn ActionInstance
 function M.create_object(factory_url, position, variable, delay)
 	local action = ActionInstance(function(self)
-		local go_id = factory.create(factory_url, position)
+		local go_id = factory.create(factory_url, self:get_param(position))
 		if variable then
 			self:set_value(variable, go_id)
 		end
@@ -19,6 +19,22 @@ function M.create_object(factory_url, position, variable, delay)
 
 	action:set_delay(delay)
 	action:set_name("go.create_object")
+	return action
+end
+
+
+-- @treturn ActionInstance
+function M.create_objects(collection_factory_url, position, variable, delay)
+	local action = ActionInstance(function(self)
+		local go_ids = collectionfactory.create(collection_factory_url, self:get_param(position))
+		if variable then
+			self:set_value(variable, go_ids)
+		end
+		self:finish()
+	end)
+
+	action:set_delay(delay)
+	action:set_name("go.create_objects")
 	return action
 end
 

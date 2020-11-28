@@ -5,25 +5,22 @@ function init(self)
 	local initial = adam.state(
 	):set_name("Initial")
 
-	local idle = adam.state(
-		-- actions.input.get_action("touch", "is_touch"),
-		-- actions.debug.print(actions.value("is_touch")),
-		actions.time.delay(0.2, "experiment")
-	):set_name("idle")
-
-	local error_state = adam.state(
-		actions.debug.print("Error state")
-	)
+	local spawn_coin = adam.state(
+		actions.debug.print("Spawn coin"),
+		actions.math.random("spawn_pos_x", 100, 860),
+		actions.vmath.set_xyz("spawn_pos", actions.value("spawn_pos_x")),
+		actions.go.create_objects("#coins_factory", actions.value("spawn_pos")),
+		actions.time.delay(1)
+	):set_name("spawn_coin")
 
 	self.adam = adam.new(initial,
 		{
-			{initial, idle},
-			{idle, initial, "experiment"},
-			{idle, error_state}
+			{initial, spawn_coin},
+			{spawn_coin, spawn_coin}
 		},
 		{
-			counter = 0,
-			is_touch = 0
+			spawn_pos_x = 0,
+			spawn_pos = vmath.vector3(0, 550, 0)
 		}
 	):start()
 

@@ -22,7 +22,9 @@ function M.set_xyz(source, value_x, value_y, value_z, is_every_frame)
 		property.z = self:get_param(value_z) or property.z
 	end)
 
-	action:set_every_frame(is_every_frame)
+	if is_every_frame then
+		action:set_every_frame(true)
+	end
 	action:set_name("vmath.set_xyz")
 	return action
 end

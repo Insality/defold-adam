@@ -2,8 +2,6 @@ local adam = require("adam.adam")
 local actions = require("adam.actions")
 
 function init(self)
-	local initial = adam.state()
-
 	local scale_down = adam.state(
 		actions.transform.animate_scale(vmath.vector3(0.5), 1)
 	)
@@ -12,37 +10,48 @@ function init(self)
 		actions.transform.animate_scale(vmath.vector3(0.6), 1)
 	)
 
+	local fall_down = adam.state(
+		actions.transform.translate(vmath.vector3(0, -3, 0), true)
+	)
+
 	local collect = adam.state(
 		actions.transform.animate_scale(vmath.vector3(0.1), 0.2),
 		actions.go.delete_self(0.2)
 	)
 
-	self.adam = adam.new(initial,
+
+	self.adam_animate = adam.new(scale_up,
 		{
-			{initial, scale_up},
 			{scale_up, scale_down},
-			{scale_down, scale_up},
-			{adam.ANY_STATE, collect, actions.EVENT.TRIGGER_ENTER}
+			{scale_down, scale_up}
 		}
 	):start()
+
+	self.adam_logic = adam.new(fall_down, {
+		{fall_down, collect, actions.EVENT.TRIGGER_ENTER}
+	}):start()
 end
 
 
 function on_input(self, action_id, action)
-	self.adam:on_input()
+	self.adam_animate:on_input()
+	self.adam_logic:on_input()
 end
 
 
 function on_message(self, message_id, message, sender)
-	self.adam:on_message(message_id, message, sender)
+	self.adam_animate:on_message(message_id, message, sender)
+	self.adam_logic:on_message(message_id, message, sender)
 end
 
 
 function update(self, dt)
-	self.adam:update(dt)
+	self.adam_animate:update(dt)
+	self.adam_logic:update(dt)
 end
 
 
 function final(self)
-	self.adam:final()
+	self.adam_animate:final()
+	self.adam_logic:final()
 end

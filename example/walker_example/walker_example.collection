@@ -19,72 +19,30 @@ instances {
     z: 1.0
   }
 }
-collection_instances {
-  id: "coin"
-  collection: "/example/walker_example/entities/coin/coin.collection"
-  position {
-    x: 250.0
-    y: 320.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-collection_instances {
-  id: "coin1"
-  collection: "/example/walker_example/entities/coin/coin.collection"
-  position {
-    x: 480.0
-    y: 500.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-collection_instances {
-  id: "coin2"
-  collection: "/example/walker_example/entities/coin/coin.collection"
-  position {
-    x: 710.0
-    y: 320.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
 scale_along_z: 0
 embedded_instances {
   id: "system"
   data: "components {\n"
   "  id: \"level\"\n"
   "  component: \"/example/walker_example/level.script\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"coins_factory\"\n"
+  "  type: \"collectionfactory\"\n"
+  "  data: \"prototype: \\\"/example/walker_example/entities/coin/coin.collection\\\"\\n"
+  "load_dynamically: false\\n"
+  "\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"
