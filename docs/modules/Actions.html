@@ -52,7 +52,6 @@
   <li><a href="../modules/Adam.html">Adam</a></li>
   <li><a href="../modules/ActionInstance.html">ActionInstance</a></li>
   <li><a href="../modules/AdamInstance.html">AdamInstance</a></li>
-  <li><a href="../modules/system.helper.html">system.helper</a></li>
   <li><a href="../modules/StateInstance.html">StateInstance</a></li>
 </ul>
 
@@ -75,29 +74,29 @@
 <h2><a href="#actions_debug_Functions">actions.debug Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.debug.print">actions.debug.print(text, is_every_second)</a></td>
+	<td class="name" nowrap><a href="#print">print(text, is_every_second)</a></td>
 	<td class="summary">Print text to console</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.debug.event">actions.debug.event(event_name)</a></td>
+	<td class="name" nowrap><a href="#event">event(event_name)</a></td>
 	<td class="summary">Instantly trigger event.</td>
 	</tr>
 </table>
 <h2><a href="#actions_fsm_Functions">actions.fsm Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.fsm.send_event">actions.fsm.send_event(target, event_name[, delay[, is_every_frame]])</a></td>
+	<td class="name" nowrap><a href="#send_event">send_event(target, event_name[, delay[, is_every_frame]])</a></td>
 	<td class="summary">Send event to target Adam instance</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.fsm.broadcast_event">actions.fsm.broadcast_event(event_name[, is_exclude_self[, delay]])</a></td>
+	<td class="name" nowrap><a href="#broadcast_event">broadcast_event(event_name[, is_exclude_self[, delay]])</a></td>
 	<td class="summary">Broadcast event to all active FSM</td>
 	</tr>
 </table>
 <h2><a href="#actions_go_Functions">actions.go Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.go.create_object">actions.go.create_object(factory_url[, position[, variable[, delay[, scale[, rotation[, properties]]]]]])</a></td>
+	<td class="name" nowrap><a href="#create_object">create_object(factory_url[, position[, variable[, delay[, scale[, rotation[, properties]]]]]])</a></td>
 	<td class="summary">Spawn game object via factory</td>
 	</tr>
 	<tr>
@@ -105,141 +104,141 @@
 	<td class="summary">Spawn game objects via collection factory</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.go.delete_self">actions.go.delete_self([delay[, not_recursive]])</a></td>
+	<td class="name" nowrap><a href="#delete_self">delete_self([delay[, not_recursive]])</a></td>
 	<td class="summary">Delete the current game object
  Useful for game objects that need to kill themselves, for example a projectile that explodes on impact.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.go.delete_object">actions.go.delete_object([target="."[, delay[, not_recursive]]])</a></td>
+	<td class="name" nowrap><a href="#delete_object">delete_object([target="."[, delay[, not_recursive]]])</a></td>
 	<td class="summary">Delete the game object</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.go.enable_object">actions.go.enable_object([target="."[, delay]])</a></td>
+	<td class="name" nowrap><a href="#enable_object">enable_object([target="."[, delay]])</a></td>
 	<td class="summary">Enable the receiving component</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.go.disable_object">actions.go.disable_object([target="."[, delay]])</a></td>
+	<td class="name" nowrap><a href="#disable_object">disable_object([target="."[, delay]])</a></td>
 	<td class="summary">Enable the receiving component</td>
 	</tr>
 </table>
 <h2><a href="#actions_input_Functions">actions.input Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.input.get_action">actions.input.get_action(key_name[, variable[, in_update_only[, trigger_event]]])</a></td>
+	<td class="name" nowrap><a href="#get_action">get_action(action_id[, variable[, in_update_only[, trigger_event]]])</a></td>
 	<td class="summary">Check is action_id is active now.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.input.get_action_pressed">actions.input.get_action_pressed(key_name[, variable[, in_update_only[, trigger_event]]])</a></td>
+	<td class="name" nowrap><a href="#get_action_pressed">get_action_pressed(action_id[, variable[, in_update_only[, trigger_event]]])</a></td>
 	<td class="summary">Check is action_id was pressed.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.input.get_action_released">actions.input.get_action_released(key_name[, variable[, in_update_only[, trigger_event]]])</a></td>
+	<td class="name" nowrap><a href="#get_action_released">get_action_released(action_id[, variable[, in_update_only[, trigger_event]]])</a></td>
 	<td class="summary">Check is action_id was released.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.input.get_sprite_action">actions.input.get_sprite_action(key_name, sprite_url[, variable[, in_update_only[, trigger_event]]])</a></td>
+	<td class="name" nowrap><a href="#get_sprite_action">get_sprite_action(action_id, sprite_url[, variable[, in_update_only[, trigger_event]]])</a></td>
 	<td class="summary">Check is action_id is active now on sprite_url</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.input.get_sprite_action_pressed">actions.input.get_sprite_action_pressed(key_name, sprite_url[, variable[, in_update_only[, trigger_event]]])</a></td>
+	<td class="name" nowrap><a href="#get_sprite_action_pressed">get_sprite_action_pressed(action_id, sprite_url[, variable[, in_update_only[, trigger_event]]])</a></td>
 	<td class="summary">Check is action_id is active now on sprite_url</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.input.get_sprite_action_released">actions.input.get_sprite_action_released(key_name, sprite_url[, variable[, in_update_only[, trigger_event]]])</a></td>
+	<td class="name" nowrap><a href="#get_sprite_action_released">get_sprite_action_released(action_id, sprite_url[, variable[, in_update_only[, trigger_event]]])</a></td>
 	<td class="summary">Check is action_id is active now on sprite_url</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.input.get_axis_actions">actions.input.get_axis_actions(negative_action, positive_action, variable[, is_every_frame[, multiplier=1]])</a></td>
+	<td class="name" nowrap><a href="#get_axis_actions">get_axis_actions(negative_action, positive_action, variable[, is_every_frame[, multiplier=1]])</a></td>
 	<td class="summary">Imitate two keys as axis.</td>
 	</tr>
 </table>
 <h2><a href="#actions_math_Functions">actions.math Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.math.set">actions.math.set(source, value[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" nowrap><a href="#set">set(source, value[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Set a value to a variable</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.math.add">actions.math.add(source, value[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" nowrap><a href="#add">add(source, value[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Adds a value to a variable</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.math.substract">actions.math.substract(source, value[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" nowrap><a href="#substract">substract(source, value[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Subtracts a value from a variable</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.math.multiply">actions.math.multiply(source, value[, is_every_frame])</a></td>
+	<td class="name" nowrap><a href="#multiply">multiply(source, value[, is_every_frame])</a></td>
 	<td class="summary">Multiplies a variable by another value</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.math.divide">actions.math.divide(source, value[, is_every_frame])</a></td>
+	<td class="name" nowrap><a href="#divide">divide(source, value[, is_every_frame])</a></td>
 	<td class="summary">Divides a value by another value</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.math.set">actions.math.set(source, min, max[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" nowrap><a href="#clamp">clamp(source, min, max[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Clamps the value of a variable to a min/max range.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.math.abs">actions.math.abs(source[, is_every_frame])</a></td>
+	<td class="name" nowrap><a href="#abs">abs(source[, is_every_frame])</a></td>
 	<td class="summary">Sets a float variable to its absolute value.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.math.random">actions.math.random(source, min, max[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" nowrap><a href="#random">random(source, min, max[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Sets a variable to a random value between min/max.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.math.random_boolean">actions.math.random_boolean(source[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" nowrap><a href="#random_boolean">random_boolean(source[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Sets a variable to a random value true or false</td>
 	</tr>
 </table>
 <h2><a href="#actions_msg_Functions">actions.msg Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.msg.post">actions.msg.post(target, message_id[, A])</a></td>
+	<td class="name" nowrap><a href="#post">post(target, message_id[, message[, delay]])</a></td>
 	<td class="summary">Post message via msg.post</td>
 	</tr>
 </table>
 <h2><a href="#actions_template_Functions">actions.template Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.template.func">actions.template.func()</a></td>
+	<td class="name" nowrap><a href="#func">func(source, value, is_every_frame)</a></td>
 	<td class="summary">Add operator</td>
 	</tr>
 </table>
 <h2><a href="#actions_time_Functions">actions.time Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.time.delay">actions.time.delay(seconds[, trigger_event])</a></td>
+	<td class="name" nowrap><a href="#delay">delay(seconds[, trigger_event])</a></td>
 	<td class="summary">Trigger event after time elapsed.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.time.frames">actions.time.frames(frames[, trigger_event])</a></td>
+	<td class="name" nowrap><a href="#frames">frames(frames[, trigger_event])</a></td>
 	<td class="summary">Trigger event after amount of frames.</td>
 	</tr>
 </table>
 <h2><a href="#actions_transform_Functions">actions.transform Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.transform.set_position">actions.transform.set_position(target_vector[, is_every_frame[, delay[, ease_function]]])</a></td>
+	<td class="name" nowrap><a href="#set_position">set_position(target_vector[, is_every_frame[, delay[, ease_function]]])</a></td>
 	<td class="summary">Sets the position of a game object</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.transform.set_scale">actions.transform.set_scale(target_scale[, is_every_frame[, delay[, ease_function]]])</a></td>
+	<td class="name" nowrap><a href="#set_scale">set_scale(target_scale[, is_every_frame[, delay[, ease_function]]])</a></td>
 	<td class="summary">Set scale to a game object</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.transform.animate_scale">actions.transform.animate_scale(target_scale[, time[, finish_event[, delay[, ease_function]]]])</a></td>
+	<td class="name" nowrap><a href="#animate_scale">animate_scale(target_scale[, time[, finish_event[, delay[, ease_function]]]])</a></td>
 	<td class="summary">Animate scale to a game object</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#actions.transform.translate">actions.transform.translate(delta_vector[, is_every_frame[, delay[, ease_function]]])</a></td>
+	<td class="name" nowrap><a href="#translate">translate(delta_vector[, is_every_frame[, delay[, ease_function]]])</a></td>
 	<td class="summary">Translates a game object via delta vector</td>
 	</tr>
 </table>
 <h2><a href="#actions_vmath_Functions">actions.vmath Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#actions.vmath.set_xyz">actions.vmath.set_xyz(source[, value_x[, value_y[, value_z[, is_every_frame]]]])</a></td>
+	<td class="name" nowrap><a href="#set_xyz">set_xyz(source[, value_x[, value_y[, value_z[, is_every_frame]]]])</a></td>
 	<td class="summary">Sets the XYZ channels of a Vector3 variable</td>
 	</tr>
 </table>
@@ -277,8 +276,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "actions.debug.print"></a>
-    <strong>actions.debug.print(text, is_every_second)</strong>
+    <a name = "print"></a>
+    <strong>print(text, is_every_second)</strong>
     </dt>
     <dd>
     Print text to console
@@ -308,8 +307,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.debug.event"></a>
-    <strong>actions.debug.event(event_name)</strong>
+    <a name = "event"></a>
+    <strong>event(event_name)</strong>
     </dt>
     <dd>
     Instantly trigger event.  Useful for test something fast by changing your FSM
@@ -339,8 +338,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "actions.fsm.send_event"></a>
-    <strong>actions.fsm.send_event(target, event_name[, delay[, is_every_frame]])</strong>
+    <a name = "send_event"></a>
+    <strong>send_event(target, event_name[, delay[, is_every_frame]])</strong>
     </dt>
     <dd>
     Send event to target Adam instance
@@ -380,8 +379,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.fsm.broadcast_event"></a>
-    <strong>actions.fsm.broadcast_event(event_name[, is_exclude_self[, delay]])</strong>
+    <a name = "broadcast_event"></a>
+    <strong>broadcast_event(event_name[, is_exclude_self[, delay]])</strong>
     </dt>
     <dd>
     Broadcast event to all active FSM
@@ -421,8 +420,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "actions.go.create_object"></a>
-    <strong>actions.go.create_object(factory_url[, position[, variable[, delay[, scale[, rotation[, properties]]]]]])</strong>
+    <a name = "create_object"></a>
+    <strong>create_object(factory_url[, position[, variable[, delay[, scale[, rotation[, properties]]]]]])</strong>
     </dt>
     <dd>
     Spawn game object via factory
@@ -535,8 +534,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.go.delete_self"></a>
-    <strong>actions.go.delete_self([delay[, not_recursive]])</strong>
+    <a name = "delete_self"></a>
+    <strong>delete_self([delay[, not_recursive]])</strong>
     </dt>
     <dd>
     Delete the current game object
@@ -569,8 +568,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.go.delete_object"></a>
-    <strong>actions.go.delete_object([target="."[, delay[, not_recursive]]])</strong>
+    <a name = "delete_object"></a>
+    <strong>delete_object([target="."[, delay[, not_recursive]]])</strong>
     </dt>
     <dd>
     Delete the game object
@@ -607,8 +606,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.go.enable_object"></a>
-    <strong>actions.go.enable_object([target="."[, delay]])</strong>
+    <a name = "enable_object"></a>
+    <strong>enable_object([target="."[, delay]])</strong>
     </dt>
     <dd>
     Enable the receiving component
@@ -618,7 +617,7 @@
     <ul>
         <li><span class="parameter">target</span>
             <span class="types"><span class="type">url</span></span>
-         The game object to delete
+         The game object to delete, self by default
          (<em>default</em> ".")
         </li>
         <li><span class="parameter">delay</span>
@@ -640,8 +639,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.go.disable_object"></a>
-    <strong>actions.go.disable_object([target="."[, delay]])</strong>
+    <a name = "disable_object"></a>
+    <strong>disable_object([target="."[, delay]])</strong>
     </dt>
     <dd>
     Enable the receiving component
@@ -651,7 +650,7 @@
     <ul>
         <li><span class="parameter">target</span>
             <span class="types"><span class="type">url</span></span>
-         The game object to delete
+         The game object to delete, self by default
          (<em>default</em> ".")
         </li>
         <li><span class="parameter">delay</span>
@@ -677,8 +676,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "actions.input.get_action"></a>
-    <strong>actions.input.get_action(key_name[, variable[, in_update_only[, trigger_event]]])</strong>
+    <a name = "get_action"></a>
+    <strong>get_action(action_id[, variable[, in_update_only[, trigger_event]]])</strong>
     </dt>
     <dd>
     Check is action_id is active now.
@@ -686,7 +685,7 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">key_name</span>
+        <li><span class="parameter">action_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The key to check
         </li>
@@ -697,7 +696,7 @@
         </li>
         <li><span class="parameter">in_update_only</span>
             <span class="types"><span class="type">boolean</span></span>
-         Repeat this action every frame
+         Repeat this action every frame, skip initial call
          (<em>optional</em>)
         </li>
         <li><span class="parameter">trigger_event</span>
@@ -719,8 +718,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.input.get_action_pressed"></a>
-    <strong>actions.input.get_action_pressed(key_name[, variable[, in_update_only[, trigger_event]]])</strong>
+    <a name = "get_action_pressed"></a>
+    <strong>get_action_pressed(action_id[, variable[, in_update_only[, trigger_event]]])</strong>
     </dt>
     <dd>
     Check is action_id was pressed.
@@ -728,7 +727,7 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">key_name</span>
+        <li><span class="parameter">action_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The key to check
         </li>
@@ -739,7 +738,7 @@
         </li>
         <li><span class="parameter">in_update_only</span>
             <span class="types"><span class="type">boolean</span></span>
-         Repeat this action every frame
+         Repeat this action every frame, skip initial call
          (<em>optional</em>)
         </li>
         <li><span class="parameter">trigger_event</span>
@@ -761,8 +760,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.input.get_action_released"></a>
-    <strong>actions.input.get_action_released(key_name[, variable[, in_update_only[, trigger_event]]])</strong>
+    <a name = "get_action_released"></a>
+    <strong>get_action_released(action_id[, variable[, in_update_only[, trigger_event]]])</strong>
     </dt>
     <dd>
     Check is action_id was released.
@@ -770,7 +769,7 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">key_name</span>
+        <li><span class="parameter">action_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The key to check
         </li>
@@ -781,7 +780,7 @@
         </li>
         <li><span class="parameter">in_update_only</span>
             <span class="types"><span class="type">boolean</span></span>
-         Repeat this action every frame
+         Repeat this action every frame, skip initial call
          (<em>optional</em>)
         </li>
         <li><span class="parameter">trigger_event</span>
@@ -803,8 +802,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.input.get_sprite_action"></a>
-    <strong>actions.input.get_sprite_action(key_name, sprite_url[, variable[, in_update_only[, trigger_event]]])</strong>
+    <a name = "get_sprite_action"></a>
+    <strong>get_sprite_action(action_id, sprite_url[, variable[, in_update_only[, trigger_event]]])</strong>
     </dt>
     <dd>
     Check is action_id is active now on sprite_url
@@ -812,7 +811,7 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">key_name</span>
+        <li><span class="parameter">action_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The key to check
         </li>
@@ -827,7 +826,7 @@
         </li>
         <li><span class="parameter">in_update_only</span>
             <span class="types"><span class="type">boolean</span></span>
-         Repeat this action every frame
+         Repeat this action every frame, skip initial call
          (<em>optional</em>)
         </li>
         <li><span class="parameter">trigger_event</span>
@@ -849,8 +848,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.input.get_sprite_action_pressed"></a>
-    <strong>actions.input.get_sprite_action_pressed(key_name, sprite_url[, variable[, in_update_only[, trigger_event]]])</strong>
+    <a name = "get_sprite_action_pressed"></a>
+    <strong>get_sprite_action_pressed(action_id, sprite_url[, variable[, in_update_only[, trigger_event]]])</strong>
     </dt>
     <dd>
     Check is action_id is active now on sprite_url
@@ -858,7 +857,7 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">key_name</span>
+        <li><span class="parameter">action_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The key to check
         </li>
@@ -873,7 +872,7 @@
         </li>
         <li><span class="parameter">in_update_only</span>
             <span class="types"><span class="type">boolean</span></span>
-         Repeat this action every frame
+         Repeat this action every frame, skip initial call
          (<em>optional</em>)
         </li>
         <li><span class="parameter">trigger_event</span>
@@ -895,8 +894,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.input.get_sprite_action_released"></a>
-    <strong>actions.input.get_sprite_action_released(key_name, sprite_url[, variable[, in_update_only[, trigger_event]]])</strong>
+    <a name = "get_sprite_action_released"></a>
+    <strong>get_sprite_action_released(action_id, sprite_url[, variable[, in_update_only[, trigger_event]]])</strong>
     </dt>
     <dd>
     Check is action_id is active now on sprite_url
@@ -904,7 +903,7 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">key_name</span>
+        <li><span class="parameter">action_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The key to check
         </li>
@@ -919,7 +918,7 @@
         </li>
         <li><span class="parameter">in_update_only</span>
             <span class="types"><span class="type">boolean</span></span>
-         Repeat this action every frame
+         Repeat this action every frame, skip initial call
          (<em>optional</em>)
         </li>
         <li><span class="parameter">trigger_event</span>
@@ -941,8 +940,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.input.get_axis_actions"></a>
-    <strong>actions.input.get_axis_actions(negative_action, positive_action, variable[, is_every_frame[, multiplier=1]])</strong>
+    <a name = "get_axis_actions"></a>
+    <strong>get_axis_actions(negative_action, positive_action, variable[, is_every_frame[, multiplier=1]])</strong>
     </dt>
     <dd>
     Imitate two keys as axis.  Set result in variable. If both keys are pressed, result will be 0
@@ -964,7 +963,7 @@
         </li>
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
-         Repeat this action every frame
+         Repeat this action every frame, skip initial call
          (<em>optional</em>)
         </li>
         <li><span class="parameter">multiplier</span>
@@ -990,8 +989,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "actions.math.set"></a>
-    <strong>actions.math.set(source, value[, is_every_frame[, is_every_second]])</strong>
+    <a name = "set"></a>
+    <strong>set(source, value[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Set a value to a variable
@@ -1031,8 +1030,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.math.add"></a>
-    <strong>actions.math.add(source, value[, is_every_frame[, is_every_second]])</strong>
+    <a name = "add"></a>
+    <strong>add(source, value[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Adds a value to a variable
@@ -1072,8 +1071,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.math.substract"></a>
-    <strong>actions.math.substract(source, value[, is_every_frame[, is_every_second]])</strong>
+    <a name = "substract"></a>
+    <strong>substract(source, value[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Subtracts a value from a variable
@@ -1113,8 +1112,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.math.multiply"></a>
-    <strong>actions.math.multiply(source, value[, is_every_frame])</strong>
+    <a name = "multiply"></a>
+    <strong>multiply(source, value[, is_every_frame])</strong>
     </dt>
     <dd>
     Multiplies a variable by another value
@@ -1149,8 +1148,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.math.divide"></a>
-    <strong>actions.math.divide(source, value[, is_every_frame])</strong>
+    <a name = "divide"></a>
+    <strong>divide(source, value[, is_every_frame])</strong>
     </dt>
     <dd>
     Divides a value by another value
@@ -1185,8 +1184,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.math.set"></a>
-    <strong>actions.math.set(source, min, max[, is_every_frame[, is_every_second]])</strong>
+    <a name = "clamp"></a>
+    <strong>clamp(source, min, max[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Clamps the value of a variable to a min/max range.
@@ -1230,8 +1229,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.math.abs"></a>
-    <strong>actions.math.abs(source[, is_every_frame])</strong>
+    <a name = "abs"></a>
+    <strong>abs(source[, is_every_frame])</strong>
     </dt>
     <dd>
     Sets a float variable to its absolute value.
@@ -1262,8 +1261,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.math.random"></a>
-    <strong>actions.math.random(source, min, max[, is_every_frame[, is_every_second]])</strong>
+    <a name = "random"></a>
+    <strong>random(source, min, max[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Sets a variable to a random value between min/max.
@@ -1307,8 +1306,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.math.random_boolean"></a>
-    <strong>actions.math.random_boolean(source[, is_every_frame[, is_every_second]])</strong>
+    <a name = "random_boolean"></a>
+    <strong>random_boolean(source[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Sets a variable to a random value true or false
@@ -1348,8 +1347,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "actions.msg.post"></a>
-    <strong>actions.msg.post(target, message_id[, A])</strong>
+    <a name = "post"></a>
+    <strong>post(target, message_id[, message[, delay]])</strong>
     </dt>
     <dd>
     Post message via msg.post
@@ -1365,9 +1364,14 @@
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The message id to send
         </li>
-        <li><span class="parameter">A</span>
+        <li><span class="parameter">message</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-         lua table with message parameters to send
+         A lua table with message parameters to send
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Time in seconds
          (<em>optional</em>)
         </li>
     </ul>
@@ -1388,13 +1392,25 @@
 
     <dl class="function">
     <dt>
-    <a name = "actions.template.func"></a>
-    <strong>actions.template.func()</strong>
+    <a name = "func"></a>
+    <strong>func(source, value, is_every_frame)</strong>
     </dt>
     <dd>
     Add operator
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+
+        </li>
+        <li><span class="parameter">value</span>
+
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+
+        </li>
+    </ul>
 
     <h3>Returns:</h3>
     <ol>
@@ -1412,8 +1428,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "actions.time.delay"></a>
-    <strong>actions.time.delay(seconds[, trigger_event])</strong>
+    <a name = "delay"></a>
+    <strong>delay(seconds[, trigger_event])</strong>
     </dt>
     <dd>
     Trigger event after time elapsed.  Trigger event is optional
@@ -1444,8 +1460,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.time.frames"></a>
-    <strong>actions.time.frames(frames[, trigger_event])</strong>
+    <a name = "frames"></a>
+    <strong>frames(frames[, trigger_event])</strong>
     </dt>
     <dd>
     Trigger event after amount of frames.  Trigger event is optional
@@ -1480,8 +1496,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "actions.transform.set_position"></a>
-    <strong>actions.transform.set_position(target_vector[, is_every_frame[, delay[, ease_function]]])</strong>
+    <a name = "set_position"></a>
+    <strong>set_position(target_vector[, is_every_frame[, delay[, ease_function]]])</strong>
     </dt>
     <dd>
     Sets the position of a game object
@@ -1522,8 +1538,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.transform.set_scale"></a>
-    <strong>actions.transform.set_scale(target_scale[, is_every_frame[, delay[, ease_function]]])</strong>
+    <a name = "set_scale"></a>
+    <strong>set_scale(target_scale[, is_every_frame[, delay[, ease_function]]])</strong>
     </dt>
     <dd>
     Set scale to a game object
@@ -1564,8 +1580,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.transform.animate_scale"></a>
-    <strong>actions.transform.animate_scale(target_scale[, time[, finish_event[, delay[, ease_function]]]])</strong>
+    <a name = "animate_scale"></a>
+    <strong>animate_scale(target_scale[, time[, finish_event[, delay[, ease_function]]]])</strong>
     </dt>
     <dd>
     Animate scale to a game object
@@ -1611,8 +1627,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.transform.translate"></a>
-    <strong>actions.transform.translate(delta_vector[, is_every_frame[, delay[, ease_function]]])</strong>
+    <a name = "translate"></a>
+    <strong>translate(delta_vector[, is_every_frame[, delay[, ease_function]]])</strong>
     </dt>
     <dd>
     Translates a game object via delta vector
@@ -1657,8 +1673,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "actions.vmath.set_xyz"></a>
-    <strong>actions.vmath.set_xyz(source[, value_x[, value_y[, value_z[, is_every_frame]]]])</strong>
+    <a name = "set_xyz"></a>
+    <strong>set_xyz(source[, value_x[, value_y[, value_z[, is_every_frame]]]])</strong>
     </dt>
     <dd>
     Sets the XYZ channels of a Vector3 variable

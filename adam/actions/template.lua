@@ -10,7 +10,6 @@ local M = {}
 
 
 --- Add operator
--- @function actions.template.func
 -- @treturn ActionInstance
 function M.func(source, value, is_every_frame)
 	local action = ActionInstance(function(self)

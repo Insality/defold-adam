@@ -103,7 +103,7 @@ end
 
 
 --- Check available to make transition from current state with event
--- @tparam string event name The trigger event
+-- @tparam string event_name The trigger event
 -- @treturn boolean True, if FSM will make transition on this event
 function AdamInstance:can_transition(event_name)
 	return self._fsm[event_name] and self._fsm.can(event_name)

@@ -27,7 +27,6 @@ end
 
 
 --- Set a value to a variable
--- @function actions.math.set
 -- @tparam string source Variable to set
 -- @tparam varible value The value to set
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
@@ -41,7 +40,6 @@ end
 
 
 --- Adds a value to a variable
--- @function actions.math.add
 -- @tparam string source Variable to add
 -- @tparam varible value The value to add
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
@@ -55,7 +53,6 @@ end
 
 
 --- Subtracts a value from a variable
--- @function actions.math.substract
 -- @tparam string source Variable to substract from
 -- @tparam varible value The value to substract
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
@@ -69,7 +66,6 @@ end
 
 
 --- Multiplies a variable by another value
--- @function actions.math.multiply
 -- @tparam string source Variable to multiply
 -- @tparam varible value The multiplier
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
@@ -82,7 +78,6 @@ end
 
 
 --- Divides a value by another value
--- @function actions.math.divide
 -- @tparam string source Variable to divide
 -- @tparam varible value Divide by this value
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
@@ -95,7 +90,6 @@ end
 
 
 --- Clamps the value of a variable to a min/max range.
--- @function actions.math.set
 -- @tparam string source Variable to set
 -- @tparam number min The minimum value allowed.
 -- @tparam number max The maximum value allowed.
@@ -113,7 +107,6 @@ end
 
 
 --- Sets a float variable to its absolute value.
--- @function actions.math.abs
 -- @tparam string source Variable to abs
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @treturn ActionInstance
@@ -125,7 +118,6 @@ end
 
 
 --- Sets a variable to a random value between min/max.
--- @function actions.math.random
 -- @tparam string source Variable to set
 -- @tparam variable min Minimum value of the random number
 -- @tparam variable max Maximum value of the random number.
@@ -140,7 +132,6 @@ end
 
 
 --- Sets a variable to a random value true or false
--- @function actions.math.random_boolean
 -- @tparam string source Variable to set
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] boolean is_every_second Repeat this action every second

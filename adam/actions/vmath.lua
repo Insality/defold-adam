@@ -7,7 +7,6 @@ local M = {}
 
 
 --- Sets the XYZ channels of a Vector3 variable
--- @function actions.vmath.set_xyz
 -- @tparam string source Variable to set
 -- @tparam[opt] number value_x The x value to set. Pass nil to not change value
 -- @tparam[opt] number value_y The y value to set. Pass nil to not change value

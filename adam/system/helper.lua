@@ -17,7 +17,8 @@ end
 local NO_PADDING = {
 	left = 0, right = 0, bottom = 0, top = 0,
 }
---- Source: https://github.com/critique-gaming/crit/blob/master/crit/pick.lua
+
+-- Source: https://github.com/critique-gaming/crit/blob/master/crit/pick.lua
 -- @param[type=url | string] sprite_url An URL identifying the sprite component.
 -- @number x The x position of the point (in world space) to do the check on.
 -- @number y The y position of the point (in world space) to do the check on.

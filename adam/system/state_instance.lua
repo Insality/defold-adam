@@ -143,7 +143,7 @@ function StateInstance:set_name(name)
 end
 
 
--- Get name of current State Instance
+--- Get name of current State Instance
 -- @treturn string The State Instance name
 function StateInstance:get_name()
 	return self._adam_instance:get_name() .. ":" .. (self._name or self._id)

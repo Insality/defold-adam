@@ -8,7 +8,6 @@ local M = {}
 
 
 --- Print text to console
--- @function actions.debug.print
 -- @tparam string text The log message
 -- @tparam bool is_every_second Repeat this action every second
 -- @treturn ActionInstance
@@ -26,7 +25,6 @@ end
 
 
 --- Instantly trigger event. Useful for test something fast by changing your FSM
--- @function actions.debug.event
 -- @tparam string event_name The event to send
 -- @treturn ActionInstance
 function M.event(event_name)

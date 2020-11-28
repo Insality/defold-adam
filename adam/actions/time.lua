@@ -7,7 +7,6 @@ local M = {}
 
 
 --- Trigger event after time elapsed. Trigger event is optional
--- @function actions.time.delay
 -- @tparam number seconds Amount of seconds for delay
 -- @tparam[opt] string trigger_event Name of trigger event
 -- @treturn ActionInstance
@@ -23,7 +22,6 @@ end
 
 
 --- Trigger event after amount of frames. Trigger event is optional
--- @function actions.time.frames
 -- @tparam number frames Amount of frames to wait
 -- @tparam[opt] string trigger_event Name of trigger event
 -- @treturn ActionInstance

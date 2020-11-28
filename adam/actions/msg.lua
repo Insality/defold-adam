@@ -8,10 +8,10 @@ local M = {}
 
 
 --- Post message via msg.post
--- @function actions.msg.post
 -- @tparam url target The receiver url
 -- @tparam string message_id The message id to send
--- @tparam[opt] table A lua table with message parameters to send
+-- @tparam[opt] table message A lua table with message parameters to send
+-- @tparam[opt] number delay Time in seconds
 -- @treturn ActionInstance
 function M.post(target, message_id, message, delay)
 	local action = ActionInstance(function(self)

@@ -57,10 +57,9 @@ end
 
 
 --- Check is action_id is active now.
--- @function actions.input.get_action
--- @tparam string key_name The key to check
+-- @tparam string action_id The key to check
 -- @tparam[opt] string variable Variable to set
--- @tparam[opt] boolean in_update_only Repeat this action every frame
+-- @tparam[opt] boolean in_update_only Repeat this action every frame, skip initial call
 -- @tparam[opt] string trigger_event The event to trigger on true condition
 -- @treturn ActionInstance
 function M.get_action(action_id, variable, in_update_only, trigger_event)
@@ -71,10 +70,9 @@ end
 
 
 --- Check is action_id was pressed.
--- @function actions.input.get_action_pressed
--- @tparam string key_name The key to check
+-- @tparam string action_id The key to check
 -- @tparam[opt] string variable Variable to set
--- @tparam[opt] boolean in_update_only Repeat this action every frame
+-- @tparam[opt] boolean in_update_only Repeat this action every frame, skip initial call
 -- @tparam[opt] string trigger_event The event to trigger on true condition
 -- @treturn ActionInstance
 function M.get_action_pressed(action_id, variable, in_update_only, trigger_event)
@@ -85,10 +83,9 @@ end
 
 
 --- Check is action_id was released.
--- @function actions.input.get_action_released
--- @tparam string key_name The key to check
+-- @tparam string action_id The key to check
 -- @tparam[opt] string variable Variable to set
--- @tparam[opt] boolean in_update_only Repeat this action every frame
+-- @tparam[opt] boolean in_update_only Repeat this action every frame, skip initial call
 -- @tparam[opt] string trigger_event The event to trigger on true condition
 -- @treturn ActionInstance
 function M.get_action_released(action_id, variable, in_update_only, trigger_event)
@@ -99,11 +96,10 @@ end
 
 
 --- Check is action_id is active now on sprite_url
--- @function actions.input.get_sprite_action
--- @tparam string key_name The key to check
+-- @tparam string action_id The key to check
 -- @tparam url sprite_url The sprite url to check input action
 -- @tparam[opt] string variable Variable to set
--- @tparam[opt] boolean in_update_only Repeat this action every frame
+-- @tparam[opt] boolean in_update_only Repeat this action every frame, skip initial call
 -- @tparam[opt] string trigger_event The event to trigger on true condition
 -- @treturn ActionInstance
 function M.get_sprite_action(action_id, sprite_url, variable, in_update_only, trigger_event)
@@ -114,11 +110,10 @@ end
 
 
 --- Check is action_id is active now on sprite_url
--- @function actions.input.get_sprite_action_pressed
--- @tparam string key_name The key to check
+-- @tparam string action_id The key to check
 -- @tparam url sprite_url The sprite url to check input action
 -- @tparam[opt] string variable Variable to set
--- @tparam[opt] boolean in_update_only Repeat this action every frame
+-- @tparam[opt] boolean in_update_only Repeat this action every frame, skip initial call
 -- @tparam[opt] string trigger_event The event to trigger on true condition
 -- @treturn ActionInstance
 function M.get_sprite_action_pressed(action_id, sprite_url, variable, in_update_only, trigger_event)
@@ -129,11 +124,10 @@ end
 
 
 --- Check is action_id is active now on sprite_url
--- @function actions.input.get_sprite_action_released
--- @tparam string key_name The key to check
+-- @tparam string action_id The key to check
 -- @tparam url sprite_url The sprite url to check input action
 -- @tparam[opt] string variable Variable to set
--- @tparam[opt] boolean in_update_only Repeat this action every frame
+-- @tparam[opt] boolean in_update_only Repeat this action every frame, skip initial call
 -- @tparam[opt] string trigger_event The event to trigger on true condition
 -- @treturn ActionInstance
 function M.get_sprite_action_released(action_id, sprite_url, variable, in_update_only, trigger_event)
@@ -144,11 +138,10 @@ end
 
 
 --- Imitate two keys as axis. Set result in variable. If both keys are pressed, result will be 0
--- @function actions.input.get_axis_actions
 -- @tparam string negative_action The action_id to negative check
 -- @tparam string positive_action The action_id to positive check
 -- @tparam string variable Variable to set
--- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame, skip initial call
 -- @tparam[opt=1] number multiplier The value to multiply result
 -- @treturn ActionInstance
 function M.get_axis_actions(negative_action, positive_action, variable, is_every_frame, multiplier)

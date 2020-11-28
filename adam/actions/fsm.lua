@@ -9,7 +9,6 @@ local M = {}
 -- TODO: start/finish/random_event/
 
 --- Send event to target Adam instance
--- @function actions.fsm.send_event
 -- @tparam string|adam target The target instance for send event. If there are several instances with equal ID, event will be delivered to all of them.
 -- @tparam string event_name The event to send
 -- @tparam[opt] number delay Time delay in seconds
@@ -31,7 +30,6 @@ end
 
 
 --- Broadcast event to all active FSM
--- @function actions.fsm.broadcast_event
 -- @tparam string event_name The event to send
 -- @tparam[opt] bool is_exclude_self Don't send the event to self
 -- @tparam[opt] number delay Time delay in seconds

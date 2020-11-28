@@ -43,7 +43,6 @@
   <li><a href="../modules/Adam.html">Adam</a></li>
   <li><a href="../modules/ActionInstance.html">ActionInstance</a></li>
   <li><strong>AdamInstance</strong></li>
-  <li><a href="../modules/system.helper.html">system.helper</a></li>
   <li><a href="../modules/StateInstance.html">StateInstance</a></li>
 </ul>
 
@@ -87,7 +86,7 @@
 	<td class="summary">Trigger event in Adam FSM.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#can_transition">can_transition(event)</a></td>
+	<td class="name" nowrap><a href="#can_transition">can_transition(event_name)</a></td>
 	<td class="summary">Check available to make transition from current state with event</td>
 	</tr>
 	<tr>
@@ -332,7 +331,7 @@
 </dd>
     <dt>
     <a name = "can_transition"></a>
-    <strong>can_transition(event)</strong>
+    <strong>can_transition(event_name)</strong>
     </dt>
     <dd>
     Check available to make transition from current state with event
@@ -340,9 +339,9 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">event</span>
+        <li><span class="parameter">event_name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         name The trigger event
+         The trigger event
         </li>
     </ul>
 
