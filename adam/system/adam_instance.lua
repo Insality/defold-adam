@@ -193,6 +193,8 @@ function AdamInstance:_init_fsm(initial_state, transitions)
 
 	self._states[initial_state:get_id()] = initial_state
 
+
+	transitions = transitions or {}
 	for _, transition in ipairs(transitions) do
 		local transition1_id = transition[1] and transition[1]:get_id() or const.WILDCARD
 		local transition2_id = transition[2]:get_id()

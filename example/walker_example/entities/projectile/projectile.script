@@ -1,0 +1,22 @@
+local adam = require("adam.adam")
+local actions = require("adam.actions")
+
+
+function init(self)
+	local fly = adam.state(
+		actions.transform.translate(vmath.vector3(0, 10, 0), true),
+		actions.go.delete_self(1)
+	)
+
+	self.adam = adam.new(fly):start()
+end
+
+
+function final(self)
+	self.adam:final()
+end
+
+
+function update(self, dt)
+	self.adam:update(dt)
+end

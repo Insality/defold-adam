@@ -19,7 +19,7 @@ function init(self)
 	-- Template usage. It will create copy of template actions
 	local idle = adam.state(
 		actions.math.set("speed", 5),
-		actions.input.get_action_pressed("touch", nil, true, "on_fire"),
+		actions.input.get_action_pressed("key_space", nil, true, "on_fire"),
 		movable_action
 	)
 
@@ -32,7 +32,6 @@ function init(self)
 	)
 
 	local shoot = adam.state(
-		actions.debug.print("SHOOT"),
 		actions.go.create_object("#projectiles")
 	)
 
