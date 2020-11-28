@@ -1,3 +1,6 @@
+-- Several utilitary functions
+-- @local
+
 local M = {}
 
 

@@ -42,7 +42,7 @@
   <li><a href="../modules/Actions.html">Actions</a></li>
   <li><a href="../modules/Adam.html">Adam</a></li>
   <li><a href="../modules/ActionInstance.html">ActionInstance</a></li>
-  <li><a href="../modules/AdamInstance.html">AdamInstance</a></li>
+  <li><a href="../modules/Adam.html">Adam</a></li>
   <li><strong>StateInstance</strong></li>
 </ul>
 
@@ -51,16 +51,32 @@
 <div id="content">
 
 <h1>Module <code>StateInstance</code></h1>
-<p>User to describe the states for your FSM.</p>
-<p> Contain actions what will be triggered,
- on enter to this state.</p>
+<p>All state instances created by this class.</p>
+<p>
+ Used to describe the states for your FSM. Contain actions what will be triggered.</p>
 
 
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
+	<td class="name" nowrap><a href="#initialize">initialize(...)</a></td>
+	<td class="summary">State Instance constructor function</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#event">event(event_name)</a></td>
 	<td class="summary">Trigger event to FSM.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_adam_instance">get_adam_instance()</a></td>
+	<td class="summary">Get the current AdamInstance, attached to this state</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_id">get_id()</a></td>
+	<td class="summary">Return current State Instance id.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_name">set_name(name)</a></td>
+	<td class="summary">Set name for State Instance.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#set_debug">set_debug(state)</a></td>
@@ -69,6 +85,10 @@
 </table>
 <h2><a href="#Local_Functions">Local Functions</a></h2>
 <table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#update">update(dt)</a></td>
+	<td class="summary">State Instance update function.</td>
+	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#trigger">trigger()</a></td>
 	<td class="summary">Execute all state instance actions.</td>
@@ -85,6 +105,18 @@
 	<td class="name" nowrap><a href="#set_value">set_value(variable_name, value)</a></td>
 	<td class="summary">Set variable value in action's FSM.</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_adam_instance">set_adam_instance(adam_instance)</a></td>
+	<td class="summary">Set current AdamInstance for this StateInstance</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_on_action_finish">_on_action_finish()</a></td>
+	<td class="summary">ActionInstance, triggered by this State, call this callback on finish execution</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_load_actions">_load_actions(actions)</a></td>
+	<td class="summary">Load list of actions.</td>
+	</tr>
 </table>
 
 <br/>
@@ -94,6 +126,33 @@
     <h2 class="section-header "><a name="Functions"></a>Functions</h2>
 
     <dl class="function">
+    <dt>
+    <a name = "initialize"></a>
+    <strong>initialize(...)</strong>
+    </dt>
+    <dd>
+    State Instance constructor function
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+            <span class="types"><span class="type">ActionInstance</span></span>
+         The any amount of ActionInstance for this State
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">StateInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
     <dt>
     <a name = "event"></a>
     <strong>event(event_name)</strong>
@@ -108,6 +167,62 @@
         <li><span class="parameter">event_name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The event to send
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_adam_instance"></a>
+    <strong>get_adam_instance()</strong>
+    </dt>
+    <dd>
+    Get the current AdamInstance, attached to this state
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">AdamInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_id"></a>
+    <strong>get_id()</strong>
+    </dt>
+    <dd>
+    Return current State Instance id.  All State's id are unique.
+ Used to build Adam FSM transitions
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_name"></a>
+    <strong>set_name(name)</strong>
+    </dt>
+    <dd>
+    Set name for State Instance.  Useful for Debug.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The State Instance name
         </li>
     </ul>
 
@@ -142,12 +257,32 @@
 
     <dl class="function">
     <dt>
+    <a name = "update"></a>
+    <strong>update(dt)</strong>
+    </dt>
+    <dd>
+    State Instance update function.  Called by AdamInstance:update
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dt</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "trigger"></a>
     <strong>trigger()</strong>
     </dt>
     <dd>
-    Execute all state instance actions.  Called by
- AdamInstance on enter this state
+    Execute all state instance actions.
+ Called by AdamInstance on enter state callback
 
 
 
@@ -161,8 +296,8 @@
     <strong>release()</strong>
     </dt>
     <dd>
-    Execute all state instance release actions.  Called by
- AdamInstance on leave from this state
+    Execute all state instance release actions.
+ Called by AdamInstance on leave state callback
 
 
 
@@ -222,6 +357,62 @@
     <ul>
          <a href="../modules/ActionInstance.html#get_value">ActionInstance.get_value</a>
     </ul>
+
+
+</dd>
+    <dt>
+    <a name = "set_adam_instance"></a>
+    <strong>set_adam_instance(adam_instance)</strong>
+    </dt>
+    <dd>
+    Set current AdamInstance for this StateInstance
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">adam_instance</span>
+            <span class="types"><span class="type">AdamInstance</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_on_action_finish"></a>
+    <strong>_on_action_finish()</strong>
+    </dt>
+    <dd>
+    ActionInstance, triggered by this State, call this callback on finish execution
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_load_actions"></a>
+    <strong>_load_actions(actions)</strong>
+    </dt>
+    <dd>
+    Load list of actions.  Need to proceed included action templates
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">actions</span>
+            <span class="types"><span class="type">ActionInstance[]</span></span>
+         The list of actions
+        </li>
+    </ul>
+
+
+
 
 
 </dd>

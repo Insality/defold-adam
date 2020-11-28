@@ -1,3 +1,6 @@
+-- Defold Adam constants
+-- @local
+
 local M = {}
 
 M.PROP_POS = "position"

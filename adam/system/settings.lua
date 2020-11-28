@@ -1,3 +1,7 @@
+-- Defold ADam settings functions
+-- @local
+
+
 local M = {}
 
 

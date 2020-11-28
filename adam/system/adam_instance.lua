@@ -1,5 +1,4 @@
 --- All Adam instances created by this calss. Instantiate it via `adam.new()`.
--- @see adam
 -- @module Adam
 
 local fsm = require("adam.libs.fsm")
@@ -13,7 +12,7 @@ local AdamInstance = class("adam.instance")
 -- @tparam StateInstance initial_state The initial FSM state. It will be triggered on start
 -- @tparam StateInstance[] transitions The array of next structure: {state_instance, state_instance, [event]},
 -- describe transitiom from first state to second on event. By default event is adam.FINISHED
--- @tparam table variabled Defined FSM variables. All variables should be defined before use
+-- @tparam table variables Defined FSM variables. All variables should be defined before use
 -- @treturn AdamInstance
 function AdamInstance:initialize(initial_state, transitions, variables)
 	self._id = nil
@@ -121,6 +120,7 @@ end
 
 --- Return input state of pressed action
 -- @tparam hash action_id The input action_id
+-- @treturn table|nil The input info
 -- @local
 function AdamInstance:get_input_pressed(action_id)
 	return self._input_pressed[hash(action_id)]
@@ -129,6 +129,7 @@ end
 
 --- Return input state of current action
 -- @tparam hash action_id The input action_id
+-- @treturn table|nil The input info
 -- @local
 function AdamInstance:get_input_current(action_id)
 	return self._input_current[hash(action_id)]
@@ -137,34 +138,46 @@ end
 
 --- Return input state of released action
 -- @tparam hash action_id The input action_id
+-- @treturn table|nil The input info
 -- @local
 function AdamInstance:get_input_released(action_id)
 	return self._input_released[hash(action_id)]
 end
 
 
+--- Set id for Adam instance. Several Adam instances can have single id
+-- Useful for select multiply Adam instances on fsm actions
+-- @tparam hash hash The Adam Instance id
 function AdamInstance:set_id(hash)
 	self._id = hash
 	return self
 end
 
 
+--- Get id of current Adam instance
+-- @treturn hash The Adam Instance id
 function AdamInstance:get_id()
 	return self._id
 end
 
 
+--- Set name for Adam Instance. Useful for Debug.
+-- @tparam string name The Adam Instance name
 function AdamInstance:set_name(name)
 	self._name = name or ""
 	return self
 end
 
 
+-- Get name of current Adam Instance
+-- @treturn string The Adam Instance name
 function AdamInstance:get_name()
 	return self._name
 end
 
 
+--- Parse Adam Instance params to create fsm
+-- @local
 function AdamInstance:_init_fsm(initial_state, transitions)
 	local fsm_param = {
 		initial = { state = initial_state:get_id(), event = const.INIT_EVENT, defer = true },
@@ -196,6 +209,8 @@ function AdamInstance:_init_fsm(initial_state, transitions)
 end
 
 
+--- Adam callback on leave state
+-- @local
 function AdamInstance:_on_leave_state(event, from, to)
 	if from == const.NONE_STATE then
 		return
@@ -204,6 +219,8 @@ function AdamInstance:_on_leave_state(event, from, to)
 end
 
 
+--- Adam callback on enter state
+-- @local
 function AdamInstance:_on_enter_state(event, from, to)
 	self._current_depth = self._current_depth + 1
 	if self._current_depth >= const.MAX_STACK_DEPTH then
@@ -215,6 +232,8 @@ function AdamInstance:_on_enter_state(event, from, to)
 end
 
 
+--- Store input info to process it later
+-- @local
 function AdamInstance:_process_input(action_id, action)
 	if not action_id then
 		return
@@ -234,6 +253,8 @@ function AdamInstance:_process_input(action_id, action)
 end
 
 
+--- Clear stored input info. Called as last step of update on every frame
+-- @local
 function AdamInstance:_clear_input()
 	self._input_pressed = {}
 	self._input_current = {}
@@ -241,6 +262,7 @@ function AdamInstance:_clear_input()
 end
 
 
+--- Process messages to send it to Adam FSM is possile
 function AdamInstance:_process_message(message_id, message, sender)
 	if message_id == const.TRIGGER_RESPONSE then
 		-- pprint(message_id, message)

@@ -1,3 +1,6 @@
+-- Utility module to track all Adam Instances. Used in actions.fsm to control all of them
+-- @local
+
 local M = {}
 
 local _instances = {}

@@ -41,10 +41,9 @@ function ActionInstance.get_param(param) end
 function ActionInstance.get_value(variable_name) end
 
 --- Action Instance constructor function
----@param name string The action name. Useful for debug
 ---@param trigger_callback function The main action function
 ---@param release_callback function The release function. Clean up stuff, it you need
-function ActionInstance.initialize(name, trigger_callback, release_callback) end
+function ActionInstance.initialize(trigger_callback, release_callback) end
 
 --- Set debug state of action.
 ---@param state boolean The debug state
@@ -63,8 +62,8 @@ function ActionInstance.set_delay(seconds) end
 function ActionInstance.set_every_frame(state) end
 
 --- Set the name of the action
----@param The string action name
-function ActionInstance.set_name(The) end
+---@param name string The action name
+function ActionInstance.set_name(name) end
 
 --- Set periodic trigger of action.
 ---@param seconds number The time between triggers
@@ -92,9 +91,25 @@ local StateInstance = {}
 ---@param event_name string The event to send
 function StateInstance.event(event_name) end
 
+--- Get the current AdamInstance, attached to this state
+---@return AdamInstance
+function StateInstance.get_adam_instance() end
+
+--- Return current State Instance id.
+function StateInstance.get_id() end
+
+--- State Instance constructor function
+---@param ... ActionInstance The any amount of ActionInstance for this State
+---@return StateInstance
+function StateInstance.initialize(...) end
+
 --- Set debug state of state.
 ---@param state boolean The debug state
 function StateInstance.set_debug(state) end
+
+--- Set name for State Instance.
+---@param name string The State Instance name
+function StateInstance.set_name(name) end
 
 
 ---@class actions
@@ -279,10 +294,10 @@ local actions__time = {}
 function actions__time.delay(seconds, trigger_event) end
 
 --- Trigger event after amount of frames.
----@param frmes number Amount of frames to wait
+---@param frames number Amount of frames to wait
 ---@param trigger_event string Name of trigger event
 ---@return ActionInstance
-function actions__time.frames(frmes, trigger_event) end
+function actions__time.frames(frames, trigger_event) end
 
 
 ---@class actions.transform

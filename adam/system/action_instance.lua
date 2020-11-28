@@ -52,7 +52,6 @@ local ActionInstance = class("adam.action")
 
 
 --- Action Instance constructor function
--- @tparam string name The action name. Useful for debug
 -- @tparam function trigger_callback The main action function
 -- @tparam[opt] function release_callback The release function. Clean up stuff, it you need
 function ActionInstance:initialize(trigger_callback, release_callback)

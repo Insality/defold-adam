@@ -43,7 +43,7 @@
   <li><a href="../modules/Actions.html">Actions</a></li>
   <li><a href="../modules/Adam.html">Adam</a></li>
   <li><strong>ActionInstance</strong></li>
-  <li><a href="../modules/AdamInstance.html">AdamInstance</a></li>
+  <li><a href="../modules/Adam.html">Adam</a></li>
   <li><a href="../modules/StateInstance.html">StateInstance</a></li>
 </ul>
 
@@ -60,7 +60,7 @@
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#initialize">initialize(name, trigger_callback[, release_callback])</a></td>
+	<td class="name" nowrap><a href="#initialize">initialize(trigger_callback[, release_callback])</a></td>
 	<td class="summary">Action Instance constructor function</td>
 	</tr>
 	<tr>
@@ -100,7 +100,7 @@
 	<td class="summary">Set action to deferred state.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#set_name">set_name(The)</a></td>
+	<td class="name" nowrap><a href="#set_name">set_name(name)</a></td>
 	<td class="summary">Set the name of the action</td>
 	</tr>
 	<tr>
@@ -200,7 +200,7 @@
     <dl class="function">
     <dt>
     <a name = "initialize"></a>
-    <strong>initialize(name, trigger_callback[, release_callback])</strong>
+    <strong>initialize(trigger_callback[, release_callback])</strong>
     </dt>
     <dd>
     Action Instance constructor function
@@ -208,10 +208,6 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         The action name. Useful for debug
-        </li>
         <li><span class="parameter">trigger_callback</span>
             <span class="types"><span class="type">function</span></span>
          The main action function
@@ -445,7 +441,7 @@
 </dd>
     <dt>
     <a name = "set_name"></a>
-    <strong>set_name(The)</strong>
+    <strong>set_name(name)</strong>
     </dt>
     <dd>
     Set the name of the action
@@ -453,9 +449,9 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">The</span>
+        <li><span class="parameter">name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         action name
+         The action name
         </li>
     </ul>
 

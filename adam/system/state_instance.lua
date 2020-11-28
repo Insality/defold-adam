@@ -10,6 +10,9 @@ local ActionInstance = require("adam.system.action_instance")
 local StateInstance = class("adam.state")
 
 
+--- State Instance constructor function
+-- @tparam ActionInstance ... The any amount of ActionInstance for this State
+-- @treturn StateInstance
 function StateInstance:initialize(...)
 	self._actions = self:_load_actions({ ... })
 	self._id = settings.get_next_id()
@@ -25,6 +28,8 @@ function StateInstance:initialize(...)
 end
 
 
+--- State Instance update function. Called by AdamInstance:update
+-- @local
 function StateInstance:update(dt)
 	for _, action in ipairs(self._actions) do
 		action:update(dt)
@@ -32,11 +37,12 @@ function StateInstance:update(dt)
 end
 
 
---- Execute all state instance actions. Called by
--- AdamInstance on enter this state
+--- Execute all state instance actions.
+-- Called by AdamInstance on enter state callback
 -- @local
 function StateInstance:trigger()
 	-- settings.log("On enter state", { id = self:get_name() })
+
 	if #self._actions == 0 then
 		return self:event(const.FINISHED)
 	end
@@ -52,21 +58,12 @@ function StateInstance:trigger()
 end
 
 
-function StateInstance:_on_action_finish()
-	self._actions_in_process = self._actions_in_process - 1
-	if self._actions_in_process > 0 or not self._is_can_trigger_action then
-		return
-	end
-
-	return self:event(const.FINISHED)
-end
-
-
---- Execute all state instance release actions. Called by
--- AdamInstance on leave from this state
+--- Execute all state instance release actions.
+-- Called by AdamInstance on leave state callback
 -- @local
 function StateInstance:release()
 	-- settings.log("On leave state", { id = self:get_name() })
+
 	self._is_can_trigger_action = false
 
 	for _, action in ipairs(self._actions) do
@@ -102,30 +99,39 @@ function StateInstance:set_value(variable_name, value)
 end
 
 
+--- Set current AdamInstance for this StateInstance
 -- @tparam AdamInstance adam_instance
+-- @local
 function StateInstance:set_adam_instance(adam_instance)
 	self._adam_instance = adam_instance
 	return self
 end
 
 
+--- Get the current AdamInstance, attached to this state
 -- @treturn AdamInstance
 function StateInstance:get_adam_instance()
 	return self._adam_instance
 end
 
 
+--- Return current State Instance id. All State's id are unique.
+-- Used to build Adam FSM transitions
 function StateInstance:get_id()
 	return self._id
 end
 
 
+--- Set name for State Instance. Useful for Debug.
+-- @tparam string name The State Instance name
 function StateInstance:set_name(name)
 	self._name = name or ""
 	return self
 end
 
 
+-- Get name of current State Instance
+-- @treturn string The State Instance name
 function StateInstance:get_name()
 	return self._adam_instance:get_name() .. (self._name or self._id)
 end
@@ -141,6 +147,21 @@ function StateInstance:set_debug(state)
 end
 
 
+--- ActionInstance, triggered by this State, call this callback on finish execution
+-- @local
+function StateInstance:_on_action_finish()
+	self._actions_in_process = self._actions_in_process - 1
+	if self._actions_in_process > 0 or not self._is_can_trigger_action then
+		return
+	end
+
+	return self:event(const.FINISHED)
+end
+
+
+--- Load list of actions. Need to proceed included action templates
+-- @tparam ActionInstance[] actions The list of actions
+-- @local
 function StateInstance:_load_actions(actions)
 	local loaded_actions = {}
 

@@ -1,3 +1,6 @@
+-- Parse JSON to params for create AdamInstance
+-- @local
+
 local const = require("adam.const")
 local actions = require("adam.actions")
 local StateInstance = require("adam.system.state_instance")
