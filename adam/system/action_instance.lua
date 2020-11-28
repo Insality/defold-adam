@@ -215,7 +215,7 @@ end
 --- Return the name of the action
 -- @treturn string The action name
 function ActionInstance:get_name()
-	return self._state_instance:get_name() .. self._name
+	return self._state_instance:get_name() .. ":" .. self._name
 end
 
 
@@ -240,7 +240,6 @@ function ActionInstance:force_finish(trigger_event)
 	end
 
 	self._is_finished = true
-
 	if trigger_event then
 		self:event(trigger_event)
 	end

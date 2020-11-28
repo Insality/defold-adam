@@ -19,12 +19,14 @@ function init(self)
 
 	-- Template usage. It will create copy of template actions
 	local idle = adam.state(
+		actions.debug.print("idle state"),
 		actions.math.set("speed", 5),
-		actions.input.get_action_pressed("touch", nil, true, "touch_pressed"),
+		actions.input.get_action("key_space", nil, true, "touch_pressed"),
 		movable_action
 	)
 
 	local consume = adam.state(
+		actions.debug.print("consume state"),
 		actions.math.set("speed", 3),
 		movable_action,
 		actions.transform.animate_scale(vmath.vector3(1.1), 0.25),

@@ -13,10 +13,7 @@ local M = {}
 -- @treturn ActionInstance
 function M.delay(seconds, trigger_event)
 	local action = ActionInstance(function(self)
-		if trigger_event then
-			self:event(trigger_event)
-		end
-		self:finish()
+		self:finish(trigger_event)
 	end)
 
 	action:set_delay(seconds)
