@@ -50,9 +50,14 @@ function StateInstance:trigger()
 	self._is_can_trigger_action = true
 	self._actions_in_process = #self._actions
 
-	for _, action in ipairs(self._actions) do
+	for index, action in ipairs(self._actions) do
 		if self._is_can_trigger_action then
-			action:trigger()
+			-- Tail call optimization
+			if index < #self._actions then
+				action:trigger()
+			else
+				return action:trigger()
+			end
 		end
 	end
 end

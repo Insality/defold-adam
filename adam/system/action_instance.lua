@@ -135,7 +135,7 @@ end
 -- @tparam string event_name Name of trigger event
 function ActionInstance:event(event_name, ...)
 	assert(self._state_instance, const.ERROR.NO_BINDED_STATE)
-	self._state_instance:event(event_name, ...)
+	return self._state_instance:event(event_name, ...)
 end
 
 
@@ -227,7 +227,7 @@ function ActionInstance:finish(trigger_event)
 		return
 	end
 
-	self:force_finish(trigger_event)
+	return self:force_finish(trigger_event)
 end
 
 
@@ -240,9 +240,16 @@ function ActionInstance:force_finish(trigger_event)
 	end
 
 	self._is_finished = true
+
 	if trigger_event then
-		self:event(trigger_event)
+		-- If we will change state, drop other code execution, correct tail call
+		if self:get_adam_instance():can_transition(trigger_event) then
+			return self:event(trigger_event)
+		else
+			self:event(trigger_event)
+		end
 	end
+
 	return self._state_instance:_on_action_finish()
 end
 

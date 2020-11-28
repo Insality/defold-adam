@@ -13,7 +13,7 @@ M.PROP_SCALE_Y = "scale.y"
 M.PROP_SCALE_Z = "scale.z"
 
 M.SECOND = 1
-M.MAX_STACK_DEPTH = 5000
+M.MAX_STACK_DEPTH = 10000
 M.EMPTY_FUNCTION = function() end
 
 M.NONE_STATE = "none"

@@ -91,11 +91,17 @@ end
 -- @tparam string event_name The trigger event name
 function AdamInstance:event(event_name)
 	-- settings.log("Trigger event", { name = event_name })
-	if not self._fsm[event_name] or not self._fsm.can(event_name) then
-		return
+	if self:can_transition(event_name) then
+		return self._fsm[event_name]()
 	end
+end
 
-	return self._fsm[event_name]()
+
+--- Check available to make transition from current state with event
+-- @tparam string event name The trigger event
+-- @treturn boolean True, if FSM will make transition on this event
+function AdamInstance:can_transition(event_name)
+	return self._fsm[event_name] and self._fsm.can(event_name)
 end
 
 
@@ -215,6 +221,7 @@ function AdamInstance:_on_leave_state(event, from, to)
 	if from == const.NONE_STATE then
 		return
 	end
+
 	return self._states[from]:release()
 end
 
@@ -228,6 +235,7 @@ function AdamInstance:_on_enter_state(event, from, to)
 		error(const.ERROR.MAX_STACK_DEPTH_REACHED)
 	end
 	self._current_state = self._states[to]
+
 	return self._states[to]:trigger()
 end
 
