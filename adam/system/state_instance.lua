@@ -41,7 +41,9 @@ end
 -- Called by AdamInstance on enter state callback
 -- @local
 function StateInstance:trigger()
-	-- settings.log("On enter state", { id = self:get_name() })
+	if self._is_debug then
+		settings.log("State triggered", { name = self:get_name() })
+	end
 
 	if #self._actions == 0 then
 		return self:event(const.FINISHED)
@@ -67,7 +69,9 @@ end
 -- Called by AdamInstance on leave state callback
 -- @local
 function StateInstance:release()
-	-- settings.log("On leave state", { id = self:get_name() })
+	if self._is_debug then
+		settings.log("State release", { name = self:get_name() })
+	end
 
 	self._is_can_trigger_action = false
 
@@ -81,6 +85,10 @@ end
 -- of it will not executed
 -- @tparam string event_name The event to send
 function StateInstance:event(event_name)
+	if self._is_debug then
+		settings.log("State trigger event", { name = self:get_name(), event = event_name })
+	end
+
 	return self._adam_instance:event(event_name)
 end
 
@@ -144,11 +152,13 @@ end
 
 --- Set debug state of state. If true, will print debug info to console
 -- @tparam boolean state The debug state
+-- @treturn StateInstance Self
 function StateInstance:set_debug(state)
 	self._is_debug = state
-	for _, action in self._actions do
+	for _, action in pairs(self._actions) do
 		action:set_debug(state)
 	end
+	return self
 end
 
 
@@ -158,6 +168,10 @@ function StateInstance:_on_action_finish()
 	self._actions_in_process = self._actions_in_process - 1
 	if self._actions_in_process > 0 or not self._is_can_trigger_action then
 		return
+	end
+
+	if self._is_debug then
+		settings.log("All actions finished", { name = self:get_name(), total = #self._actions })
 	end
 
 	return self:event(const.FINISHED)

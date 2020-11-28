@@ -5,6 +5,7 @@
 
 local class = require("adam.libs.middleclass")
 local const = require("adam.const")
+local settings = require("adam.system.settings")
 
 --- Action context table
 -- @tfield table context
@@ -251,6 +252,10 @@ function ActionInstance:force_finish(trigger_event)
 		return
 	end
 
+	if self._is_debug then
+		settings.log("Action finished", { name = self:get_name() })
+	end
+
 	self._is_finished = true
 
 	if trigger_event then
@@ -269,6 +274,10 @@ end
 --- Trigger action, called by StateInstance
 -- @local
 function ActionInstance:trigger()
+	if self._is_debug then
+		settings.log("Action trigger call", { name = self:get_name() })
+	end
+
 	self._delay_seconds_current = false
 	self._is_finished = false
 
@@ -286,6 +295,10 @@ end
 --- Release action (cleanup), called by StateInstance
 -- @local
 function ActionInstance:release()
+	if self._is_debug then
+		settings.log("Action release call", { name = self:get_name() })
+	end
+
 	self._periodic_timer_current = false
 	self._delay_seconds_current = false
 	self._triggered_in_this_frame = false
@@ -313,8 +326,10 @@ end
 
 --- Set debug state of action. If true, will print debug info to console
 -- @tparam boolean state The debug state
+-- @treturn ActionInstance Self
 function ActionInstance:set_debug(state)
 	self._is_debug = state
+	return self
 end
 
 

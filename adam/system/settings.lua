@@ -30,7 +30,7 @@ end
 function M.log(string, context)
 	local context_string = "{ "
 	for key, value in pairs(context) do
-		context_string = context_string .. key .. ":" .. value .. " "
+		context_string = context_string .. key .. "-" .. value .. " "
 	end
 	context_string = context_string .. "}"
 

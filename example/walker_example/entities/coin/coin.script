@@ -11,7 +11,8 @@ function init(self)
 	)
 
 	local fall_down = adam.state(
-		actions.transform.translate(vmath.vector3(0, -3, 0), true)
+		actions.transform.translate(vmath.vector3(0, -3, 0), true),
+		actions.go.delete_self(4)
 	)
 
 	local collect = adam.state(

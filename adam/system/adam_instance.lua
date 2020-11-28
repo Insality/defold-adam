@@ -4,6 +4,7 @@
 local fsm = require("adam.libs.fsm")
 local class = require("adam.libs.middleclass")
 local const = require("adam.const")
+local settings = require("adam.system.settings")
 
 local AdamInstance = class("adam.instance")
 
@@ -22,6 +23,7 @@ function AdamInstance:initialize(initial_state, transitions, variables)
 	self._states = {}
 	self._variables = variables or {}
 
+	self._is_debug = false
 	self._current_state = nil
 	self._current_depth = 0
 
@@ -90,7 +92,10 @@ end
 --- Trigger event in Adam FSM. If any transitions on this event exists, go to next state instantly
 -- @tparam string event_name The trigger event name
 function AdamInstance:event(event_name)
-	-- settings.log("Trigger event", { name = event_name })
+	if self._is_debug then
+		settings.log("Adam event", { name = self:get_name(), event = event_name })
+	end
+
 	if self:can_transition(event_name) then
 		return self._fsm[event_name]()
 	end
@@ -179,6 +184,18 @@ end
 -- @treturn string The Adam Instance name
 function AdamInstance:get_name()
 	return self._name
+end
+
+
+--- Set debug state of state. If true, will print debug info to console
+-- @tparam boolean is_debug The debug state
+-- @treturn AdamInstance Self
+function AdamInstance:set_debug(is_debug)
+	self._is_debug = is_debug
+	for _, state in pairs(self._states) do
+		state:set_debug(state)
+	end
+	return self
 end
 
 
