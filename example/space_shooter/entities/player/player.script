@@ -1,0 +1,115 @@
+local adam = require("adam.adam")
+local actions = require("adam.actions")
+local projectile = require("example.space_shooter.entities.projectile.projectile")
+
+function init(self)
+	self.adams = {}
+
+	local moving = adam.actions_template(
+		-- Rotate ship
+		actions.input.get_axis_actions("key_a", "key_d", "rotate_power", true, -6),
+		actions.vmath.add_xyz("current_euler", nil, nil, actions.value("rotate_power"), true),
+		actions.transform.set_euler(actions.value("current_euler"), true),
+		actions.vmath.get_xyz("current_euler", nil, nil, "move_euler", true),
+
+		-- Correct moving angle (sprite is up)
+		actions.math.add("move_euler", 90, true),
+		actions.math.cos(actions.value("move_euler"), "angle_move_x", true, true),
+		actions.math.sin(actions.value("move_euler"), "angle_move_y", true, true),
+
+		-- Move ship at moving angle
+		actions.input.get_axis_actions("key_s", "key_w", "accelerate_power", true, 6),
+		actions.vmath.set_xyz("move_vector", actions.value("angle_move_x"), actions.value("angle_move_y"), nil, true),
+		actions.vmath.multiply("move_vector", actions.value("accelerate_power"), true),
+		actions.transform.add_position(actions.value("move_vector"), true)
+	)
+
+	local shoot = adam.state(
+		actions.msg.post(".", "create_projectile"),
+		actions.math.set("can_shoot", false)
+	):set_name("shoot")
+
+	local reload = adam.state(
+		actions.math.set("can_shoot", true)
+	):set_name("reload")
+
+	local initial = adam.state(
+		actions.transform.get_euler("current_euler")
+	):set_name("initial")
+
+	local idle = adam.state(
+		moving,
+		actions.input.get_action("key_space", "pressed_shoot", true),
+		actions.logic.all_true({ actions.value("pressed_shoot"), actions.value("can_shoot") }, "shoot", true),
+		actions.time.delay(0.08, "reload")
+	):set_name("idle")
+
+	self.adam = adam.new(initial,
+		{
+			{initial, idle},
+			{idle, shoot, "shoot"},
+			{shoot, idle},
+			{idle, reload, "reload"},
+			{reload, idle},
+		},
+		{
+			rotate_power = 0,
+			current_euler = vmath.vector3(0),
+			move_euler = 0,
+			angle_move_x = 0,
+			angle_move_y = 0,
+			accelerate_power = 0,
+			move_vector = vmath.vector3(0),
+			pressed_shoot = false,
+			can_shoot = true,
+		}):start()
+
+	table.insert(self.adams, self.adam)
+	msg.post(".", "acquire_input_focus")
+end
+
+
+function final(self)
+	for _, adam_instance in ipairs(self.adams) do
+		adam_instance:final()
+	end
+end
+
+
+function update(self, dt)
+	for _, adam_instance in ipairs(self.adams) do
+		adam_instance:update(dt)
+	end
+
+	for i = #self.adams, 1, -1 do
+		if not self.adams[i]:is_active() then
+			table.remove(self.adams, i)
+		end
+	end
+end
+
+
+local function create_projectile(self)
+	-- Example how to not spawn script for every FSM
+	self._side_choose = not self._side_choose
+	local pos = self._side_choose and go.get_world_position("/player/spawn_pos_left") or go.get_world_position("/player/spawn_pos_right")
+	local projectile_id = factory.create("#projectiles", pos)
+	local projectile_adam = projectile.create(projectile_id)
+	projectile_adam:start()
+	table.insert(self.adams, projectile_adam)
+end
+
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("create_projectile") then
+		create_projectile(self)
+	end
+
+	for _, adam_instance in ipairs(self.adams) do
+		adam_instance:on_message(message_id, message, sender)
+	end
+end
+
+function on_input(self, action_id, action)
+	self.adam:on_input(action_id, action)
+end
