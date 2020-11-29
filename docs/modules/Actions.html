@@ -37,6 +37,7 @@
 <li><a href="#actions_fsm_Functions">actions.fsm Functions</a></li>
 <li><a href="#actions_go_Functions">actions.go Functions</a></li>
 <li><a href="#actions_input_Functions">actions.input Functions</a></li>
+<li><a href="#actions_logic_Functions">actions.logic Functions</a></li>
 <li><a href="#actions_math_Functions">actions.math Functions</a></li>
 <li><a href="#actions_msg_Functions">actions.msg Functions</a></li>
 <li><a href="#actions_template_Functions">actions.template Functions</a></li>
@@ -80,6 +81,10 @@
 	<tr>
 	<td class="name" ><a href="#actions.debug.event">actions.debug.event(event_name)</a></td>
 	<td class="summary">Instantly trigger event.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.debug.callback">actions.debug.callback(callback, delay)</a></td>
+	<td class="summary">Call callback on event trigger</td>
 	</tr>
 </table>
 <h2><a href="#actions_fsm_Functions">actions.fsm Functions</a></h2>
@@ -150,6 +155,37 @@
 	<tr>
 	<td class="name" ><a href="#actions.input.get_axis_actions">actions.input.get_axis_actions(negative_action, positive_action, variable[, is_every_frame[, multiplier=1]])</a></td>
 	<td class="summary">Imitate two keys as axis.</td>
+	</tr>
+</table>
+<h2><a href="#actions_logic_Functions">actions.logic Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#actions.logic.all_true">actions.logic.all_true(variables_array[, trigger_event[, is_every_frame]])</a></td>
+	<td class="summary">Sends an event if all the variables are true</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.logic.any_true">actions.logic.any_true(variables_array[, trigger_event[, is_every_frame]])</a></td>
+	<td class="summary">Sends an event if any of the variables are true</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.logic.all_false">actions.logic.all_false(variables_array[, trigger_event[, is_every_frame]])</a></td>
+	<td class="summary">Sends an event if all the variables are false</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.logic.changed">actions.logic.changed(variable[, trigger_event[, store_result]])</a></td>
+	<td class="summary">Tests if the value of a variable has changed.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.logic.test">actions.logic.test(variable[, event_on_true[, event_on_false[, store_result[, is_every_frame]]]])</a></td>
+	<td class="summary">Send events based on the value of a variable.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.logic.compare">actions.logic.compare(variable_a, variable_b[, event_equal[, event_less[, event_greater[, is_every_frame[, tolerance=0]]]]])</a></td>
+	<td class="summary">Send events based on the variables comparsion (numbers)</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.logic.equals">actions.logic.equals(variable_a, variable_b[, event_equal[, event_not_equal[, is_every_frame]]])</a></td>
+	<td class="summary">Check equals on two variables</td>
 	</tr>
 </table>
 <h2><a href="#actions_math_Functions">actions.math Functions</a></h2>
@@ -223,12 +259,36 @@
 	<td class="summary">Sets the position of a game object</td>
 	</tr>
 	<tr>
+	<td class="name" ><a href="#actions.transform.animate_position">actions.transform.animate_position(target_vector[, time[, finish_event[, delay[, ease_function]]]])</a></td>
+	<td class="summary">Animate the position of a game object</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.get_position">actions.transform.get_position(variable[, is_every_frame[, is_world_space]])</a></td>
+	<td class="summary">Get the position property of a game object and store to variable</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.set_rotation">actions.transform.set_rotation(target_vector[, is_every_frame[, delay[, ease_function]]])</a></td>
+	<td class="summary">Sets the rotation of a game object</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.animate_rotation">actions.transform.animate_rotation(target_vector[, time[, finish_event[, delay[, ease_function]]]])</a></td>
+	<td class="summary">Animate the rotation of a game object</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.get_rotation">actions.transform.get_rotation(variable[, is_every_frame[, is_world_space]])</a></td>
+	<td class="summary">Get the rotation property of a game object and store to variable</td>
+	</tr>
+	<tr>
 	<td class="name" ><a href="#actions.transform.set_scale">actions.transform.set_scale(target_scale[, is_every_frame[, delay[, ease_function]]])</a></td>
 	<td class="summary">Set scale to a game object</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.transform.animate_scale">actions.transform.animate_scale(target_scale[, time[, finish_event[, delay[, ease_function]]]])</a></td>
 	<td class="summary">Animate scale to a game object</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.get_scale">actions.transform.get_scale(variable[, is_every_frame[, is_world_space]])</a></td>
+	<td class="summary">Get the scale property of a game object and store to variable</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.transform.translate">actions.transform.translate(delta_vector[, is_every_frame[, delay[, ease_function]]])</a></td>
@@ -319,6 +379,37 @@
         <li><span class="parameter">event_name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The event to send
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.debug.callback"></a>
+    <strong>actions.debug.callback(callback, delay)</strong>
+    </dt>
+    <dd>
+    Call callback on event trigger
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+         The callback to call
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Time in seconds
         </li>
     </ul>
 
@@ -985,6 +1076,308 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="actions_logic_Functions"></a>actions.logic Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "actions.logic.all_true"></a>
+    <strong>actions.logic.all_true(variables_array[, trigger_event[, is_every_frame]])</strong>
+    </dt>
+    <dd>
+    Sends an event if all the variables are true
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variables_array</span>
+            <span class="types"><span class="type">variables[]</span></span>
+         Array of variables. Can be FSM or usual variable
+        </li>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send if all variables are true
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.logic.any_true"></a>
+    <strong>actions.logic.any_true(variables_array[, trigger_event[, is_every_frame]])</strong>
+    </dt>
+    <dd>
+    Sends an event if any of the variables are true
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variables_array</span>
+            <span class="types"><span class="type">variables[]</span></span>
+         Array of variables. Can be FSM or usual variable
+        </li>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send if any of variables are true
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.logic.all_false"></a>
+    <strong>actions.logic.all_false(variables_array[, trigger_event[, is_every_frame]])</strong>
+    </dt>
+    <dd>
+    Sends an event if all the variables are false
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variables_array</span>
+            <span class="types"><span class="type">variables[]</span></span>
+         Array of variables. Can be FSM or usual variable
+        </li>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send if all variables are false
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.logic.changed"></a>
+    <strong>actions.logic.changed(variable[, trigger_event[, store_result]])</strong>
+    </dt>
+    <dd>
+    Tests if the value of a variable has changed.
+ Use this to send an event on change variable.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         The variable to test on changed
+        </li>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send on variable change
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">store_result</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Save true to this variable, if variable has changed
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.logic.test"></a>
+    <strong>actions.logic.test(variable[, event_on_true[, event_on_false[, store_result[, is_every_frame]]]])</strong>
+    </dt>
+    <dd>
+    Send events based on the value of a variable.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         The variable to test
+        </li>
+        <li><span class="parameter">event_on_true</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send if variable is true
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">event_on_false</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send if variable is false
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">store_result</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Save true to this variable, if variable has changed
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.logic.compare"></a>
+    <strong>actions.logic.compare(variable_a, variable_b[, event_equal[, event_less[, event_greater[, is_every_frame[, tolerance=0]]]]])</strong>
+    </dt>
+    <dd>
+    Send events based on the variables comparsion (numbers)
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable_a</span>
+            <span class="types"><span class="type">variable</span></span>
+         The first variable to compare
+        </li>
+        <li><span class="parameter">variable_b</span>
+            <span class="types"><span class="type">variable</span></span>
+         The second variable to compare
+        </li>
+        <li><span class="parameter">event_equal</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send if variable_a equals to variable_b (within tolerance)
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">event_less</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send if variable_a less than variable_b
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">event_greater</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send if variable_a greater than variable_b
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">tolerance</span>
+            <span class="types"><span class="type">number</span></span>
+         The tolerance for comparsion
+         (<em>default</em> 0)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.logic.equals"></a>
+    <strong>actions.logic.equals(variable_a, variable_b[, event_equal[, event_not_equal[, is_every_frame]]])</strong>
+    </dt>
+    <dd>
+    Check equals on two variables
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable_a</span>
+            <span class="types"><span class="type">variable</span></span>
+         The first variable to compare
+        </li>
+        <li><span class="parameter">variable_b</span>
+            <span class="types"><span class="type">variable</span></span>
+         The second variable to compare
+        </li>
+        <li><span class="parameter">event_equal</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send if variable_a equals to variable_b
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">event_not_equal</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The event to send if variable_a not equals variable_b
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="actions_math_Functions"></a>actions.math Functions</h2>
 
     <dl class="function">
@@ -1003,7 +1396,7 @@
          Variable to set
         </li>
         <li><span class="parameter">value</span>
-            <span class="types"><span class="type">varible</span></span>
+            <span class="types"><span class="type">variable</span></span>
          The value to set
         </li>
         <li><span class="parameter">is_every_frame</span>
@@ -1044,7 +1437,7 @@
          Variable to add
         </li>
         <li><span class="parameter">value</span>
-            <span class="types"><span class="type">varible</span></span>
+            <span class="types"><span class="type">variable</span></span>
          The value to add
         </li>
         <li><span class="parameter">is_every_frame</span>
@@ -1085,7 +1478,7 @@
          Variable to substract from
         </li>
         <li><span class="parameter">value</span>
-            <span class="types"><span class="type">varible</span></span>
+            <span class="types"><span class="type">variable</span></span>
          The value to substract
         </li>
         <li><span class="parameter">is_every_frame</span>
@@ -1126,7 +1519,7 @@
          Variable to multiply
         </li>
         <li><span class="parameter">value</span>
-            <span class="types"><span class="type">varible</span></span>
+            <span class="types"><span class="type">variable</span></span>
          The multiplier
         </li>
         <li><span class="parameter">is_every_frame</span>
@@ -1162,7 +1555,7 @@
          Variable to divide
         </li>
         <li><span class="parameter">value</span>
-            <span class="types"><span class="type">varible</span></span>
+            <span class="types"><span class="type">variable</span></span>
          Divide by this value
         </li>
         <li><span class="parameter">is_every_frame</span>
@@ -1538,6 +1931,216 @@
 
 </dd>
     <dt>
+    <a name = "actions.transform.animate_position"></a>
+    <strong>actions.transform.animate_position(target_vector[, time[, finish_event[, delay[, ease_function]]]])</strong>
+    </dt>
+    <dd>
+    Animate the position of a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_vector</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Position vector
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to animate
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before animate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.get_position"></a>
+    <strong>actions.transform.get_position(variable[, is_every_frame[, is_world_space]])</strong>
+    </dt>
+    <dd>
+    Get the position property of a game object and store to variable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The variable to store result
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_world_space</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Use get_world_position instead get_position
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.set_rotation"></a>
+    <strong>actions.transform.set_rotation(target_vector[, is_every_frame[, delay[, ease_function]]])</strong>
+    </dt>
+    <dd>
+    Sets the rotation of a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_vector</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Rotation vector
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.animate_rotation"></a>
+    <strong>actions.transform.animate_rotation(target_vector[, time[, finish_event[, delay[, ease_function]]]])</strong>
+    </dt>
+    <dd>
+    Animate the rotation of a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_vector</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Rotation vector
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to animate
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before animate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.get_rotation"></a>
+    <strong>actions.transform.get_rotation(variable[, is_every_frame[, is_world_space]])</strong>
+    </dt>
+    <dd>
+    Get the rotation property of a game object and store to variable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The variable to store result
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_world_space</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Use get_world_rotation instead get_rotation
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "actions.transform.set_scale"></a>
     <strong>actions.transform.set_scale(target_scale[, is_every_frame[, delay[, ease_function]]])</strong>
     </dt>
@@ -1595,7 +2198,7 @@
         </li>
         <li><span class="parameter">time</span>
             <span class="types"><span class="type">number</span></span>
-         The time to translate gameobject. Incompatable with is_every_frame
+         The time to animate
          (<em>optional</em>)
         </li>
         <li><span class="parameter">finish_event</span>
@@ -1605,12 +2208,49 @@
         </li>
         <li><span class="parameter">delay</span>
             <span class="types"><span class="type">number</span></span>
-         Delay before translate in seconds
+         Delay before animate in seconds
          (<em>optional</em>)
         </li>
         <li><span class="parameter">ease_function</span>
             <span class="types"><span class="type">ease</span></span>
          The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.get_scale"></a>
+    <strong>actions.transform.get_scale(variable[, is_every_frame[, is_world_space]])</strong>
+    </dt>
+    <dd>
+    Get the scale property of a game object and store to variable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The variable to store result
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_world_space</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Use get_world_scale instead get_scale
          (<em>optional</em>)
         </li>
     </ul>

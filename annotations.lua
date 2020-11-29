@@ -56,20 +56,24 @@ function ActionInstance.set_deferred(state) end
 
 --- Add delay before action is triggered.
 ---@param seconds number|nil Action delay
+---@return ActionInstance Self
 function ActionInstance.set_delay(seconds) end
 
 --- Set action triggered every frame.
 ---@param state boolean The every frame state
 ---@param skip_initial_call boolean If true, skip first initial call on state enter
+---@return ActionInstance Self
 function ActionInstance.set_every_frame(state, skip_initial_call) end
 
 --- Set the name of the action
 ---@param name string The action name
+---@return ActionInstance Self
 function ActionInstance.set_name(name) end
 
 --- Set periodic trigger of action.
 ---@param seconds number The time between triggers
 ---@param skip_initial_call boolean If true, skip first initial call on state enter
+---@return ActionInstance Self
 function ActionInstance.set_periodic(seconds, skip_initial_call) end
 
 --- Set variable value in action's FSM
@@ -102,9 +106,17 @@ function AdamInstance.event(event_name) end
 --- Adam final function.
 function AdamInstance.final() end
 
+--- Return current adam state
+---@return StateInstance The current State Instance
+function AdamInstance.get_current_state() end
+
 --- Get id of current Adam instance
 ---@return hash The Adam Instance id
 function AdamInstance.get_id() end
+
+--- Get name of current Adam Instance
+---@return string The Adam Instance name
+function AdamInstance.get_name() end
 
 --- Return variable value from Adam instance
 ---@param variable_name string The name of variable in FSM
@@ -194,6 +206,7 @@ function StateInstance.set_name(name) end
 ---@field fsm actions.fsm Submodule
 ---@field go actions.go Submodule
 ---@field input actions.input Submodule
+---@field logic actions.logic Submodule
 ---@field math actions.math Submodule
 ---@field msg actions.msg Submodule
 ---@field time actions.time Submodule
@@ -204,6 +217,12 @@ local actions = {}
 
 ---@class actions.debug
 local actions__debug = {}
+
+--- Call callback on event trigger
+---@param callback function The callback to call
+---@param delay number Time in seconds
+---@return ActionInstance
+function actions__debug.callback(callback, delay) end
 
 --- Instantly trigger event.
 ---@param event_name string The event to send
@@ -351,6 +370,67 @@ function actions__input.get_sprite_action_pressed(action_id, sprite_url, variabl
 function actions__input.get_sprite_action_released(action_id, sprite_url, variable, in_update_only, trigger_event) end
 
 
+---@class actions.logic
+local actions__logic = {}
+
+--- Sends an event if all the variables are false
+---@param variables_array variables[] Array of variables. Can be FSM or usual variable
+---@param trigger_event string The event to send if all variables are false
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__logic.all_false(variables_array, trigger_event, is_every_frame) end
+
+--- Sends an event if all the variables are true
+---@param variables_array variables[] Array of variables. Can be FSM or usual variable
+---@param trigger_event string The event to send if all variables are true
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__logic.all_true(variables_array, trigger_event, is_every_frame) end
+
+--- Sends an event if any of the variables are true
+---@param variables_array variables[] Array of variables. Can be FSM or usual variable
+---@param trigger_event string The event to send if any of variables are true
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__logic.any_true(variables_array, trigger_event, is_every_frame) end
+
+--- Tests if the value of a variable has changed.
+---@param variable variable The variable to test on changed
+---@param trigger_event string The event to send on variable change
+---@param store_result string Save true to this variable, if variable has changed
+---@return ActionInstance
+function actions__logic.changed(variable, trigger_event, store_result) end
+
+--- Send events based on the variables comparsion (numbers)
+---@param variable_a variable The first variable to compare
+---@param variable_b variable The second variable to compare
+---@param event_equal string The event to send if variable_a equals to variable_b (within tolerance)
+---@param event_less string The event to send if variable_a less than variable_b
+---@param event_greater string The event to send if variable_a greater than variable_b
+---@param is_every_frame boolean Repeat this action every frame
+---@param tolerance number The tolerance for comparsion
+---@return ActionInstance
+function actions__logic.compare(variable_a, variable_b, event_equal, event_less, event_greater, is_every_frame, tolerance) end
+
+--- Check equals on two variables
+---@param variable_a variable The first variable to compare
+---@param variable_b variable The second variable to compare
+---@param event_equal string The event to send if variable_a equals to variable_b
+---@param event_not_equal string The event to send if variable_a not equals variable_b
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__logic.equals(variable_a, variable_b, event_equal, event_not_equal, is_every_frame) end
+
+--- Send events based on the value of a variable.
+---@param variable variable The variable to test
+---@param event_on_true string The event to send if variable is true
+---@param event_on_false string The event to send if variable is false
+---@param store_result string Save true to this variable, if variable has changed
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__logic.test(variable, event_on_true, event_on_false, store_result, is_every_frame) end
+
+
 ---@class actions.math
 local actions__math = {}
 
@@ -362,7 +442,7 @@ function actions__math.abs(source, is_every_frame) end
 
 --- Adds a value to a variable
 ---@param source string Variable to add
----@param value varible The value to add
+---@param value variable The value to add
 ---@param is_every_frame boolean Repeat this action every frame
 ---@param is_every_second boolean Repeat this action every second
 ---@return ActionInstance
@@ -370,14 +450,14 @@ function actions__math.add(source, value, is_every_frame, is_every_second) end
 
 --- Divides a value by another value
 ---@param source string Variable to divide
----@param value varible Divide by this value
+---@param value variable Divide by this value
 ---@param is_every_frame boolean Repeat this action every frame
 ---@return ActionInstance
 function actions__math.divide(source, value, is_every_frame) end
 
 --- Multiplies a variable by another value
 ---@param source string Variable to multiply
----@param value varible The multiplier
+---@param value variable The multiplier
 ---@param is_every_frame boolean Repeat this action every frame
 ---@return ActionInstance
 function actions__math.multiply(source, value, is_every_frame) end
@@ -400,7 +480,7 @@ function actions__math.random_boolean(source, is_every_frame, is_every_second) e
 
 --- Set a value to a variable
 ---@param source string Variable to set
----@param value varible The value to set
+---@param value variable The value to set
 ---@param is_every_frame boolean Repeat this action every frame
 ---@param is_every_second boolean Repeat this action every second
 ---@return ActionInstance
@@ -417,7 +497,7 @@ function actions__math.set(source, min, max, is_every_frame, is_every_second) en
 
 --- Subtracts a value from a variable
 ---@param source string Variable to substract from
----@param value varible The value to substract
+---@param value variable The value to substract
 ---@param is_every_frame boolean Repeat this action every frame
 ---@param is_every_second boolean Repeat this action every second
 ---@return ActionInstance
@@ -455,14 +535,53 @@ function actions__time.frames(frames, trigger_event) end
 ---@class actions.transform
 local actions__transform = {}
 
+--- Animate the position of a game object
+---@param target_vector vector3 Position vector
+---@param time number The time to animate
+---@param finish_event string Name of trigger event
+---@param delay number Delay before animate in seconds
+---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@return ActionInstance
+function actions__transform.animate_position(target_vector, time, finish_event, delay, ease_function) end
+
+--- Animate the rotation of a game object
+---@param target_vector vector3 Rotation vector
+---@param time number The time to animate
+---@param finish_event string Name of trigger event
+---@param delay number Delay before animate in seconds
+---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@return ActionInstance
+function actions__transform.animate_rotation(target_vector, time, finish_event, delay, ease_function) end
+
 --- Animate scale to a game object
 ---@param target_scale vector3 Scale vector
----@param time number The time to translate gameobject. Incompatable with is_every_frame
+---@param time number The time to animate
 ---@param finish_event string Name of trigger event
----@param delay number Delay before translate in seconds
+---@param delay number Delay before animate in seconds
 ---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
 ---@return ActionInstance
 function actions__transform.animate_scale(target_scale, time, finish_event, delay, ease_function) end
+
+--- Get the position property of a game object and store to variable
+---@param variable string The variable to store result
+---@param is_every_frame boolean Repeat this action every frame
+---@param is_world_space boolean Use get_world_position instead get_position
+---@return ActionInstance
+function actions__transform.get_position(variable, is_every_frame, is_world_space) end
+
+--- Get the rotation property of a game object and store to variable
+---@param variable string The variable to store result
+---@param is_every_frame boolean Repeat this action every frame
+---@param is_world_space boolean Use get_world_rotation instead get_rotation
+---@return ActionInstance
+function actions__transform.get_rotation(variable, is_every_frame, is_world_space) end
+
+--- Get the scale property of a game object and store to variable
+---@param variable string The variable to store result
+---@param is_every_frame boolean Repeat this action every frame
+---@param is_world_space boolean Use get_world_scale instead get_scale
+---@return ActionInstance
+function actions__transform.get_scale(variable, is_every_frame, is_world_space) end
 
 --- Sets the position of a game object
 ---@param target_vector vector3 Position vector
@@ -471,6 +590,14 @@ function actions__transform.animate_scale(target_scale, time, finish_event, dela
 ---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
 ---@return ActionInstance
 function actions__transform.set_position(target_vector, is_every_frame, delay, ease_function) end
+
+--- Sets the rotation of a game object
+---@param target_vector vector3 Rotation vector
+---@param is_every_frame boolean Repeat this action every frame
+---@param delay number Delay before translate in seconds
+---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@return ActionInstance
+function actions__transform.set_rotation(target_vector, is_every_frame, delay, ease_function) end
 
 --- Set scale to a game object
 ---@param target_scale vector3 Scale vector
