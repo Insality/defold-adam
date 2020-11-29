@@ -85,8 +85,8 @@ return function()
 			adam_instance:start()
 			assert_equal(events.PER_FRAME.calls, 0)
 			adam_instance:event("per_frame")
-			assert_equal(events.PER_FRAME.calls, 1)
-			adam_instance:update(0) -- this frame event was triggered, skip one
+			assert_equal(events.PER_FRAME.calls, 0)
+			adam_instance:update(0) -- On initial call per frame is not called
 			assert_equal(events.PER_FRAME.calls, 1)
 			adam_instance:update(0)
 			assert_equal(events.PER_FRAME.calls, 2)
