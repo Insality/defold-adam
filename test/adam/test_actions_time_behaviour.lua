@@ -15,7 +15,7 @@ local events = {
 }
 
 return function()
-	describe("Math actions", function()
+	describe("Actions time behaviour (delay, per_frame, periodic, etc)", function()
 		local adam_instance
 		before(function()
 			mock.mock(events)

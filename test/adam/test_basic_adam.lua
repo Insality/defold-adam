@@ -11,7 +11,7 @@ local events = {
 }
 
 return function()
-	describe("Math actions", function()
+	describe("Basic Adam systems", function()
 		local adam_instance
 		before(function()
 			mock.mock(events)
@@ -62,7 +62,6 @@ return function()
 			adam_instance:event("to_state_2")
 			assert_false(adam_instance:can_transition("to_state_2"))
 			assert_equal(events.STATE2.calls, 1)
-			print(adam_instance:get_current_state():get_name())
 			assert_false(adam_instance:can_transition("to_state_1"))
 			adam_instance:event("to_state_1")
 			assert_equal(events.STATE1.calls, 1)
