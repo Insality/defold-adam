@@ -136,9 +136,12 @@ end
 
 --- Trigger event to action's FSM
 -- @tparam string event_name Name of trigger event
-function ActionInstance:event(event_name, ...)
+function ActionInstance:event(event_name)
 	assert(self._state_instance, const.ERROR.NO_BINDED_STATE)
-	return self._state_instance:event(event_name, ...)
+
+	if event_name then
+		self._state_instance:event(event_name)
+	end
 end
 
 

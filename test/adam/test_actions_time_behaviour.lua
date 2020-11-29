@@ -19,6 +19,11 @@ return function()
 		local adam_instance
 		before(function()
 			mock.mock(events)
+
+			-- Note: this type of definition actions only for tests (I'm mean :set_delay(),
+			-- :set_every_frame() and others). Actions, what's not designed for deferred
+			-- activation will never finish in this case. If you want use this, be careful.
+
 			local initial = adam.state(actions.debug.callback(events.INITIAL))
 			local delay = adam.state(actions.debug.callback(events.DELAY):set_delay(0.5))
 			local delay_update = adam.state(actions.debug.callback(events.DELAY_UPDATE):set_delay(1):set_every_frame(true))
