@@ -106,7 +106,7 @@ end
 -- @tparam string event_name The trigger event
 -- @treturn boolean True, if FSM will make transition on this event
 function AdamInstance:can_transition(event_name)
-	return self._fsm[event_name] and self._fsm.can(event_name)
+	return not not (self._fsm[event_name] and self._fsm.can(event_name))
 end
 
 
@@ -180,10 +180,17 @@ function AdamInstance:set_name(name)
 end
 
 
--- Get name of current Adam Instance
+--- Get name of current Adam Instance
 -- @treturn string The Adam Instance name
 function AdamInstance:get_name()
 	return self._name
+end
+
+
+--- Return current adam state
+-- @treturn StateInstance The current State Instance
+function AdamInstance:get_current_state()
+	return self._current_state
 end
 
 

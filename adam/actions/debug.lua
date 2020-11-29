@@ -39,4 +39,21 @@ function M.event(event_name)
 end
 
 
+--- Call callback on event trigger
+-- @function actions.debug.callback
+-- @tparam function callback The callback to call
+-- @tparam number delay Time in seconds
+-- @treturn ActionInstance
+function M.callback(callback, delay)
+	local action = ActionInstance(function(self)
+		if callback then callback() end
+		self:finish()
+	end)
+
+	action:set_delay(delay)
+	action:set_name("debug.callback")
+	return action
+end
+
+
 return M
