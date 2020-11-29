@@ -271,13 +271,11 @@ function ActionInstance:force_finish(trigger_event)
 
 	self._is_finished = true
 
-	if trigger_event then
-		-- If we will change state, drop other code execution, correct tail call
-		if self:get_adam_instance():can_transition(trigger_event) then
-			return self:event(trigger_event)
-		else
-			self:event(trigger_event)
-		end
+	-- If we will change state, drop other code execution, correct tail call
+	if self:get_adam_instance():can_transition(trigger_event) then
+		return self:event(trigger_event)
+	else
+		self:event(trigger_event)
 	end
 
 	return self._state_instance:_on_action_finish()

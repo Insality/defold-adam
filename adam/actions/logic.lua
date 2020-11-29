@@ -147,4 +147,66 @@ function M.test(variable, event_on_true, event_on_false, is_every_frame)
 end
 
 
+--- Send events based on the variables comparsion (numbers)
+-- @function actions.logic.compare
+-- @tparam variable variable_a The first variable to compare
+-- @tparam variable variable_b The second variable to compare
+-- @tparam[opt] string event_equal The event to send if variable_a equals to variable_b (within tolerance)
+-- @tparam[opt] string event_less The event to send if variable_a less than variable_b
+-- @tparam[opt] string event_greater The event to send if variable_a greater than variable_b
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt=0] number tolerance The tolerance for comparsion
+-- @treturn ActionInstance
+function M.compare(variable_a, variable_b, event_equal, event_less, event_greater, is_every_frame, tolerance)
+	local action = ActionInstance(function(self, context)
+		tolerance = tolerance or 0
+		local result = self:get_param(variable_a) - self:get_param(variable_b)
+		if math.abs(result) < tolerance then
+			result = 0
+		end
+
+		if result > 0 then
+			self:event(event_greater)
+		elseif result < 0 then
+			self:event(event_less)
+		else
+			self:event(event_equal)
+		end
+	end)
+
+	if is_every_frame then
+		action:set_every_frame(true)
+	end
+
+	action:set_name("logic.compare")
+	return action
+end
+
+
+--- Check equals on two variables
+-- @function actions.logic.equals
+-- @tparam variable variable_a The first variable to compare
+-- @tparam variable variable_b The second variable to compare
+-- @tparam[opt] string event_equal The event to send if variable_a equals to variable_b
+-- @tparam[opt] string event_not_equal The event to send if variable_a not equals variable_b
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.equals(variable_a, variable_b, event_equal, event_not_equal, is_every_frame)
+	local action = ActionInstance(function(self, context)
+		if self:get_param(variable_a) == self:get_param(variable_b) then
+			self:event(event_equal)
+		else
+			self:event(event_not_equal)
+		end
+	end)
+
+	if is_every_frame then
+		action:set_every_frame(true)
+	end
+
+	action:set_name("logic.equals")
+	return action
+end
+
+
 return M

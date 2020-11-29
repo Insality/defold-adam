@@ -15,7 +15,7 @@ local function set_property(target_id, target_vector, is_every_frame, delay, eas
 		local target = self:get_param(target_vector)
 
 		if is_relative then
-			target = target + instant_get_function(target_id, property)
+			target = target + instant_get_function(target_id)
 		end
 
 		instant_set_function(target, target_id)
@@ -25,7 +25,6 @@ local function set_property(target_id, target_vector, is_every_frame, delay, eas
 	if is_every_frame then
 		action:set_every_frame(true)
 	end
-
 	action:set_delay(delay)
 	action:set_name(action_name)
 	return action
@@ -37,7 +36,7 @@ local function animate_property(target_id, target_vector, time, finish_event, de
 		local target = self:get_param(target_vector)
 
 		if is_relative then
-			target = target + instant_get_function(target_id, property)
+			target = target + instant_get_function(target_id)
 		end
 
 		local easing = ease_function or settings.get_default_easing()
@@ -65,6 +64,20 @@ local function animate_property(target_id, target_vector, time, finish_event, de
 end
 
 
+local function get_property(target_id, variable, instant_get_function, is_every_frame, action_name)
+	local action = ActionInstance(function(self)
+		local value = instant_get_function(target_id)
+		self:set_value(variable, value)
+	end)
+
+	if is_every_frame then
+		action:set_every_frame(true)
+	end
+	action:set_name(action_name)
+	return action
+end
+
+
 --- Sets the position of a game object
 -- @function actions.transform.set_position
 -- @tparam vector3 target_vector Position vector
@@ -78,21 +91,68 @@ function M.set_position(target_vector, is_every_frame, delay, ease_function)
 end
 
 
+--- Animate the position of a game object
+-- @function actions.transform.animate_position
+-- @tparam vector3 target_vector Position vector
+-- @tparam[opt] number time The time to animate
+-- @tparam[opt] string finish_event Name of trigger event
+-- @tparam[opt] number delay Delay before animate in seconds
+-- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
 -- @treturn ActionInstance
-function M.get_position()
-
+function M.animate_position(target_vector, time, finish_event, delay, ease_function)
+	return animate_property(".", target_vector, time, finish_event, delay, ease_function,
+		"transform.animate_position", const.PROP_POS, go.set_position, go.get_position, false)
 end
 
 
+--- Get the position property of a game object and store to variable
+-- @function actions.transform.get_position
+-- @tparam string variable The variable to store result
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] boolean is_world_space Use get_world_position instead get_position
 -- @treturn ActionInstance
-function M.set_rotation()
-
+function M.get_position(variable, is_every_frame, is_world_space)
+	local get_func = is_world_space and go.get_world_position or go.get_position
+	return get_property(".", variable,get_func, is_every_frame, "transform.get_position")
 end
 
 
+--- Sets the rotation of a game object
+-- @function actions.transform.set_rotation
+-- @tparam vector3 target_vector Rotation vector
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] number delay Delay before translate in seconds
+-- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
 -- @treturn ActionInstance
-function M.get_rotation()
+function M.set_rotation(target_vector, is_every_frame, delay, ease_function)
+	return set_property(".", target_vector, is_every_frame, delay, ease_function,
+		"transform.set_rotation", const.PROP_ROTATION, go.set_rotation, go.get_rotation, false)
+end
 
+
+--- Animate the rotation of a game object
+-- @function actions.transform.animate_rotation
+-- @tparam vector3 target_vector Rotation vector
+-- @tparam[opt] number time The time to animate
+-- @tparam[opt] string finish_event Name of trigger event
+-- @tparam[opt] number delay Delay before animate in seconds
+-- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @treturn ActionInstance
+function M.animate_rotation(target_vector, time, finish_event, delay, ease_function)
+	return animate_property(".", target_vector, time, finish_event, delay, ease_function,
+		"transform.animate_rotation", const.PROP_ROTATION, go.set_rotation, go.get_rotation, false)
+end
+
+
+--- Get the rotation property of a game object and store to variable
+-- @function actions.transform.get_rotation
+-- @tparam string variable The variable to store result
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] boolean is_world_space Use get_world_rotation instead get_rotation
+-- @treturn ActionInstance
+function M.get_rotation(variable, is_every_frame, is_world_space)
+	local get_func = is_world_space and go.get_world_rotation or go.get_rotation
+	return get_property(".", variable,get_func, is_every_frame, "transform.get_rotation")
 end
 
 
@@ -112,9 +172,9 @@ end
 --- Animate scale to a game object
 -- @function actions.transform.animate_scale
 -- @tparam vector3 target_scale Scale vector
--- @tparam[opt] number time The time to translate gameobject. Incompatable with is_every_frame
+-- @tparam[opt] number time The time to animate
 -- @tparam[opt] string finish_event Name of trigger event
--- @tparam[opt] number delay Delay before translate in seconds
+-- @tparam[opt] number delay Delay before animate in seconds
 -- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
 -- @treturn ActionInstance
 function M.animate_scale(target_scale, time, finish_event, delay, ease_function)
@@ -123,9 +183,15 @@ function M.animate_scale(target_scale, time, finish_event, delay, ease_function)
 end
 
 
+--- Get the scale property of a game object and store to variable
+-- @function actions.transform.get_scale
+-- @tparam string variable The variable to store result
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] boolean is_world_space Use get_world_scale instead get_scale
 -- @treturn ActionInstance
-function M.get_scale()
-
+function M.get_scale(variable, is_every_frame, is_world_space)
+	local get_func = is_world_space and go.get_world_scale or go.get_scale
+	return get_property(".", variable,get_func, is_every_frame, "transform.get_scale")
 end
 
 

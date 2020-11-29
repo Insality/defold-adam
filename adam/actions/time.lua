@@ -40,9 +40,7 @@ function M.frames(frames, trigger_event)
 		if context.frames >= 0 then
 			context.frames = context.frames - 1
 			if context.frames < 0 then
-				if trigger_event then
-					self:event(trigger_event)
-				end
+				self:event(trigger_event)
 				self:force_finish()
 			end
 		end

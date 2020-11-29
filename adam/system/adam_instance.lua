@@ -106,6 +106,9 @@ end
 -- @tparam string event_name The trigger event
 -- @treturn boolean True, if FSM will make transition on this event
 function AdamInstance:can_transition(event_name)
+	if not event_name then
+		return false
+	end
 	return not not (self._fsm[event_name] and self._fsm.can(event_name))
 end
 
