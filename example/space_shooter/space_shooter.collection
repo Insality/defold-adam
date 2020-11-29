@@ -30,8 +30,8 @@ collection_instances {
   rotation {
     x: 0.0
     y: 0.0
-    z: 0.0
-    w: 1.0
+    z: -0.80806375
+    w: 0.5890951
   }
   scale3 {
     x: 1.0

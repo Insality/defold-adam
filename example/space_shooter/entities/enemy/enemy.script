@@ -6,8 +6,7 @@ function init(self)
 	self.adams = {}
 
 	local shoot = adam.state(
-		actions.msg.post(".", "create_projectile"),
-		actions.math.set("can_shoot", false)
+		actions.msg.post(".", "create_projectile")
 	):set_name("shoot")
 
 	local damage = adam.state(
@@ -28,11 +27,14 @@ function init(self)
 	)
 
 	local idle = adam.state(
+		actions.time.delay(0.5, "shoot")
 	):set_name("idle")
 
 	self.adam = adam.new(initial,
 		{
 			{initial, idle},
+			{idle, shoot, "shoot"},
+			{shoot, idle},
 			{idle, damage, actions.EVENT.TRIGGER_ENTER},
 			{damage, damage, actions.EVENT.TRIGGER_ENTER},
 			{damage, idle},
@@ -78,6 +80,7 @@ local function create_projectile(self)
 	-- Example how to not spawn script for every FSM
 	local pos = go.get_world_position("/enemy/spawn_pos")
 	local projectile_id = factory.create("#projectiles", pos)
+	sprite.play_flipbook(msg.url(nil, projectile_id, "sprite"), "laser_enemy")
 	local projectile_adam = projectile.create(projectile_id)
 	projectile_adam:start()
 	table.insert(self.adams, projectile_adam)
