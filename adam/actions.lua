@@ -27,8 +27,9 @@ M.EVENT = const.EVENT
 
 --- Return value from FSM variables for action params
 -- @tparam string variable_name The variable name in Adam instance
-function M.value(variable_name)
-	return { _name = variable_name, _type = const.GET_ACTION_VALUE }
+-- @tparam string field The field name from variable. Useful for vector variables
+function M.value(variable_name, field)
+	return { _name = variable_name, _type = const.GET_ACTION_VALUE, _field = field }
 end
 
 

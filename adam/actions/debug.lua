@@ -10,13 +10,17 @@ local M = {}
 --- Print text to console
 -- @function actions.debug.print
 -- @tparam string text The log message
--- @tparam bool is_every_second Repeat this action every second
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] bool is_every_second Repeat this action every second
 -- @treturn ActionInstance
-function M.print(text, is_every_second)
+function M.print(text, is_every_frame, is_every_second)
 	local action = ActionInstance(function(self)
 		print(self:get_param(text))
 	end)
 
+	if is_every_frame then
+		action:set_every_frame(true)
+	end
 	if is_every_second then
 		action:set_periodic(const.SECOND)
 	end

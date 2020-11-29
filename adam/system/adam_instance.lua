@@ -18,8 +18,10 @@ local AdamInstance = class("adam.instance")
 function AdamInstance:initialize(initial_state, transitions, variables)
 	self._id = nil
 	self._name = ""
-
+	self._inited = false
+	self._is_active = false
 	self._is_removed = nil
+
 	self._states = {}
 	self._variables = variables or {}
 
@@ -45,6 +47,7 @@ end
 function AdamInstance:start()
 	if not self._inited then
 		self._inited = true
+		self._is_active = true
 		self._fsm.init()
 	end
 
@@ -52,9 +55,27 @@ function AdamInstance:start()
 end
 
 
+--- Stop the execution of Adam Instance
+-- @treturn AdamInstance
+function AdamInstance:stop()
+	self._is_active = false
+end
+
+
+--- Return true if Adam Instance is now working
+-- @treturn boolean Is active state
+function AdamInstance:is_active()
+	return self._is_active
+end
+
+
 --- Adam update functions. Place in script/gui_script update function
 -- @tparam numbet dt The delta time
 function AdamInstance:update(dt)
+	if not self._is_active then
+		return
+	end
+
 	self._current_depth = 0
 	if self._current_state then
 		self._current_state:update(dt)
@@ -68,6 +89,10 @@ end
 -- @tparam hash action_id The input action_id
 -- @tparam table action The input action info
 function AdamInstance:on_input(action_id, action)
+	if not self._is_active then
+		return
+	end
+
 	self:_process_input(action_id, action)
 end
 
@@ -77,6 +102,10 @@ end
 -- @tparam table message The message info
 -- @tparam hash sender The message sender id
 function AdamInstance:on_message(message_id, message, sender)
+	if not self._is_active then
+		return
+	end
+
 	self:_process_message(message_id, message, sender)
 end
 
@@ -84,7 +113,7 @@ end
 --- Adam final function. Place in script/gui_script final function on when you wanna to stop FSM.
 -- Important function, since it track global list of Adam instances
 function AdamInstance:final()
-	-- TODO: Add stop FSM
+	self:stop()
 	self._is_removed = true
 end
 
@@ -92,6 +121,10 @@ end
 --- Trigger event in Adam FSM. If any transitions on this event exists, go to next state instantly
 -- @tparam string event_name The trigger event name
 function AdamInstance:event(event_name)
+	if not self._is_active then
+		return
+	end
+
 	if self._is_debug then
 		settings.log("Adam event", { name = self:get_name(), event = event_name })
 	end
@@ -117,6 +150,10 @@ end
 -- @tparam string variable_name The name of variable in FSM
 -- @treturn variable
 function AdamInstance:get_value(variable_name)
+	if self._variables[variable_name] == nil then
+		print(const.ERROR.NO_DEFINED_VARIABLE, variable_name)
+		error(const.ERROR.NO_DEFINED_VARIABLE)
+	end
 	return self._variables[variable_name]
 end
 
@@ -247,6 +284,10 @@ end
 --- Adam callback on leave state
 -- @local
 function AdamInstance:_on_leave_state(event, from, to)
+	if not self._is_active then
+		return
+	end
+
 	if from == const.NONE_STATE then
 		return
 	end
@@ -258,6 +299,10 @@ end
 --- Adam callback on enter state
 -- @local
 function AdamInstance:_on_enter_state(event, from, to)
+	if not self._is_active then
+		return
+	end
+
 	self._current_depth = self._current_depth + 1
 	if self._current_depth >= const.MAX_STACK_DEPTH then
 		print("[Adam]: Max depth error catch. Swich from states:", self._states[from]:get_name(), self._states[to]:get_name())

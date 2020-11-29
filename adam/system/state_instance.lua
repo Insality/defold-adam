@@ -31,8 +31,8 @@ end
 --- State Instance update function. Called by AdamInstance:update
 -- @local
 function StateInstance:update(dt)
-	for _, action in ipairs(self._actions) do
-		action:update(dt)
+	for i = 1, #self._actions do
+		self._actions[i]:update(dt)
 	end
 end
 
@@ -42,7 +42,7 @@ end
 -- @local
 function StateInstance:trigger()
 	if self._is_debug then
-		settings.log("State triggered", { name = self:get_name() })
+		settings.log("State enter", { name = self:get_name() })
 	end
 
 	if #self._actions == 0 then

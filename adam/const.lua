@@ -11,6 +11,10 @@ M.PROP_ROTATION = "rotation"
 M.PROP_ROTATION_X = "rotation.x"
 M.PROP_ROTATION_Y = "rotation.y"
 M.PROP_ROTATION_Z = "rotation.z"
+M.PROP_EULER = "euler"
+M.PROP_EULER_X = "euler.x"
+M.PROP_EULER_Y = "euler.y"
+M.PROP_EULER_Z = "euler.z"
 M.PROP_SCALE = "scale"
 M.PROP_SCALE_X = "scale.x"
 M.PROP_SCALE_Y = "scale.y"
@@ -45,6 +49,7 @@ M.ERROR = {
 	NO_DEFINED_VARIABLE = "The variable for FSM is not defined",
 	MAX_STACK_DEPTH_REACHED = "The Adam FSM reached max depth stack in one frame",
 	WRONG_TIME_PARAMS_EVERY_FRAME = "Action can not executed every frame and have time to execute",
+	NO_VALUE_IN_FSM = "The variable is not defined in Adam Instance",
 }
 
 

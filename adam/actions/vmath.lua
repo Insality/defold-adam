@@ -30,6 +30,79 @@ function M.set_xyz(source, value_x, value_y, value_z, is_every_frame)
 end
 
 
+--- Add the XYZ channels of a Vector3 variable
+-- @function actions.vmath.add_xyz
+-- @tparam string source Variable to add
+-- @tparam[opt] number value_x The x value to add. Pass nil to not change value
+-- @tparam[opt] number value_y The y value to add. Pass nil to not change value
+-- @tparam[opt] number value_z The z value to add. Pass nil to not change value
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.add_xyz(source, value_x, value_y, value_z, is_every_frame)
+	local action = ActionInstance(function(self)
+		local property = self:get_value(source)
+		property.x = property.x + (self:get_param(value_x) or 0)
+		property.y = property.y + (self:get_param(value_y) or 0)
+		property.z = property.z + (self:get_param(value_z) or 0)
+	end)
+
+	if is_every_frame then
+		action:set_every_frame(true)
+	end
+	action:set_name("vmath.add_xyz")
+	return action
+end
+
+
+--- Get the XYZ channels of a Vector3 variable
+-- @function actions.vmath.get_xyz
+-- @tparam string source Variable to get
+-- @tparam[opt] string value_x The variable to store x value. Pass nil to not store
+-- @tparam[opt] string value_y The variable to store y value. Pass nil to not store
+-- @tparam[opt] string value_z The variable to store z value. Pass nil to not store
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.get_xyz(source, value_x, value_y, value_z, is_every_frame)
+	local action = ActionInstance(function(self)
+		local property = self:get_value(source)
+		if value_x then
+			self:set_value(value_x, property.x)
+		end
+		if value_y then
+			self:set_value(value_y, property.y)
+		end
+		if value_z then
+			self:set_value(value_z, property.z)
+		end
+	end)
+
+	if is_every_frame then
+		action:set_every_frame(true)
+	end
+	action:set_name("vmath.get_xyz")
+	return action
+end
+
+
+--- Multiply a vector by a varialbe
+-- @function actions.vmath.multiply
+-- @tparam string source Variable vector to multiply
+-- @tparam variable valube The multiplier variable
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.multiply(source, value, is_every_frame)
+	local action = ActionInstance(function(self)
+		local property = self:get_value(source)
+		self:set_value(source, property * self:get_param(value))
+	end)
+
+	if is_every_frame then
+		action:set_every_frame(true)
+	end
+	action:set_name("vmath.multiply")
+	return action
+end
+
 
 
 return M

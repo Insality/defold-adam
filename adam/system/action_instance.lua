@@ -167,25 +167,25 @@ end
 -- @see Actions.value
 function ActionInstance:get_param(param)
 	if type(param) == const.TYPE_TABLE and param._type == const.GET_ACTION_VALUE then
-		return self:get_value(param._name)
+		local value = self:get_value(param._name)
+		if param._field then
+			return value[param._field]
+		else
+			return value
+		end
 	end
 
 	return param
 end
 
 
---- Set action triggered every frame.
--- Action will not call in trigger action frame
+--- Set action triggered every frame. Initial call will be skipped
 -- @tparam[opt] boolean state The every frame state
--- @tparam[opt] boolean skip_initial_call If true, skip first initial call on state enter
 -- @treturn ActionInstance Self
-function ActionInstance:set_every_frame(state, skip_initial_call)
+function ActionInstance:set_every_frame(state)
 	self._is_every_frame = state
 	self:set_deferred(true)
-
-	if skip_initial_call then
-		self._is_skip_initial_call = skip_initial_call
-	end
+	self._is_skip_initial_call = true
 
 	return self
 end
@@ -348,6 +348,7 @@ end
 -- @local
 function ActionInstance:_trigger_action()
 	self._triggered_in_this_frame = true
+
 	self._trigger_callback(self, self.context)
 	if not self._is_deferred then
 		return self:finish()

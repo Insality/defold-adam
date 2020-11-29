@@ -152,4 +152,42 @@ function M.random_boolean(source, is_every_frame, is_every_second)
 end
 
 
+--- Get a cos value
+-- @function actions.math.cos
+-- @tparam variable value Variable to take cos
+-- @tparam variable store_variable Variable to set
+-- @tparam[opt] boolean is_degrees Check true, if using degrees instead of radians
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.cos(value, store_variable, is_degrees, is_every_frame)
+	return math_operation(store_variable, value, is_every_frame, nil, "math.cos", function(self, a, b)
+		if is_degrees then
+			b = b * math.pi/180
+		end
+		return math.cos(b)
+	end)
+end
+
+
+--- Get a sin value
+-- @function actions.math.sin
+-- @tparam variable value Variable to take sin
+-- @tparam variable store_variable Variable to set
+-- @tparam[opt] boolean is_degrees Check true, if using degrees instead of radians
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.sin(value, store_variable, is_degrees, is_every_frame)
+	return math_operation(store_variable, value, is_every_frame, nil, "math.sin", function(self, a, b)
+		if is_degrees then
+			b = b * math.pi/180
+		end
+		return math.sin(b)
+	end)
+end
+
+
+
+
+
+
 return M

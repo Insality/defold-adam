@@ -10,15 +10,15 @@ local ActionInstance = require("adam.system.action_instance")
 local M = {}
 
 
-local function set_property(target_id, target_vector, is_every_frame, delay, ease_function, action_name, property, instant_set_function, instant_get_function, is_relative)
+local function set_property(target_id, target_vector, is_every_frame, delay, action_name, property, is_relative)
 	local action = ActionInstance(function(self, context)
-		local target = self:get_param(target_vector)
+		local value = self:get_param(target_vector)
 
 		if is_relative then
-			target = target + instant_get_function(target_id)
+			value = value + go.get(target_id, property)
 		end
 
-		instant_set_function(target, target_id)
+		go.set(target_id, property, value)
 		self:finish()
 	end)
 
@@ -31,17 +31,17 @@ local function set_property(target_id, target_vector, is_every_frame, delay, eas
 end
 
 
-local function animate_property(target_id, target_vector, time, finish_event, delay, ease_function, action_name, property, instant_set_function, instant_get_function, is_relative)
+local function animate_property(target_id, target_vector, time, finish_event, delay, ease_function, action_name, property, is_relative)
 	local action = ActionInstance(function(self, context)
-		local target = self:get_param(target_vector)
+		local value = self:get_param(target_vector)
 
 		if is_relative then
-			target = target + instant_get_function(target_id)
+			value = value + go.get(target_id, property)
 		end
 
 		local easing = ease_function or settings.get_default_easing()
 		context.animate_started = true
-		go.animate(target_id, property, go.PLAYBACK_ONCE_FORWARD, target, easing, time)
+		go.animate(target_id, property, go.PLAYBACK_ONCE_FORWARD, value, easing, time)
 
 		context.callback_timer_id = helper.delay(time, function()
 			context.animate_started = false
@@ -64,9 +64,9 @@ local function animate_property(target_id, target_vector, time, finish_event, de
 end
 
 
-local function get_property(target_id, variable, instant_get_function, is_every_frame, action_name)
+local function get_property(target_id, variable, property, is_every_frame, action_name)
 	local action = ActionInstance(function(self)
-		local value = instant_get_function(target_id)
+		local value = go.get(target_id, property)
 		self:set_value(variable, value)
 	end)
 
@@ -83,11 +83,24 @@ end
 -- @tparam vector3 target_vector Position vector
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] number delay Delay before translate in seconds
--- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
-function M.set_position(target_vector, is_every_frame, delay, ease_function)
-	return set_property(".", target_vector, is_every_frame, delay, ease_function,
+function M.set_position(target_vector, is_every_frame, delay, target_url)
+	return set_property(target_url or ".", target_vector, is_every_frame, delay,
 		"transform.set_position", const.PROP_POS, go.set_position, go.get_position, false)
+end
+
+
+--- Add the position to a game object
+-- @function actions.transform.add_position
+-- @tparam vector3 delta_vector Vector with x/y/z params to translate
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] number delay Delay before translate in seconds
+-- @tparam[opt] url target_url The object to apply transform
+-- @treturn ActionInstance
+function M.add_position(delta_vector, is_every_frame, delay, target_url)
+	return set_property(target_url or ".", delta_vector, is_every_frame, delay,
+		"transform.add_position", const.PROP_POS, true)
 end
 
 
@@ -98,10 +111,11 @@ end
 -- @tparam[opt] string finish_event Name of trigger event
 -- @tparam[opt] number delay Delay before animate in seconds
 -- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
-function M.animate_position(target_vector, time, finish_event, delay, ease_function)
-	return animate_property(".", target_vector, time, finish_event, delay, ease_function,
-		"transform.animate_position", const.PROP_POS, go.set_position, go.get_position, false)
+function M.animate_position(target_vector, time, finish_event, delay, ease_function, target_url)
+	return animate_property(target_url or ".", target_vector, time, finish_event, delay, ease_function,
+		"transform.animate_position", const.PROP_POS, false)
 end
 
 
@@ -109,11 +123,10 @@ end
 -- @function actions.transform.get_position
 -- @tparam string variable The variable to store result
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
--- @tparam[opt] boolean is_world_space Use get_world_position instead get_position
+-- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
-function M.get_position(variable, is_every_frame, is_world_space)
-	local get_func = is_world_space and go.get_world_position or go.get_position
-	return get_property(".", variable,get_func, is_every_frame, "transform.get_position")
+function M.get_position(variable, is_every_frame, target_url)
+	return get_property(target_url or ".", variable, const.PROP_POS, is_every_frame, "transform.get_position")
 end
 
 
@@ -122,11 +135,24 @@ end
 -- @tparam quaternion target_quaternion Rotation quatenion
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] number delay Delay before translate in seconds
--- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
-function M.set_rotation(target_quaternion, is_every_frame, delay, ease_function)
-	return set_property(".", target_quaternion, is_every_frame, delay, ease_function,
-		"transform.set_rotation", const.PROP_ROTATION, go.set_rotation, go.get_rotation, false)
+function M.set_rotation(target_quaternion, is_every_frame, delay, target_url)
+	return set_property(target_url or ".", target_quaternion, is_every_frame, delay,
+		"transform.set_rotation", const.PROP_EULER, false)
+end
+
+
+--- Add the rotation of a game object
+-- @function actions.transform.add_rotation
+-- @tparam quaternion target_quaternion Rotation quatenion
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] number delay Delay before translate in seconds
+-- @tparam[opt] url target_url The object to apply transform
+-- @treturn ActionInstance
+function M.add_rotation(target_quaternion, is_every_frame, delay, target_url)
+	return set_property(target_url or ".", target_quaternion, is_every_frame, delay,
+		"transform.add_rotation", const.PROP_EULER, true)
 end
 
 
@@ -137,10 +163,11 @@ end
 -- @tparam[opt] string finish_event Name of trigger event
 -- @tparam[opt] number delay Delay before animate in seconds
 -- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
-function M.animate_rotation(target_quaternion, time, finish_event, delay, ease_function)
-	return animate_property(".", target_quaternion, time, finish_event, delay, ease_function,
-		"transform.animate_rotation", const.PROP_ROTATION, go.set_rotation, go.get_rotation, false)
+function M.animate_rotation(target_quaternion, time, finish_event, delay, ease_function, target_url)
+	return animate_property(target_url or ".", target_quaternion, time, finish_event, delay, ease_function,
+		"transform.animate_rotation", const.PROP_EULER, false)
 end
 
 
@@ -148,11 +175,62 @@ end
 -- @function actions.transform.get_rotation
 -- @tparam string variable The variable to store result
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
--- @tparam[opt] boolean is_world_space Use get_world_rotation instead get_rotation
+-- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
-function M.get_rotation(variable, is_every_frame, is_world_space)
-	local get_func = is_world_space and go.get_world_rotation or go.get_rotation
-	return get_property(".", variable,get_func, is_every_frame, "transform.get_rotation")
+function M.get_rotation(variable, is_every_frame, target_url)
+	return get_property(target_url or ".", variable, const.PROP_EULER, is_every_frame, "transform.get_rotation")
+end
+
+
+--- Sets the rotation of a game object
+-- @function actions.transform.set_rotation
+-- @tparam quaternion target_quaternion Rotation quatenion
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] number delay Delay before translate in seconds
+-- @tparam[opt] url target_url The object to apply transform
+-- @treturn ActionInstance
+function M.set_euler(target_quaternion, is_every_frame, delay, target_url)
+	return set_property(target_url or ".", target_quaternion, is_every_frame, delay,
+		"transform.set_rotation", const.PROP_EULER, false)
+end
+
+
+--- Add the rotation of a game object
+-- @function actions.transform.add_rotation
+-- @tparam vector3 target_vector Rotation quatenion
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] number delay Delay before translate in seconds
+-- @tparam[opt] url target_url The object to apply transform
+-- @treturn ActionInstance
+function M.add_euler(target_vector, is_every_frame, delay, target_url)
+	return set_property(target_url or ".", target_vector, is_every_frame, delay,
+		"transform.add_euler", const.PROP_EULER, true)
+end
+
+
+--- Animate the rotation of a game object
+-- @function actions.transform.animate_euler
+-- @tparam vector3 target_euler Rotation quaternion
+-- @tparam number time The time to animate
+-- @tparam[opt] string finish_event Name of trigger event
+-- @tparam[opt] number delay Delay before animate in seconds
+-- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] url target_url The object to apply transform
+-- @treturn ActionInstance
+function M.animate_euler(target_euler, time, finish_event, delay, ease_function, target_url)
+	return animate_property(target_url or ".", target_euler, time, finish_event, delay, ease_function,
+		"transform.animate_euler", const.PROP_EULER, false)
+end
+
+
+--- Get the rotation property of a game object and store to variable
+-- @function actions.transform.get_euler
+-- @tparam string variable The variable to store result
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] url target_url The object to apply transform
+-- @treturn ActionInstance
+function M.get_euler(variable, is_every_frame, target_url)
+	return get_property(target_url or ".", variable, const.PROP_EULER, is_every_frame, "transform.get_euler")
 end
 
 
@@ -161,11 +239,11 @@ end
 -- @tparam vector3 target_scale Scale vector
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] number delay Delay before translate in seconds
--- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
-function M.set_scale(target_scale, is_every_frame, delay, ease_function)
-	return set_property(".", target_scale, is_every_frame, nil, nil, delay, ease_function,
-		"transform.set_scale", const.PROP_SCALE, go.set_scale, go.get_scale, false)
+function M.set_scale(target_scale, is_every_frame, delay, target_url)
+	return set_property(target_url or ".", target_scale, is_every_frame, nil, nil, delay,
+		"transform.set_scale", const.PROP_SCALE, false)
 end
 
 
@@ -176,10 +254,11 @@ end
 -- @tparam[opt] string finish_event Name of trigger event
 -- @tparam[opt] number delay Delay before animate in seconds
 -- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
-function M.animate_scale(target_scale, time, finish_event, delay, ease_function)
-	return animate_property(".", target_scale, time, finish_event, delay, ease_function,
-		"transform.animate_scale", const.PROP_SCALE, go.set_scale, go.get_scale, false)
+function M.animate_scale(target_scale, time, finish_event, delay, ease_function, target_url)
+	return animate_property(target_url or ".", target_scale, time, finish_event, delay, ease_function,
+		"transform.animate_scale", const.PROP_SCALE, false)
 end
 
 
@@ -187,30 +266,16 @@ end
 -- @function actions.transform.get_scale
 -- @tparam string variable The variable to store result
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
--- @tparam[opt] boolean is_world_space Use get_world_scale instead get_scale
+-- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
-function M.get_scale(variable, is_every_frame, is_world_space)
-	local get_func = is_world_space and go.get_world_scale or go.get_scale
-	return get_property(".", variable,get_func, is_every_frame, "transform.get_scale")
+function M.get_scale(variable, is_every_frame, target_url)
+	return get_property(target_url or ".", variable, const.PROP_SCALE, is_every_frame, "transform.get_scale")
 end
 
 
 -- @treturn ActionInstance
 function M.look_at()
 
-end
-
-
---- Translates a game object via delta vector
--- @function actions.transform.translate
--- @tparam vector3 delta_vector Vector with x/y/z params to translate
--- @tparam[opt] boolean is_every_frame Repeat this action every frame
--- @tparam[opt] number delay Delay before translate in seconds
--- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
--- @treturn ActionInstance
-function M.translate(delta_vector, is_every_frame, delay, ease_function)
-	return set_property(".", delta_vector, is_every_frame, delay,
-		ease_function, "transform.translate", const.PROP_POS, go.set_position, go.get_position, true)
 end
 
 
