@@ -94,7 +94,7 @@ end
 --- Animate the position of a game object
 -- @function actions.transform.animate_position
 -- @tparam vector3 target_vector Position vector
--- @tparam[opt] number time The time to animate
+-- @tparam number time The time to animate
 -- @tparam[opt] string finish_event Name of trigger event
 -- @tparam[opt] number delay Delay before animate in seconds
 -- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
@@ -119,27 +119,27 @@ end
 
 --- Sets the rotation of a game object
 -- @function actions.transform.set_rotation
--- @tparam vector3 target_vector Rotation vector
+-- @tparam quaternion target_quaternion Rotation quatenion
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] number delay Delay before translate in seconds
 -- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
 -- @treturn ActionInstance
-function M.set_rotation(target_vector, is_every_frame, delay, ease_function)
-	return set_property(".", target_vector, is_every_frame, delay, ease_function,
+function M.set_rotation(target_quaternion, is_every_frame, delay, ease_function)
+	return set_property(".", target_quaternion, is_every_frame, delay, ease_function,
 		"transform.set_rotation", const.PROP_ROTATION, go.set_rotation, go.get_rotation, false)
 end
 
 
 --- Animate the rotation of a game object
 -- @function actions.transform.animate_rotation
--- @tparam vector3 target_vector Rotation vector
--- @tparam[opt] number time The time to animate
+-- @tparam quaternion target_quaternion Rotation quaternion
+-- @tparam number time The time to animate
 -- @tparam[opt] string finish_event Name of trigger event
 -- @tparam[opt] number delay Delay before animate in seconds
 -- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
 -- @treturn ActionInstance
-function M.animate_rotation(target_vector, time, finish_event, delay, ease_function)
-	return animate_property(".", target_vector, time, finish_event, delay, ease_function,
+function M.animate_rotation(target_quaternion, time, finish_event, delay, ease_function)
+	return animate_property(".", target_quaternion, time, finish_event, delay, ease_function,
 		"transform.animate_rotation", const.PROP_ROTATION, go.set_rotation, go.get_rotation, false)
 end
 
@@ -172,7 +172,7 @@ end
 --- Animate scale to a game object
 -- @function actions.transform.animate_scale
 -- @tparam vector3 target_scale Scale vector
--- @tparam[opt] number time The time to animate
+-- @tparam number time The time to animate
 -- @tparam[opt] string finish_event Name of trigger event
 -- @tparam[opt] number delay Delay before animate in seconds
 -- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing

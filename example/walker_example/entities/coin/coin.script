@@ -3,11 +3,13 @@ local actions = require("adam.actions")
 
 function init(self)
 	local scale_down = adam.state(
-		actions.transform.animate_scale(vmath.vector3(0.5), 1)
+		actions.transform.animate_scale(vmath.vector3(0.5), 1),
+		actions.transform.animate_rotation(vmath.quat_rotation_z(-0.5), 1)
 	)
 
 	local scale_up = adam.state(
-		actions.transform.animate_scale(vmath.vector3(0.6), 1)
+		actions.transform.animate_scale(vmath.vector3(0.6), 1),
+		actions.transform.animate_rotation(vmath.quat_rotation_z(0.5), 1)
 	)
 
 	local fall_down = adam.state(
