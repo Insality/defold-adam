@@ -8,7 +8,7 @@ local _instances = {}
 
 local function get_instances()
 	for i = #_instances, 1, -1 do
-		if _instances[i]._is_deleted then
+		if _instances[i]._is_removed then
 			table.remove(_instances, i)
 		end
 	end
