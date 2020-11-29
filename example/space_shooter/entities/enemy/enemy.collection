@@ -3,12 +3,27 @@ scale_along_z: 0
 embedded_instances {
   id: "enemy"
   children: "spawn_pos"
-  data: "embedded_components {\n"
+  data: "components {\n"
+  "  id: \"enemy\"\n"
+  "  component: \"/example/space_shooter/entities/enemy/enemy.script\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
   "  id: \"collisionobject\"\n"
   "  type: \"collisionobject\"\n"
   "  data: \"collision_shape: \\\"\\\"\\n"
-  "type: COLLISION_OBJECT_TYPE_DYNAMIC\\n"
-  "mass: 1.0\\n"
+  "type: COLLISION_OBJECT_TYPE_TRIGGER\\n"
+  "mass: 0.0\\n"
   "friction: 0.1\\n"
   "restitution: 0.5\\n"
   "group: \\\"entity\\\"\\n"
@@ -110,7 +125,7 @@ embedded_instances {
   data: ""
   position {
     x: 0.0
-    y: -40.0
+    y: -38.0
     z: 0.0
   }
   rotation {

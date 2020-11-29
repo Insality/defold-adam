@@ -5,9 +5,9 @@ local projectile = require("example.space_shooter.entities.projectile.projectile
 function init(self)
 	self.adams = {}
 
-	local moving = adam.actions_template(
+	local moving_actions = adam.actions_template(
 		-- Rotate ship
-		actions.input.get_axis_actions("key_a", "key_d", "rotate_power", true, -6),
+		actions.input.get_axis_actions("key_a", "key_d", "rotate_power", true, -5),
 		actions.vmath.add_xyz("current_euler", nil, nil, actions.value("rotate_power"), true),
 		actions.transform.set_euler(actions.value("current_euler"), true),
 		actions.vmath.get_xyz("current_euler", nil, nil, "move_euler", true),
@@ -18,10 +18,13 @@ function init(self)
 		actions.math.sin(actions.value("move_euler"), "angle_move_y", true, true),
 
 		-- Move ship at moving angle
-		actions.input.get_axis_actions("key_s", "key_w", "accelerate_power", true, 6),
+		actions.input.get_axis_actions("key_s", "key_w", "accelerate_power", true, 5),
 		actions.vmath.set_xyz("move_vector", actions.value("angle_move_x"), actions.value("angle_move_y"), nil, true),
 		actions.vmath.multiply("move_vector", actions.value("accelerate_power"), true),
-		actions.transform.add_position(actions.value("move_vector"), true)
+		actions.vmath.multiply("move_vector", 0.1, true),
+		actions.vmath.add("inertion", actions.value("move_vector"), true),
+		actions.vmath.multiply("inertion", 0.95, true),
+		actions.transform.add_position(actions.value("inertion"), true)
 	)
 
 	local shoot = adam.state(
@@ -38,7 +41,7 @@ function init(self)
 	):set_name("initial")
 
 	local idle = adam.state(
-		moving,
+		moving_actions,
 		actions.input.get_action("key_space", "pressed_shoot", true),
 		actions.logic.all_true({ actions.value("pressed_shoot"), actions.value("can_shoot") }, "shoot", true),
 		actions.time.delay(0.08, "reload")
@@ -60,6 +63,7 @@ function init(self)
 			angle_move_y = 0,
 			accelerate_power = 0,
 			move_vector = vmath.vector3(0),
+			inertion = vmath.vector3(0),
 			pressed_shoot = false,
 			can_shoot = true,
 		}):start()
@@ -92,7 +96,8 @@ end
 local function create_projectile(self)
 	-- Example how to not spawn script for every FSM
 	self._side_choose = not self._side_choose
-	local pos = self._side_choose and go.get_world_position("/player/spawn_pos_left") or go.get_world_position("/player/spawn_pos_right")
+	local pos = self._side_choose and go.get_world_position("/player/spawn_pos_left") or
+												 go.get_world_position("/player/spawn_pos_right")
 	local projectile_id = factory.create("#projectiles", pos)
 	local projectile_adam = projectile.create(projectile_id)
 	projectile_adam:start()

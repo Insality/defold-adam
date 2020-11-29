@@ -54,6 +54,29 @@ function M.add_xyz(source, value_x, value_y, value_z, is_every_frame)
 end
 
 
+--- Adds a Vector3 value to a Vector3 variable
+-- @function actions.vmath.add
+-- @tparam string source Variable to add
+-- @tparam variable variable Vector3 to add
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.add(source, variable, is_every_frame)
+	local action = ActionInstance(function(self)
+		local property = self:get_value(source)
+		local value = self:get_param(variable)
+		property.x = property.x + (value.x or 0)
+		property.y = property.y + (value.y or 0)
+		property.z = property.z + (value.z or 0)
+	end)
+
+	if is_every_frame then
+		action:set_every_frame(true)
+	end
+	action:set_name("vmath.add")
+	return action
+end
+
+
 --- Get the XYZ channels of a Vector3 variable
 -- @function actions.vmath.get_xyz
 -- @tparam string source Variable to get

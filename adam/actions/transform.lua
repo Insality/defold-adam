@@ -242,9 +242,23 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.set_scale(target_scale, is_every_frame, delay, target_url)
-	return set_property(target_url or ".", target_scale, is_every_frame, nil, nil, delay,
+	return set_property(target_url or ".", target_scale, is_every_frame, delay,
 		"transform.set_scale", const.PROP_SCALE, false)
 end
+
+
+--- Add scale to a game object
+-- @function actions.transform.add_scale
+-- @tparam vector3 target_scale Scale vector
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] number delay Delay before translate in seconds
+-- @tparam[opt] url target_url The object to apply transform
+-- @treturn ActionInstance
+function M.add_scale(target_scale, is_every_frame, delay, target_url)
+	return set_property(target_url or ".", target_scale, is_every_frame, delay,
+		"transform.add_scale", const.PROP_SCALE, true)
+end
+
 
 
 --- Animate scale to a game object
@@ -259,6 +273,21 @@ end
 function M.animate_scale(target_scale, time, finish_event, delay, ease_function, target_url)
 	return animate_property(target_url or ".", target_scale, time, finish_event, delay, ease_function,
 		"transform.animate_scale", const.PROP_SCALE, false)
+end
+
+
+--- Animate scale to a game object with relative vector
+-- @function actions.transform.animate_scale_by
+-- @tparam vector3 target_scale Add scale vector
+-- @tparam number time The time to animate
+-- @tparam[opt] string finish_event Name of trigger event
+-- @tparam[opt] number delay Delay before animate in seconds
+-- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] url target_url The object to apply transform
+-- @treturn ActionInstance
+function M.animate_scale_by(target_scale, time, finish_event, delay, ease_function, target_url)
+	return animate_property(target_url or ".", target_scale, time, finish_event, delay, ease_function,
+		"transform.animate_scale_by", const.PROP_SCALE, true)
 end
 
 
