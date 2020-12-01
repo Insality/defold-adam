@@ -1,6 +1,7 @@
 --- Defold Game Objects actions for create, delete and other manipulation
 -- @submodule Actions
 
+local const = require("adam.const")
 local ActionInstance = require("adam.system.action_instance")
 
 
@@ -66,7 +67,7 @@ end
 -- @tparam[opt] boolean not_recursive Set true to not delete children of deleted go
 -- @treturn ActionInstance
 function M.delete_self(delay, not_recursive)
-	local action = M.delete_object(".", delay, not_recursive)
+	local action = M.delete_object(const.SELF, delay, not_recursive)
 	action:set_name("go.delete_self")
 	return action
 end
@@ -80,7 +81,7 @@ end
 -- @treturn ActionInstance
 function M.delete_object(target, delay, not_recursive)
 	local action = ActionInstance(function(self)
-		go.delete(target or ".", not not_recursive)
+		go.delete(target or const.SELF, not not_recursive)
 		self:finish()
 	end)
 
@@ -97,7 +98,7 @@ end
 -- @treturn ActionInstance
 function M.enable_object(target, delay)
 	local action = ActionInstance(function(self)
-		msg.post(target or ".", "enable")
+		msg.post(target or const.SELF, "enable")
 		self:finish()
 	end)
 
@@ -114,7 +115,7 @@ end
 -- @treturn ActionInstance
 function M.disable_object(target, delay)
 	local action = ActionInstance(function(self)
-		msg.post(target or ".", "disable")
+		msg.post(target or const.SELF, "disable")
 		self:finish()
 	end)
 

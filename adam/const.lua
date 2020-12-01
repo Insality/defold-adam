@@ -31,6 +31,7 @@ M.TYPE_TABLE = "table"
 
 M.ANY_STATE = nil
 M.WILDCARD = "*"
+M.SELF = "."
 
 M.ACTIONS_TEMPLATE = "adam:actions_template"
 M.GET_ACTION_VALUE = "adam:get_action_value"

@@ -86,7 +86,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.set_position(target_vector, is_every_frame, delay, target_url)
-	return set_property(target_url or ".", target_vector, is_every_frame, delay,
+	return set_property(target_url or const.SELF, target_vector, is_every_frame, delay,
 		"transform.set_position", const.PROP_POS, go.set_position, go.get_position, false)
 end
 
@@ -99,7 +99,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.add_position(delta_vector, is_every_frame, delay, target_url)
-	return set_property(target_url or ".", delta_vector, is_every_frame, delay,
+	return set_property(target_url or const.SELF, delta_vector, is_every_frame, delay,
 		"transform.add_position", const.PROP_POS, true)
 end
 
@@ -114,7 +114,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.animate_position(target_vector, time, finish_event, delay, ease_function, target_url)
-	return animate_property(target_url or ".", target_vector, time, finish_event, delay, ease_function,
+	return animate_property(target_url or const.SELF, target_vector, time, finish_event, delay, ease_function,
 		"transform.animate_position", const.PROP_POS, false)
 end
 
@@ -126,7 +126,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.get_position(variable, is_every_frame, target_url)
-	return get_property(target_url or ".", variable, const.PROP_POS, is_every_frame, "transform.get_position")
+	return get_property(target_url or const.SELF, variable, const.PROP_POS, is_every_frame, "transform.get_position")
 end
 
 
@@ -138,7 +138,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.set_rotation(target_quaternion, is_every_frame, delay, target_url)
-	return set_property(target_url or ".", target_quaternion, is_every_frame, delay,
+	return set_property(target_url or const.SELF, target_quaternion, is_every_frame, delay,
 		"transform.set_rotation", const.PROP_EULER, false)
 end
 
@@ -151,7 +151,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.add_rotation(target_quaternion, is_every_frame, delay, target_url)
-	return set_property(target_url or ".", target_quaternion, is_every_frame, delay,
+	return set_property(target_url or const.SELF, target_quaternion, is_every_frame, delay,
 		"transform.add_rotation", const.PROP_EULER, true)
 end
 
@@ -166,7 +166,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.animate_rotation(target_quaternion, time, finish_event, delay, ease_function, target_url)
-	return animate_property(target_url or ".", target_quaternion, time, finish_event, delay, ease_function,
+	return animate_property(target_url or const.SELF, target_quaternion, time, finish_event, delay, ease_function,
 		"transform.animate_rotation", const.PROP_EULER, false)
 end
 
@@ -178,7 +178,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.get_rotation(variable, is_every_frame, target_url)
-	return get_property(target_url or ".", variable, const.PROP_EULER, is_every_frame, "transform.get_rotation")
+	return get_property(target_url or const.SELF, variable, const.PROP_EULER, is_every_frame, "transform.get_rotation")
 end
 
 
@@ -190,7 +190,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.set_euler(target_quaternion, is_every_frame, delay, target_url)
-	return set_property(target_url or ".", target_quaternion, is_every_frame, delay,
+	return set_property(target_url or const.SELF, target_quaternion, is_every_frame, delay,
 		"transform.set_rotation", const.PROP_EULER, false)
 end
 
@@ -203,7 +203,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.add_euler(target_vector, is_every_frame, delay, target_url)
-	return set_property(target_url or ".", target_vector, is_every_frame, delay,
+	return set_property(target_url or const.SELF, target_vector, is_every_frame, delay,
 		"transform.add_euler", const.PROP_EULER, true)
 end
 
@@ -218,7 +218,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.animate_euler(target_euler, time, finish_event, delay, ease_function, target_url)
-	return animate_property(target_url or ".", target_euler, time, finish_event, delay, ease_function,
+	return animate_property(target_url or const.SELF, target_euler, time, finish_event, delay, ease_function,
 		"transform.animate_euler", const.PROP_EULER, false)
 end
 
@@ -233,7 +233,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.animate_euler_by(target_euler, time, finish_event, delay, ease_function, target_url)
-	return animate_property(target_url or ".", target_euler, time, finish_event, delay, ease_function,
+	return animate_property(target_url or const.SELF, target_euler, time, finish_event, delay, ease_function,
 		"transform.animate_euler_by", const.PROP_EULER, true)
 end
 
@@ -245,7 +245,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.get_euler(variable, is_every_frame, target_url)
-	return get_property(target_url or ".", variable, const.PROP_EULER, is_every_frame, "transform.get_euler")
+	return get_property(target_url or const.SELF, variable, const.PROP_EULER, is_every_frame, "transform.get_euler")
 end
 
 
@@ -257,7 +257,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.set_scale(target_scale, is_every_frame, delay, target_url)
-	return set_property(target_url or ".", target_scale, is_every_frame, delay,
+	return set_property(target_url or const.SELF, target_scale, is_every_frame, delay,
 		"transform.set_scale", const.PROP_SCALE, false)
 end
 
@@ -270,7 +270,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.add_scale(target_scale, is_every_frame, delay, target_url)
-	return set_property(target_url or ".", target_scale, is_every_frame, delay,
+	return set_property(target_url or const.SELF, target_scale, is_every_frame, delay,
 		"transform.add_scale", const.PROP_SCALE, true)
 end
 
@@ -286,7 +286,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.animate_scale(target_scale, time, finish_event, delay, ease_function, target_url)
-	return animate_property(target_url or ".", target_scale, time, finish_event, delay, ease_function,
+	return animate_property(target_url or const.SELF, target_scale, time, finish_event, delay, ease_function,
 		"transform.animate_scale", const.PROP_SCALE, false)
 end
 
@@ -301,7 +301,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.animate_scale_by(target_scale, time, finish_event, delay, ease_function, target_url)
-	return animate_property(target_url or ".", target_scale, time, finish_event, delay, ease_function,
+	return animate_property(target_url or const.SELF, target_scale, time, finish_event, delay, ease_function,
 		"transform.animate_scale_by", const.PROP_SCALE, true)
 end
 
@@ -313,7 +313,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.get_scale(variable, is_every_frame, target_url)
-	return get_property(target_url or ".", variable, const.PROP_SCALE, is_every_frame, "transform.get_scale")
+	return get_property(target_url or const.SELF, variable, const.PROP_SCALE, is_every_frame, "transform.get_scale")
 end
 
 
