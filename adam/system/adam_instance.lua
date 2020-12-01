@@ -55,7 +55,16 @@ function AdamInstance:start()
 end
 
 
---- Stop the execution of Adam Instance
+--- Resume the execution of Adam Instance.
+-- You can pause execution with stop method.
+-- @treturn AdamInstance
+function AdamInstance:resume()
+	self._is_active = true
+end
+
+
+--- Stop the execution of Adam Instance.
+-- You can resume execution with resume method.
 -- @treturn AdamInstance
 function AdamInstance:stop()
 	self._is_active = false
