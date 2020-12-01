@@ -27,7 +27,7 @@ function init(self)
 	)
 
 	local idle = adam.state(
-		actions.time.delay(0.5, "shoot")
+		actions.time.random_delay(0.3, 0.8, "shoot")
 	):set_name("idle")
 
 	self.adam = adam.new(initial,

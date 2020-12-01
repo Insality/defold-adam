@@ -293,8 +293,10 @@ function ActionInstance:trigger()
 	self._is_finished = false
 
 	if self._is_delayed then
-		self._delay_seconds_current = self:get_param(self._delay_seconds)
-	else
+		self._delay_seconds_current = self:_get_delay_seconds()
+	end
+
+	if self._delay_seconds_current == 0 then
 		if self._is_skip_initial_call then
 			return
 		end
@@ -341,6 +343,14 @@ end
 function ActionInstance:set_debug(state)
 	self._is_debug = state
 	return self
+end
+
+
+--- Get seconds to delay for trigger action
+-- @treturn number Seconds to delay
+-- @local
+function ActionInstance:_get_delay_seconds()
+	return self:get_param(self._delay_seconds)
 end
 
 
