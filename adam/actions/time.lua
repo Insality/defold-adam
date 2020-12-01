@@ -48,7 +48,7 @@ function M.frames(frames, trigger_event)
 		context.frames = nil
 	end)
 
-	action:set_every_frame(true)
+	action:set_every_frame()
 	action:set_name("time.frames")
 	return action
 end

@@ -21,7 +21,7 @@ local function get_input_status(action_id, variable, trigger_event, in_update_on
 	end)
 
 	if in_update_only then
-		action:set_every_frame(true, true)
+		action:set_every_frame()
 	end
 
 	return action
@@ -49,7 +49,7 @@ local function get_sprite_status(action_id, sprite_url, variable, trigger_event,
 	end)
 
 	if in_update_only then
-		action:set_every_frame(true, true)
+		action:set_every_frame()
 	end
 
 	return action
@@ -167,7 +167,7 @@ function M.get_axis_actions(negative_action, positive_action, variable, is_every
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 
 	action:set_name("input.get_axis_actions")

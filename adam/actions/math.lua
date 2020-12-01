@@ -14,7 +14,7 @@ local function math_operation(source, value, is_every_frame, is_every_second, ac
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 
 	if is_every_second then
@@ -95,19 +95,47 @@ end
 
 
 --- Clamps the value of a variable to a min/max range.
--- @function actions.math.set
--- @tparam string source Variable to set
+-- @function actions.math.clamp
+-- @tparam string source Variable to clamp
 -- @tparam number min The minimum value allowed.
 -- @tparam number max The maximum value allowed.
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] boolean is_every_second Repeat this action every second
 -- @treturn ActionInstance
 function M.clamp(source, min, max, is_every_frame, is_every_second)
-	return math_operation(source, nil, is_every_frame, nil, "math.abs", function(self, a)
+	return math_operation(source, nil, is_every_frame, is_every_second, "math.clamp", function(self, a)
 		if min > max then
 			min, max = max, min
 		end
 		return math.min(math.max(min, a), max)
+	end)
+end
+
+
+--- Choose min value
+-- @function actions.math.min
+-- @tparam string source Variable to compare
+-- @tparam variable|number min Another variable
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] boolean is_every_second Repeat this action every second
+-- @treturn ActionInstance
+function M.min(source, second_value, is_every_frame, is_every_second)
+	return math_operation(source, second_value, is_every_frame, is_every_second, "math.min", function(self, a, b)
+		return math.min(a, b)
+	end)
+end
+
+
+--- Choose max value
+-- @function actions.math.max
+-- @tparam string source Variable to compare
+-- @tparam variable|number min Another variable
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] boolean is_every_second Repeat this action every second
+-- @treturn ActionInstance
+function M.max(source, second_value, is_every_frame, is_every_second)
+	return math_operation(source, second_value, is_every_frame, is_every_second, "math.max", function(self, a, b)
+		return math.max(a, b)
 	end)
 end
 
@@ -162,7 +190,7 @@ end
 function M.cos(value, store_variable, is_degrees, is_every_frame)
 	return math_operation(store_variable, value, is_every_frame, nil, "math.cos", function(self, a, b)
 		if is_degrees then
-			b = b * math.pi/180
+			b = math.deg(b)
 		end
 		return math.cos(b)
 	end)
@@ -179,14 +207,111 @@ end
 function M.sin(value, store_variable, is_degrees, is_every_frame)
 	return math_operation(store_variable, value, is_every_frame, nil, "math.sin", function(self, a, b)
 		if is_degrees then
-			b = b * math.pi/180
+			b = math.deg(b)
 		end
 		return math.sin(b)
 	end)
 end
 
 
+--- Get a asin value
+-- @function actions.math.asin
+-- @tparam variable value Variable to take asin
+-- @tparam variable store_variable Variable to set
+-- @tparam[opt] boolean is_degrees Check true, if using degrees instead of radians
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.asin(value, store_variable, is_degrees, is_every_frame)
+	return math_operation(store_variable, value, is_every_frame, nil, "math.asin", function(self, a, b)
+		if is_degrees then
+			b = math.deg(b)
+		end
+		return math.asin(b)
+	end)
+end
 
+
+--- Get a acos value
+-- @function actions.math.acos
+-- @tparam variable value Variable to take acos
+-- @tparam variable store_variable Variable to set
+-- @tparam[opt] boolean is_degrees Check true, if using degrees instead of radians
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.acos(value, store_variable, is_degrees, is_every_frame)
+	return math_operation(store_variable, value, is_every_frame, nil, "math.acos", function(self, a, b)
+		if is_degrees then
+			b = math.deg(b)
+		end
+		return math.acos(b)
+	end)
+end
+
+
+--- Get a tan value
+-- @function actions.math.tan
+-- @tparam variable value Variable to take tan
+-- @tparam variable store_variable Variable to set
+-- @tparam[opt] boolean is_degrees Check true, if using degrees instead of radians
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.tan(value, store_variable, is_degrees, is_every_frame)
+	return math_operation(store_variable, value, is_every_frame, nil, "math.tan", function(self, a, b)
+		if is_degrees then
+			b = math.deg(b)
+		end
+		return math.tan(b)
+	end)
+end
+
+
+--- Get a atan value
+-- @function actions.math.atan
+-- @tparam variable value Variable to take atan
+-- @tparam variable store_variable Variable to set
+-- @tparam[opt] boolean is_degrees Check true, if using degrees instead of radians
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.atan(value, store_variable, is_degrees, is_every_frame)
+	return math_operation(store_variable, value, is_every_frame, nil, "math.atan", function(self, a, b)
+		if is_degrees then
+			b = math.deg(b)
+		end
+		return math.atan(b)
+	end)
+end
+
+
+--- Get a atan2 value
+-- @function actions.math.atan2
+-- @tparam variable value Variable to take atan2
+-- @tparam variable store_variable Variable to set
+-- @tparam[opt] boolean is_degrees Check true, if using degrees instead of radians
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.atan2(value, store_variable, is_degrees, is_every_frame)
+	return math_operation(store_variable, value, is_every_frame, nil, "math.atan2", function(self, a, b)
+		if is_degrees then
+			b = math.deg(b)
+		end
+		return math.atan2(b)
+	end)
+end
+
+
+--- Apply a math function (a, b)=>c to a variable.
+-- Useful if you want do something, what is not designed in Adam.
+-- @function actions.math.operator
+-- @tparam variable value_a First variable
+-- @tparam variable value_b Second variable
+-- @tparam function operator The callback function
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.operator(value_a, value_b, operator, is_every_frame)
+	return math_operation(value_a, value_b, is_every_frame, nil, "math.operator", function(self, a, b)
+		return operator(a, b)
+	end)
+end
 
 
 

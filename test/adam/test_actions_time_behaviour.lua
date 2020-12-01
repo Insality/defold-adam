@@ -26,11 +26,11 @@ return function()
 
 			local initial = adam.state(actions.debug.callback(events.INITIAL))
 			local delay = adam.state(actions.debug.callback(events.DELAY):set_delay(0.5))
-			local delay_update = adam.state(actions.debug.callback(events.DELAY_UPDATE):set_delay(1):set_every_frame(true))
-			local per_frame = adam.state(actions.debug.callback(events.PER_FRAME):set_every_frame(true))
+			local delay_update = adam.state(actions.debug.callback(events.DELAY_UPDATE):set_delay(1):set_every_frame())
+			local per_frame = adam.state(actions.debug.callback(events.PER_FRAME):set_every_frame())
 			local per_second = adam.state(actions.debug.callback(events.PER_SECOND):set_periodic(1))
-			local all_together = adam.state(actions.debug.callback(events.ALL_TOGETHER):set_delay(1):set_every_frame(true):set_periodic(0.5))
-			local per_frame_skip_initial = adam.state(actions.debug.callback(events.PER_FRAME_SKIP_INITIAL):set_every_frame(true, true))
+			local all_together = adam.state(actions.debug.callback(events.ALL_TOGETHER):set_delay(1):set_every_frame():set_periodic(0.5))
+			local per_frame_skip_initial = adam.state(actions.debug.callback(events.PER_FRAME_SKIP_INITIAL):set_every_frame())
 			local per_second_skip_initial = adam.state(actions.debug.callback(events.PER_SECOND_SKIP_INITIAL):set_periodic(1, true))
 
 

@@ -11,3 +11,11 @@
 
 Ideas:
 * Default variables for Adam FSM?
+
+
+
+- Add FSM to running FSM. Ability to start/stop nested FSM (example - projectiles from player)
+-- required for single script and FSM to control different entities
+- Add transition by FSM Final event: usage like {adam.ANY_STATE, final_state, adam.FINAL_EVENT}
++ rename actions template -> actions
+- action.param to timer delay seconds param

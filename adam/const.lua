@@ -50,6 +50,7 @@ M.ERROR = {
 	MAX_STACK_DEPTH_REACHED = "The Adam FSM reached max depth stack in one frame",
 	WRONG_TIME_PARAMS_EVERY_FRAME = "Action can not executed every frame and have time to execute",
 	NO_VALUE_IN_FSM = "The variable is not defined in Adam Instance",
+	PERIODIC_EVENT_WRONG_PARAMS = "In set_periodic function seconds should be > 0"
 }
 
 

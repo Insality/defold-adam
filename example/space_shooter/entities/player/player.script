@@ -5,7 +5,7 @@ local projectile = require("example.space_shooter.entities.projectile.projectile
 function init(self)
 	self.adams = {}
 
-	local moving_actions = adam.actions_template(
+	local moving_actions = adam.actions(
 		-- Rotate ship
 		actions.input.get_axis_actions("key_a", "key_d", "rotate_power", true, -5),
 		actions.vmath.add_xyz("current_euler", nil, nil, actions.value("rotate_power"), true),
@@ -44,7 +44,7 @@ function init(self)
 		moving_actions,
 		actions.input.get_action("key_space", "pressed_shoot", true),
 		actions.logic.all_true({ actions.value("pressed_shoot"), actions.value("can_shoot") }, "shoot", true),
-		actions.time.delay(0.08, "reload")
+		actions.time.delay(actions.value("reload_time"), "reload")
 	):set_name("idle")
 
 	self.adam = adam.new(initial,
@@ -66,6 +66,7 @@ function init(self)
 			inertion = vmath.vector3(0),
 			pressed_shoot = false,
 			can_shoot = true,
+			reload_time = 0.04,
 		}):start()
 
 	table.insert(self.adams, self.adam)

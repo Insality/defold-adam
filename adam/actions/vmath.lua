@@ -23,7 +23,7 @@ function M.set_xyz(source, value_x, value_y, value_z, is_every_frame)
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 	action:set_name("vmath.set_xyz")
 	return action
@@ -47,7 +47,7 @@ function M.add_xyz(source, value_x, value_y, value_z, is_every_frame)
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 	action:set_name("vmath.add_xyz")
 	return action
@@ -70,7 +70,7 @@ function M.add(source, variable, is_every_frame)
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 	action:set_name("vmath.add")
 	return action
@@ -100,7 +100,7 @@ function M.get_xyz(source, value_x, value_y, value_z, is_every_frame)
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 	action:set_name("vmath.get_xyz")
 	return action
@@ -120,7 +120,7 @@ function M.multiply(source, value, is_every_frame)
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 	action:set_name("vmath.multiply")
 	return action

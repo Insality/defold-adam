@@ -24,7 +24,9 @@ function M.send_event(target, event_name, delay, is_every_frame)
 	end)
 
 	action:set_delay(delay)
-	action:set_every_frame(is_every_frame)
+	if is_every_frame then
+		action:set_every_frame()
+	end
 	action:set_name("fsm.send_event")
 	return action
 end

@@ -23,7 +23,7 @@ local function set_property(target_id, target_vector, is_every_frame, delay, act
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 	action:set_delay(delay)
 	action:set_name(action_name)
@@ -71,7 +71,7 @@ local function get_property(target_id, variable, property, is_every_frame, actio
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 	action:set_name(action_name)
 	return action

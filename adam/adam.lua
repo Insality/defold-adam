@@ -39,7 +39,7 @@ function M.parse(json_data)
 end
 
 
-function M.actions_template(...)
+function M.actions(...)
 	return {
 		_type = const.ACTIONS_TEMPLATE,
 		_actions = { ... }

@@ -180,13 +180,11 @@ end
 
 
 --- Set action triggered every frame. Initial call will be skipped
--- @tparam[opt] boolean state The every frame state
 -- @treturn ActionInstance Self
-function ActionInstance:set_every_frame(state)
-	self._is_every_frame = state
-	self:set_deferred(true)
+function ActionInstance:set_every_frame()
+	self._is_every_frame = true
 	self._is_skip_initial_call = true
-
+	self:set_deferred(true)
 	return self
 end
 
@@ -196,6 +194,7 @@ end
 -- @tparam[opt] boolean skip_initial_call If true, skip first initial call on state enter
 -- @treturn ActionInstance Self
 function ActionInstance:set_periodic(seconds, skip_initial_call)
+	assert(seconds and seconds > 0, const.ERROR.PERIODIC_EVENT_WRONG_PARAMS)
 	local is_periodic = seconds and seconds > 0
 	self._is_periodic = is_periodic
 	self._periodic_timer = seconds or 0
@@ -211,11 +210,12 @@ end
 
 
 --- Add delay before action is triggered. Every frame and periodic trigger will start
--- after delay is happened. You should call finished method in action trigger function
--- @tparam number|nil seconds Action delay
+-- after delay is happened. You should call finished method in action trigger function.
+-- You can pass action.param as second argument
+-- @tparam number|variable|nil seconds Action delay
 -- @treturn ActionInstance Self
 function ActionInstance:set_delay(seconds)
-	self._is_delayed = seconds and seconds > 0
+	self._is_delayed = not not seconds
 	self._delay_seconds = seconds
 	self:set_deferred(true)
 	return self
@@ -292,8 +292,8 @@ function ActionInstance:trigger()
 	self._delay_seconds_current = 0
 	self._is_finished = false
 
-	if self._delay_seconds and self._delay_seconds > 0 then
-		self._delay_seconds_current = self._delay_seconds
+	if self._is_delayed then
+		self._delay_seconds_current = self:get_param(self._delay_seconds)
 	else
 		if self._is_skip_initial_call then
 			return

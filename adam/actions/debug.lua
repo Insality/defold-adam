@@ -19,7 +19,7 @@ function M.print(text, is_every_frame, is_every_second)
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 	if is_every_second then
 		action:set_periodic(const.SECOND)

@@ -25,7 +25,7 @@ function M.all_true(variables_array, trigger_event, is_every_frame)
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 
 	action:set_name("logic.all_true")
@@ -56,7 +56,7 @@ function M.any_true(variables_array, trigger_event, is_every_frame)
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 
 	action:set_name("logic.any_true")
@@ -82,7 +82,7 @@ function M.all_false(variables_array, trigger_event, is_every_frame)
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 
 	action:set_name("logic.all_false")
@@ -115,7 +115,7 @@ function M.changed(variable, trigger_event, store_result)
 		context.previous_value = nil
 	end)
 
-	action:set_every_frame(true)
+	action:set_every_frame()
 	action:set_name("logic.changed")
 	return action
 end
@@ -139,7 +139,7 @@ function M.test(variable, event_on_true, event_on_false, is_every_frame)
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 
 	action:set_name("logic.test")
@@ -175,7 +175,7 @@ function M.compare(variable_a, variable_b, event_equal, event_less, event_greate
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 
 	action:set_name("logic.compare")
@@ -201,7 +201,7 @@ function M.equals(variable_a, variable_b, event_equal, event_not_equal, is_every
 	end)
 
 	if is_every_frame then
-		action:set_every_frame(true)
+		action:set_every_frame()
 	end
 
 	action:set_name("logic.equals")
