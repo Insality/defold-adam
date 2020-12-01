@@ -55,15 +55,13 @@ function ActionInstance.set_debug(state) end
 function ActionInstance.set_deferred(state) end
 
 --- Add delay before action is triggered.
----@param seconds number|nil Action delay
+---@param seconds number|variable|nil Action delay
 ---@return ActionInstance Self
 function ActionInstance.set_delay(seconds) end
 
 --- Set action triggered every frame.
----@param state boolean The every frame state
----@param skip_initial_call boolean If true, skip first initial call on state enter
 ---@return ActionInstance Self
-function ActionInstance.set_every_frame(state, skip_initial_call) end
+function ActionInstance.set_every_frame() end
 
 --- Set the name of the action
 ---@param name string The action name
@@ -130,6 +128,10 @@ function AdamInstance.get_value(variable_name) end
 ---@return AdamInstance
 function AdamInstance.initialize(initial_state, transitions, variables) end
 
+--- Return true if Adam Instance is now working
+---@return boolean Is active state
+function AdamInstance.is_active() end
+
 --- Adam on_input function.
 ---@param action_id hash The input action_id
 ---@param action table The input action info
@@ -162,6 +164,10 @@ function AdamInstance.set_value(variable_name, value) end
 --- Start the Adam Instance.
 ---@return AdamInstance
 function AdamInstance.start() end
+
+--- Stop the execution of Adam Instance
+---@return AdamInstance
+function AdamInstance.stop() end
 
 --- Adam update functions.
 ---@param dt numbet The delta time
@@ -231,9 +237,10 @@ function actions__debug.event(event_name) end
 
 --- Print text to console
 ---@param text string The log message
+---@param is_every_frame boolean Repeat this action every frame
 ---@param is_every_second bool Repeat this action every second
 ---@return ActionInstance
-function actions__debug.print(text, is_every_second) end
+function actions__debug.print(text, is_every_frame, is_every_second) end
 
 
 ---@class actions.fsm
@@ -245,6 +252,11 @@ local actions__fsm = {}
 ---@param delay number Time delay in seconds
 ---@return ActionInstance
 function actions__fsm.broadcast_event(event_name, is_exclude_self, delay) end
+
+--- Stop the Adam Instance
+---@param string target |adam target The target instance to finish
+---@param delay number Time delay in seconds
+function actions__fsm.finish(string, delay) end
 
 --- Send event to target Adam instance
 ---@param target string|adam The target instance for send event. If there are several instances with equal ID, event will be delivered to all of them.
@@ -440,6 +452,14 @@ local actions__math = {}
 ---@return ActionInstance
 function actions__math.abs(source, is_every_frame) end
 
+--- Get a acos value
+---@param value variable Variable to take acos
+---@param store_variable variable Variable to set
+---@param is_degrees boolean Check true, if using degrees instead of radians
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__math.acos(value, store_variable, is_degrees, is_every_frame) end
+
 --- Adds a value to a variable
 ---@param source string Variable to add
 ---@param value variable The value to add
@@ -448,6 +468,47 @@ function actions__math.abs(source, is_every_frame) end
 ---@return ActionInstance
 function actions__math.add(source, value, is_every_frame, is_every_second) end
 
+--- Get a asin value
+---@param value variable Variable to take asin
+---@param store_variable variable Variable to set
+---@param is_degrees boolean Check true, if using degrees instead of radians
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__math.asin(value, store_variable, is_degrees, is_every_frame) end
+
+--- Get a atan value
+---@param value variable Variable to take atan
+---@param store_variable variable Variable to set
+---@param is_degrees boolean Check true, if using degrees instead of radians
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__math.atan(value, store_variable, is_degrees, is_every_frame) end
+
+--- Get a atan2 value
+---@param value variable Variable to take atan2
+---@param store_variable variable Variable to set
+---@param is_degrees boolean Check true, if using degrees instead of radians
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__math.atan2(value, store_variable, is_degrees, is_every_frame) end
+
+--- Clamps the value of a variable to a min/max range.
+---@param source string Variable to clamp
+---@param min number The minimum value allowed.
+---@param max number The maximum value allowed.
+---@param is_every_frame boolean Repeat this action every frame
+---@param is_every_second boolean Repeat this action every second
+---@return ActionInstance
+function actions__math.clamp(source, min, max, is_every_frame, is_every_second) end
+
+--- Get a cos value
+---@param value variable Variable to take cos
+---@param store_variable variable Variable to set
+---@param is_degrees boolean Check true, if using degrees instead of radians
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__math.cos(value, store_variable, is_degrees, is_every_frame) end
+
 --- Divides a value by another value
 ---@param source string Variable to divide
 ---@param value variable Divide by this value
@@ -455,12 +516,36 @@ function actions__math.add(source, value, is_every_frame, is_every_second) end
 ---@return ActionInstance
 function actions__math.divide(source, value, is_every_frame) end
 
+--- Choose max value
+---@param source string Variable to compare
+---@param min variable|number Another variable
+---@param is_every_frame boolean Repeat this action every frame
+---@param is_every_second boolean Repeat this action every second
+---@return ActionInstance
+function actions__math.max(source, min, is_every_frame, is_every_second) end
+
+--- Choose min value
+---@param source string Variable to compare
+---@param min variable|number Another variable
+---@param is_every_frame boolean Repeat this action every frame
+---@param is_every_second boolean Repeat this action every second
+---@return ActionInstance
+function actions__math.min(source, min, is_every_frame, is_every_second) end
+
 --- Multiplies a variable by another value
 ---@param source string Variable to multiply
 ---@param value variable The multiplier
 ---@param is_every_frame boolean Repeat this action every frame
 ---@return ActionInstance
 function actions__math.multiply(source, value, is_every_frame) end
+
+--- Apply a math function (a, b)=>c to a variable.
+---@param value_a variable First variable
+---@param value_b variable Second variable
+---@param operator function The callback function
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__math.operator(value_a, value_b, operator, is_every_frame) end
 
 --- Sets a variable to a random value between min/max.
 ---@param source string Variable to set
@@ -486,14 +571,13 @@ function actions__math.random_boolean(source, is_every_frame, is_every_second) e
 ---@return ActionInstance
 function actions__math.set(source, value, is_every_frame, is_every_second) end
 
---- Clamps the value of a variable to a min/max range.
----@param source string Variable to set
----@param min number The minimum value allowed.
----@param max number The maximum value allowed.
+--- Get a sin value
+---@param value variable Variable to take sin
+---@param store_variable variable Variable to set
+---@param is_degrees boolean Check true, if using degrees instead of radians
 ---@param is_every_frame boolean Repeat this action every frame
----@param is_every_second boolean Repeat this action every second
 ---@return ActionInstance
-function actions__math.set(source, min, max, is_every_frame, is_every_second) end
+function actions__math.sin(value, store_variable, is_degrees, is_every_frame) end
 
 --- Subtracts a value from a variable
 ---@param source string Variable to substract from
@@ -502,6 +586,14 @@ function actions__math.set(source, min, max, is_every_frame, is_every_second) en
 ---@param is_every_second boolean Repeat this action every second
 ---@return ActionInstance
 function actions__math.substract(source, value, is_every_frame, is_every_second) end
+
+--- Get a tan value
+---@param value variable Variable to take tan
+---@param store_variable variable Variable to set
+---@param is_degrees boolean Check true, if using degrees instead of radians
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__math.tan(value, store_variable, is_degrees, is_every_frame) end
 
 
 ---@class actions.msg
@@ -535,23 +627,67 @@ function actions__time.frames(frames, trigger_event) end
 ---@class actions.transform
 local actions__transform = {}
 
+--- Add the position to a game object
+---@param delta_vector vector3 Vector with x/y/z params to translate
+---@param is_every_frame boolean Repeat this action every frame
+---@param delay number Delay before translate in seconds
+---@param target_url url The object to apply transform
+---@return ActionInstance
+function actions__transform.add_position(delta_vector, is_every_frame, delay, target_url) end
+
+--- Add the rotation of a game object
+---@param target_quaternion quaternion Rotation quatenion
+---@param is_every_frame boolean Repeat this action every frame
+---@param delay number Delay before translate in seconds
+---@param target_url url The object to apply transform
+---@return ActionInstance
+function actions__transform.add_rotation(target_quaternion, is_every_frame, delay, target_url) end
+
+--- Add the rotation of a game object
+---@param target_vector vector3 Rotation quatenion
+---@param is_every_frame boolean Repeat this action every frame
+---@param delay number Delay before translate in seconds
+---@param target_url url The object to apply transform
+---@return ActionInstance
+function actions__transform.add_rotation(target_vector, is_every_frame, delay, target_url) end
+
+--- Add scale to a game object
+---@param target_scale vector3 Scale vector
+---@param is_every_frame boolean Repeat this action every frame
+---@param delay number Delay before translate in seconds
+---@param target_url url The object to apply transform
+---@return ActionInstance
+function actions__transform.add_scale(target_scale, is_every_frame, delay, target_url) end
+
+--- Animate the rotation of a game object
+---@param target_euler vector3 Rotation quaternion
+---@param time number The time to animate
+---@param finish_event string Name of trigger event
+---@param delay number Delay before animate in seconds
+---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@param target_url url The object to apply transform
+---@return ActionInstance
+function actions__transform.animate_euler(target_euler, time, finish_event, delay, ease_function, target_url) end
+
 --- Animate the position of a game object
 ---@param target_vector vector3 Position vector
 ---@param time number The time to animate
 ---@param finish_event string Name of trigger event
 ---@param delay number Delay before animate in seconds
 ---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@param target_url url The object to apply transform
 ---@return ActionInstance
-function actions__transform.animate_position(target_vector, time, finish_event, delay, ease_function) end
+function actions__transform.animate_position(target_vector, time, finish_event, delay, ease_function, target_url) end
 
 --- Animate the rotation of a game object
----@param target_vector vector3 Rotation vector
+---@param target_quaternion quaternion Rotation quaternion
 ---@param time number The time to animate
 ---@param finish_event string Name of trigger event
 ---@param delay number Delay before animate in seconds
 ---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@param target_url url The object to apply transform
 ---@return ActionInstance
-function actions__transform.animate_rotation(target_vector, time, finish_event, delay, ease_function) end
+function actions__transform.animate_rotation(target_quaternion, time, finish_event, delay, ease_function, target_url) end
 
 --- Animate scale to a game object
 ---@param target_scale vector3 Scale vector
@@ -559,65 +695,115 @@ function actions__transform.animate_rotation(target_vector, time, finish_event, 
 ---@param finish_event string Name of trigger event
 ---@param delay number Delay before animate in seconds
 ---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@param target_url url The object to apply transform
 ---@return ActionInstance
-function actions__transform.animate_scale(target_scale, time, finish_event, delay, ease_function) end
+function actions__transform.animate_scale(target_scale, time, finish_event, delay, ease_function, target_url) end
 
---- Get the position property of a game object and store to variable
----@param variable string The variable to store result
----@param is_every_frame boolean Repeat this action every frame
----@param is_world_space boolean Use get_world_position instead get_position
+--- Animate scale to a game object with relative vector
+---@param target_scale vector3 Add scale vector
+---@param time number The time to animate
+---@param finish_event string Name of trigger event
+---@param delay number Delay before animate in seconds
+---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@param target_url url The object to apply transform
 ---@return ActionInstance
-function actions__transform.get_position(variable, is_every_frame, is_world_space) end
+function actions__transform.animate_scale_by(target_scale, time, finish_event, delay, ease_function, target_url) end
 
 --- Get the rotation property of a game object and store to variable
 ---@param variable string The variable to store result
 ---@param is_every_frame boolean Repeat this action every frame
----@param is_world_space boolean Use get_world_rotation instead get_rotation
+---@param target_url url The object to apply transform
 ---@return ActionInstance
-function actions__transform.get_rotation(variable, is_every_frame, is_world_space) end
+function actions__transform.get_euler(variable, is_every_frame, target_url) end
+
+--- Get the position property of a game object and store to variable
+---@param variable string The variable to store result
+---@param is_every_frame boolean Repeat this action every frame
+---@param target_url url The object to apply transform
+---@return ActionInstance
+function actions__transform.get_position(variable, is_every_frame, target_url) end
+
+--- Get the rotation property of a game object and store to variable
+---@param variable string The variable to store result
+---@param is_every_frame boolean Repeat this action every frame
+---@param target_url url The object to apply transform
+---@return ActionInstance
+function actions__transform.get_rotation(variable, is_every_frame, target_url) end
 
 --- Get the scale property of a game object and store to variable
 ---@param variable string The variable to store result
 ---@param is_every_frame boolean Repeat this action every frame
----@param is_world_space boolean Use get_world_scale instead get_scale
+---@param target_url url The object to apply transform
 ---@return ActionInstance
-function actions__transform.get_scale(variable, is_every_frame, is_world_space) end
+function actions__transform.get_scale(variable, is_every_frame, target_url) end
 
 --- Sets the position of a game object
 ---@param target_vector vector3 Position vector
 ---@param is_every_frame boolean Repeat this action every frame
 ---@param delay number Delay before translate in seconds
----@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@param target_url url The object to apply transform
 ---@return ActionInstance
-function actions__transform.set_position(target_vector, is_every_frame, delay, ease_function) end
+function actions__transform.set_position(target_vector, is_every_frame, delay, target_url) end
 
 --- Sets the rotation of a game object
----@param target_vector vector3 Rotation vector
+---@param target_quaternion quaternion Rotation quatenion
 ---@param is_every_frame boolean Repeat this action every frame
 ---@param delay number Delay before translate in seconds
----@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@param target_url url The object to apply transform
 ---@return ActionInstance
-function actions__transform.set_rotation(target_vector, is_every_frame, delay, ease_function) end
+function actions__transform.set_rotation(target_quaternion, is_every_frame, delay, target_url) end
+
+--- Sets the rotation of a game object
+---@param target_quaternion quaternion Rotation quatenion
+---@param is_every_frame boolean Repeat this action every frame
+---@param delay number Delay before translate in seconds
+---@param target_url url The object to apply transform
+---@return ActionInstance
+function actions__transform.set_rotation(target_quaternion, is_every_frame, delay, target_url) end
 
 --- Set scale to a game object
 ---@param target_scale vector3 Scale vector
 ---@param is_every_frame boolean Repeat this action every frame
 ---@param delay number Delay before translate in seconds
----@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@param target_url url The object to apply transform
 ---@return ActionInstance
-function actions__transform.set_scale(target_scale, is_every_frame, delay, ease_function) end
-
---- Translates a game object via delta vector
----@param delta_vector vector3 Vector with x/y/z params to translate
----@param is_every_frame boolean Repeat this action every frame
----@param delay number Delay before translate in seconds
----@param ease_function ease The ease function to animate. Default in settings.get_default_easing
----@return ActionInstance
-function actions__transform.translate(delta_vector, is_every_frame, delay, ease_function) end
+function actions__transform.set_scale(target_scale, is_every_frame, delay, target_url) end
 
 
 ---@class actions.vmath
 local actions__vmath = {}
+
+--- Adds a Vector3 value to a Vector3 variable
+---@param source string Variable to add
+---@param variable variable Vector3 to add
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__vmath.add(source, variable, is_every_frame) end
+
+--- Add the XYZ channels of a Vector3 variable
+---@param source string Variable to add
+---@param value_x number The x value to add. Pass nil to not change value
+---@param value_y number The y value to add. Pass nil to not change value
+---@param value_z number The z value to add. Pass nil to not change value
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__vmath.add_xyz(source, value_x, value_y, value_z, is_every_frame) end
+
+--- Get the XYZ channels of a Vector3 variable
+---@param source string Variable to get
+---@param value_x string The variable to store x value. Pass nil to not store
+---@param value_y string The variable to store y value. Pass nil to not store
+---@param value_z string The variable to store z value. Pass nil to not store
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__vmath.get_xyz(source, value_x, value_y, value_z, is_every_frame) end
+
+--- Multiply a vector by a varialbe
+---@param source string Variable vector to multiply
+---@param valube variable The multiplier variable
+---@param is_every_frame boolean Repeat this action every frame
+---@return ActionInstance
+function actions__vmath.multiply(source, valube, is_every_frame) end
 
 --- Sets the XYZ channels of a Vector3 variable
 ---@param source string Variable to set
@@ -655,6 +841,7 @@ function adam__actions.func(source, value, is_every_frame) end
 
 --- Return value from FSM variables for action params
 ---@param variable_name string The variable name in Adam instance
-function adam__actions.value(variable_name) end
+---@param field string The field name from variable. Useful for vector variables
+function adam__actions.value(variable_name, field) end
 
 

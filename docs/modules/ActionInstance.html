@@ -84,7 +84,7 @@
 	<td class="summary">Check if param value is from FSM variables.</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#set_every_frame">set_every_frame([state[, skip_initial_call]])</a></td>
+	<td class="name" ><a href="#set_every_frame">set_every_frame()</a></td>
 	<td class="summary">Set action triggered every frame.</td>
 	</tr>
 	<tr>
@@ -352,26 +352,12 @@
 </dd>
     <dt>
     <a name = "set_every_frame"></a>
-    <strong>set_every_frame([state[, skip_initial_call]])</strong>
+    <strong>set_every_frame()</strong>
     </dt>
     <dd>
-    Set action triggered every frame.
- Action will not call in trigger action frame
+    Set action triggered every frame.  Initial call will be skipped
 
 
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">state</span>
-            <span class="types"><span class="type">boolean</span></span>
-         The every frame state
-         (<em>optional</em>)
-        </li>
-        <li><span class="parameter">skip_initial_call</span>
-            <span class="types"><span class="type">boolean</span></span>
-         If true, skip first initial call on state enter
-         (<em>optional</em>)
-        </li>
-    </ul>
 
     <h3>Returns:</h3>
     <ol>
@@ -423,13 +409,14 @@
     </dt>
     <dd>
     Add delay before action is triggered.  Every frame and periodic trigger will start
- after delay is happened. You should call finished method in action trigger function
+ after delay is happened. You should call finished method in action trigger function.
+ You can pass action.param as second argument
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">seconds</span>
-            <span class="types"><span class="type">number</span> or <span class="type">nil</span></span>
+            <span class="types"><span class="type">number</span>, <span class="type">variable</span> or <span class="type">nil</span></span>
          Action delay
         </li>
     </ul>

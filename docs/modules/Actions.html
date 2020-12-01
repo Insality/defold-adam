@@ -68,14 +68,14 @@
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" ><a href="#value">value(variable_name)</a></td>
+	<td class="name" ><a href="#value">value(variable_name, field)</a></td>
 	<td class="summary">Return value from FSM variables for action params</td>
 	</tr>
 </table>
 <h2><a href="#actions_debug_Functions">actions.debug Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" ><a href="#actions.debug.print">actions.debug.print(text, is_every_second)</a></td>
+	<td class="name" ><a href="#actions.debug.print">actions.debug.print(text[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Print text to console</td>
 	</tr>
 	<tr>
@@ -96,6 +96,10 @@
 	<tr>
 	<td class="name" ><a href="#actions.fsm.broadcast_event">actions.fsm.broadcast_event(event_name[, is_exclude_self[, delay]])</a></td>
 	<td class="summary">Broadcast event to all active FSM</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.fsm.finish">actions.fsm.finish(string[, delay])</a></td>
+	<td class="summary">Stop the Adam Instance</td>
 	</tr>
 </table>
 <h2><a href="#actions_go_Functions">actions.go Functions</a></h2>
@@ -211,8 +215,16 @@
 	<td class="summary">Divides a value by another value</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.math.set">actions.math.set(source, min, max[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" ><a href="#actions.math.clamp">actions.math.clamp(source, min, max[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Clamps the value of a variable to a min/max range.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.math.min">actions.math.min(source, min[, is_every_frame[, is_every_second]])</a></td>
+	<td class="summary">Choose min value</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.math.max">actions.math.max(source, min[, is_every_frame[, is_every_second]])</a></td>
+	<td class="summary">Choose max value</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.math.abs">actions.math.abs(source[, is_every_frame])</a></td>
@@ -225,6 +237,38 @@
 	<tr>
 	<td class="name" ><a href="#actions.math.random_boolean">actions.math.random_boolean(source[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Sets a variable to a random value true or false</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.math.cos">actions.math.cos(value, store_variable[, is_degrees[, is_every_frame]])</a></td>
+	<td class="summary">Get a cos value</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.math.sin">actions.math.sin(value, store_variable[, is_degrees[, is_every_frame]])</a></td>
+	<td class="summary">Get a sin value</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.math.asin">actions.math.asin(value, store_variable[, is_degrees[, is_every_frame]])</a></td>
+	<td class="summary">Get a asin value</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.math.acos">actions.math.acos(value, store_variable[, is_degrees[, is_every_frame]])</a></td>
+	<td class="summary">Get a acos value</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.math.tan">actions.math.tan(value, store_variable[, is_degrees[, is_every_frame]])</a></td>
+	<td class="summary">Get a tan value</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.math.atan">actions.math.atan(value, store_variable[, is_degrees[, is_every_frame]])</a></td>
+	<td class="summary">Get a atan value</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.math.atan2">actions.math.atan2(value, store_variable[, is_degrees[, is_every_frame]])</a></td>
+	<td class="summary">Get a atan2 value</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.math.operator">actions.math.operator(value_a, value_b, operator[, is_every_frame])</a></td>
+	<td class="summary">Apply a math function (a, b)=>c to a variable.</td>
 	</tr>
 </table>
 <h2><a href="#actions_msg_Functions">actions.msg Functions</a></h2>
@@ -255,44 +299,72 @@
 <h2><a href="#actions_transform_Functions">actions.transform Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" ><a href="#actions.transform.set_position">actions.transform.set_position(target_vector[, is_every_frame[, delay[, ease_function]]])</a></td>
+	<td class="name" ><a href="#actions.transform.set_position">actions.transform.set_position(target_vector[, is_every_frame[, delay[, target_url]]])</a></td>
 	<td class="summary">Sets the position of a game object</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.transform.animate_position">actions.transform.animate_position(target_vector[, time[, finish_event[, delay[, ease_function]]]])</a></td>
+	<td class="name" ><a href="#actions.transform.add_position">actions.transform.add_position(delta_vector[, is_every_frame[, delay[, target_url]]])</a></td>
+	<td class="summary">Add the position to a game object</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.animate_position">actions.transform.animate_position(target_vector, time[, finish_event[, delay[, ease_function[, target_url]]]])</a></td>
 	<td class="summary">Animate the position of a game object</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.transform.get_position">actions.transform.get_position(variable[, is_every_frame[, is_world_space]])</a></td>
+	<td class="name" ><a href="#actions.transform.get_position">actions.transform.get_position(variable[, is_every_frame[, target_url]])</a></td>
 	<td class="summary">Get the position property of a game object and store to variable</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.transform.set_rotation">actions.transform.set_rotation(target_vector[, is_every_frame[, delay[, ease_function]]])</a></td>
+	<td class="name" ><a href="#actions.transform.set_rotation">actions.transform.set_rotation(target_quaternion[, is_every_frame[, delay[, target_url]]])</a></td>
 	<td class="summary">Sets the rotation of a game object</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.transform.animate_rotation">actions.transform.animate_rotation(target_vector[, time[, finish_event[, delay[, ease_function]]]])</a></td>
+	<td class="name" ><a href="#actions.transform.add_rotation">actions.transform.add_rotation(target_quaternion[, is_every_frame[, delay[, target_url]]])</a></td>
+	<td class="summary">Add the rotation of a game object</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.animate_rotation">actions.transform.animate_rotation(target_quaternion, time[, finish_event[, delay[, ease_function[, target_url]]]])</a></td>
 	<td class="summary">Animate the rotation of a game object</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.transform.get_rotation">actions.transform.get_rotation(variable[, is_every_frame[, is_world_space]])</a></td>
+	<td class="name" ><a href="#actions.transform.get_rotation">actions.transform.get_rotation(variable[, is_every_frame[, target_url]])</a></td>
 	<td class="summary">Get the rotation property of a game object and store to variable</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.transform.set_scale">actions.transform.set_scale(target_scale[, is_every_frame[, delay[, ease_function]]])</a></td>
+	<td class="name" ><a href="#actions.transform.set_rotation">actions.transform.set_rotation(target_quaternion[, is_every_frame[, delay[, target_url]]])</a></td>
+	<td class="summary">Sets the rotation of a game object</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.add_rotation">actions.transform.add_rotation(target_vector[, is_every_frame[, delay[, target_url]]])</a></td>
+	<td class="summary">Add the rotation of a game object</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.animate_euler">actions.transform.animate_euler(target_euler, time[, finish_event[, delay[, ease_function[, target_url]]]])</a></td>
+	<td class="summary">Animate the rotation of a game object</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.get_euler">actions.transform.get_euler(variable[, is_every_frame[, target_url]])</a></td>
+	<td class="summary">Get the rotation property of a game object and store to variable</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.set_scale">actions.transform.set_scale(target_scale[, is_every_frame[, delay[, target_url]]])</a></td>
 	<td class="summary">Set scale to a game object</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.transform.animate_scale">actions.transform.animate_scale(target_scale[, time[, finish_event[, delay[, ease_function]]]])</a></td>
+	<td class="name" ><a href="#actions.transform.add_scale">actions.transform.add_scale(target_scale[, is_every_frame[, delay[, target_url]]])</a></td>
+	<td class="summary">Add scale to a game object</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.animate_scale">actions.transform.animate_scale(target_scale, time[, finish_event[, delay[, ease_function[, target_url]]]])</a></td>
 	<td class="summary">Animate scale to a game object</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.transform.get_scale">actions.transform.get_scale(variable[, is_every_frame[, is_world_space]])</a></td>
-	<td class="summary">Get the scale property of a game object and store to variable</td>
+	<td class="name" ><a href="#actions.transform.animate_scale_by">actions.transform.animate_scale_by(target_scale, time[, finish_event[, delay[, ease_function[, target_url]]]])</a></td>
+	<td class="summary">Animate scale to a game object with relative vector</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.transform.translate">actions.transform.translate(delta_vector[, is_every_frame[, delay[, ease_function]]])</a></td>
-	<td class="summary">Translates a game object via delta vector</td>
+	<td class="name" ><a href="#actions.transform.get_scale">actions.transform.get_scale(variable[, is_every_frame[, target_url]])</a></td>
+	<td class="summary">Get the scale property of a game object and store to variable</td>
 	</tr>
 </table>
 <h2><a href="#actions_vmath_Functions">actions.vmath Functions</a></h2>
@@ -300,6 +372,22 @@
 	<tr>
 	<td class="name" ><a href="#actions.vmath.set_xyz">actions.vmath.set_xyz(source[, value_x[, value_y[, value_z[, is_every_frame]]]])</a></td>
 	<td class="summary">Sets the XYZ channels of a Vector3 variable</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.vmath.add_xyz">actions.vmath.add_xyz(source[, value_x[, value_y[, value_z[, is_every_frame]]]])</a></td>
+	<td class="summary">Add the XYZ channels of a Vector3 variable</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.vmath.add">actions.vmath.add(source, variable[, is_every_frame])</a></td>
+	<td class="summary">Adds a Vector3 value to a Vector3 variable</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.vmath.get_xyz">actions.vmath.get_xyz(source[, value_x[, value_y[, value_z[, is_every_frame]]]])</a></td>
+	<td class="summary">Get the XYZ channels of a Vector3 variable</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.vmath.multiply">actions.vmath.multiply(source, valube[, is_every_frame])</a></td>
+	<td class="summary">Multiply a vector by a varialbe</td>
 	</tr>
 </table>
 
@@ -312,7 +400,7 @@
     <dl class="function">
     <dt>
     <a name = "value"></a>
-    <strong>value(variable_name)</strong>
+    <strong>value(variable_name, field)</strong>
     </dt>
     <dd>
     Return value from FSM variables for action params
@@ -323,6 +411,10 @@
         <li><span class="parameter">variable_name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The variable name in Adam instance
+        </li>
+        <li><span class="parameter">field</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The field name from variable. Useful for vector variables
         </li>
     </ul>
 
@@ -337,7 +429,7 @@
     <dl class="function">
     <dt>
     <a name = "actions.debug.print"></a>
-    <strong>actions.debug.print(text, is_every_second)</strong>
+    <strong>actions.debug.print(text[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Print text to console
@@ -349,9 +441,15 @@
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The log message
         </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
         <li><span class="parameter">is_every_second</span>
             <span class="types"><span class="type">bool</span></span>
          Repeat this action every second
+         (<em>optional</em>)
         </li>
     </ul>
 
@@ -501,6 +599,32 @@
            <span class="types"><span class="type">ActionInstance</span></span>
 
     </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.fsm.finish"></a>
+    <strong>actions.fsm.finish(string[, delay])</strong>
+    </dt>
+    <dd>
+    Stop the Adam Instance
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">string</span>
+            <span class="types"><span class="type">target</span></span>
+        |adam target The target instance to finish
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Time delay in seconds
+         (<em>optional</em>)
+        </li>
+    </ul>
+
 
 
 
@@ -1577,8 +1701,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.math.set"></a>
-    <strong>actions.math.set(source, min, max[, is_every_frame[, is_every_second]])</strong>
+    <a name = "actions.math.clamp"></a>
+    <strong>actions.math.clamp(source, min, max[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Clamps the value of a variable to a min/max range.
@@ -1588,7 +1712,7 @@
     <ul>
         <li><span class="parameter">source</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         Variable to set
+         Variable to clamp
         </li>
         <li><span class="parameter">min</span>
             <span class="types"><span class="type">number</span></span>
@@ -1597,6 +1721,88 @@
         <li><span class="parameter">max</span>
             <span class="types"><span class="type">number</span></span>
          The maximum value allowed.
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_second</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every second
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.math.min"></a>
+    <strong>actions.math.min(source, min[, is_every_frame[, is_every_second]])</strong>
+    </dt>
+    <dd>
+    Choose min value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to compare
+        </li>
+        <li><span class="parameter">min</span>
+            <span class="types"><span class="type">variable</span> or <span class="type">number</span></span>
+         Another variable
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_second</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every second
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.math.max"></a>
+    <strong>actions.math.max(source, min[, is_every_frame[, is_every_second]])</strong>
+    </dt>
+    <dd>
+    Choose max value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to compare
+        </li>
+        <li><span class="parameter">min</span>
+            <span class="types"><span class="type">variable</span> or <span class="type">number</span></span>
+         Another variable
         </li>
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
@@ -1720,6 +1926,334 @@
         <li><span class="parameter">is_every_second</span>
             <span class="types"><span class="type">boolean</span></span>
          Repeat this action every second
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.math.cos"></a>
+    <strong>actions.math.cos(value, store_variable[, is_degrees[, is_every_frame]])</strong>
+    </dt>
+    <dd>
+    Get a cos value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to take cos
+        </li>
+        <li><span class="parameter">store_variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">is_degrees</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Check true, if using degrees instead of radians
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.math.sin"></a>
+    <strong>actions.math.sin(value, store_variable[, is_degrees[, is_every_frame]])</strong>
+    </dt>
+    <dd>
+    Get a sin value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to take sin
+        </li>
+        <li><span class="parameter">store_variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">is_degrees</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Check true, if using degrees instead of radians
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.math.asin"></a>
+    <strong>actions.math.asin(value, store_variable[, is_degrees[, is_every_frame]])</strong>
+    </dt>
+    <dd>
+    Get a asin value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to take asin
+        </li>
+        <li><span class="parameter">store_variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">is_degrees</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Check true, if using degrees instead of radians
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.math.acos"></a>
+    <strong>actions.math.acos(value, store_variable[, is_degrees[, is_every_frame]])</strong>
+    </dt>
+    <dd>
+    Get a acos value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to take acos
+        </li>
+        <li><span class="parameter">store_variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">is_degrees</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Check true, if using degrees instead of radians
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.math.tan"></a>
+    <strong>actions.math.tan(value, store_variable[, is_degrees[, is_every_frame]])</strong>
+    </dt>
+    <dd>
+    Get a tan value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to take tan
+        </li>
+        <li><span class="parameter">store_variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">is_degrees</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Check true, if using degrees instead of radians
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.math.atan"></a>
+    <strong>actions.math.atan(value, store_variable[, is_degrees[, is_every_frame]])</strong>
+    </dt>
+    <dd>
+    Get a atan value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to take atan
+        </li>
+        <li><span class="parameter">store_variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">is_degrees</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Check true, if using degrees instead of radians
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.math.atan2"></a>
+    <strong>actions.math.atan2(value, store_variable[, is_degrees[, is_every_frame]])</strong>
+    </dt>
+    <dd>
+    Get a atan2 value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to take atan2
+        </li>
+        <li><span class="parameter">store_variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         Variable to set
+        </li>
+        <li><span class="parameter">is_degrees</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Check true, if using degrees instead of radians
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.math.operator"></a>
+    <strong>actions.math.operator(value_a, value_b, operator[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Apply a math function (a, b)=>c to a variable.
+ Useful if you want do something, what is not designed in Adam.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value_a</span>
+            <span class="types"><span class="type">variable</span></span>
+         First variable
+        </li>
+        <li><span class="parameter">value_b</span>
+            <span class="types"><span class="type">variable</span></span>
+         Second variable
+        </li>
+        <li><span class="parameter">operator</span>
+            <span class="types"><span class="type">function</span></span>
+         The callback function
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
          (<em>optional</em>)
         </li>
     </ul>
@@ -1890,7 +2424,7 @@
     <dl class="function">
     <dt>
     <a name = "actions.transform.set_position"></a>
-    <strong>actions.transform.set_position(target_vector[, is_every_frame[, delay[, ease_function]]])</strong>
+    <strong>actions.transform.set_position(target_vector[, is_every_frame[, delay[, target_url]]])</strong>
     </dt>
     <dd>
     Sets the position of a game object
@@ -1912,9 +2446,51 @@
          Delay before translate in seconds
          (<em>optional</em>)
         </li>
-        <li><span class="parameter">ease_function</span>
-            <span class="types"><span class="type">ease</span></span>
-         The ease function to animate. Default in settings.get_default_easing
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.add_position"></a>
+    <strong>actions.transform.add_position(delta_vector[, is_every_frame[, delay[, target_url]]])</strong>
+    </dt>
+    <dd>
+    Add the position to a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">delta_vector</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Vector with x/y/z params to translate
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
          (<em>optional</em>)
         </li>
     </ul>
@@ -1932,7 +2508,7 @@
 </dd>
     <dt>
     <a name = "actions.transform.animate_position"></a>
-    <strong>actions.transform.animate_position(target_vector[, time[, finish_event[, delay[, ease_function]]]])</strong>
+    <strong>actions.transform.animate_position(target_vector, time[, finish_event[, delay[, ease_function[, target_url]]]])</strong>
     </dt>
     <dd>
     Animate the position of a game object
@@ -1947,7 +2523,6 @@
         <li><span class="parameter">time</span>
             <span class="types"><span class="type">number</span></span>
          The time to animate
-         (<em>optional</em>)
         </li>
         <li><span class="parameter">finish_event</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
@@ -1962,6 +2537,11 @@
         <li><span class="parameter">ease_function</span>
             <span class="types"><span class="type">ease</span></span>
          The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
          (<em>optional</em>)
         </li>
     </ul>
@@ -1979,7 +2559,7 @@
 </dd>
     <dt>
     <a name = "actions.transform.get_position"></a>
-    <strong>actions.transform.get_position(variable[, is_every_frame[, is_world_space]])</strong>
+    <strong>actions.transform.get_position(variable[, is_every_frame[, target_url]])</strong>
     </dt>
     <dd>
     Get the position property of a game object and store to variable
@@ -1996,9 +2576,9 @@
          Repeat this action every frame
          (<em>optional</em>)
         </li>
-        <li><span class="parameter">is_world_space</span>
-            <span class="types"><span class="type">boolean</span></span>
-         Use get_world_position instead get_position
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
          (<em>optional</em>)
         </li>
     </ul>
@@ -2016,7 +2596,7 @@
 </dd>
     <dt>
     <a name = "actions.transform.set_rotation"></a>
-    <strong>actions.transform.set_rotation(target_vector[, is_every_frame[, delay[, ease_function]]])</strong>
+    <strong>actions.transform.set_rotation(target_quaternion[, is_every_frame[, delay[, target_url]]])</strong>
     </dt>
     <dd>
     Sets the rotation of a game object
@@ -2024,9 +2604,9 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">target_vector</span>
-            <span class="types"><span class="type">vector3</span></span>
-         Rotation vector
+        <li><span class="parameter">target_quaternion</span>
+            <span class="types"><span class="type">quaternion</span></span>
+         Rotation quatenion
         </li>
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
@@ -2038,9 +2618,51 @@
          Delay before translate in seconds
          (<em>optional</em>)
         </li>
-        <li><span class="parameter">ease_function</span>
-            <span class="types"><span class="type">ease</span></span>
-         The ease function to animate. Default in settings.get_default_easing
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.add_rotation"></a>
+    <strong>actions.transform.add_rotation(target_quaternion[, is_every_frame[, delay[, target_url]]])</strong>
+    </dt>
+    <dd>
+    Add the rotation of a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_quaternion</span>
+            <span class="types"><span class="type">quaternion</span></span>
+         Rotation quatenion
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
          (<em>optional</em>)
         </li>
     </ul>
@@ -2058,7 +2680,7 @@
 </dd>
     <dt>
     <a name = "actions.transform.animate_rotation"></a>
-    <strong>actions.transform.animate_rotation(target_vector[, time[, finish_event[, delay[, ease_function]]]])</strong>
+    <strong>actions.transform.animate_rotation(target_quaternion, time[, finish_event[, delay[, ease_function[, target_url]]]])</strong>
     </dt>
     <dd>
     Animate the rotation of a game object
@@ -2066,14 +2688,13 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">target_vector</span>
-            <span class="types"><span class="type">vector3</span></span>
-         Rotation vector
+        <li><span class="parameter">target_quaternion</span>
+            <span class="types"><span class="type">quaternion</span></span>
+         Rotation quaternion
         </li>
         <li><span class="parameter">time</span>
             <span class="types"><span class="type">number</span></span>
          The time to animate
-         (<em>optional</em>)
         </li>
         <li><span class="parameter">finish_event</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
@@ -2088,6 +2709,11 @@
         <li><span class="parameter">ease_function</span>
             <span class="types"><span class="type">ease</span></span>
          The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
          (<em>optional</em>)
         </li>
     </ul>
@@ -2105,7 +2731,7 @@
 </dd>
     <dt>
     <a name = "actions.transform.get_rotation"></a>
-    <strong>actions.transform.get_rotation(variable[, is_every_frame[, is_world_space]])</strong>
+    <strong>actions.transform.get_rotation(variable[, is_every_frame[, target_url]])</strong>
     </dt>
     <dd>
     Get the rotation property of a game object and store to variable
@@ -2122,9 +2748,181 @@
          Repeat this action every frame
          (<em>optional</em>)
         </li>
-        <li><span class="parameter">is_world_space</span>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.set_rotation"></a>
+    <strong>actions.transform.set_rotation(target_quaternion[, is_every_frame[, delay[, target_url]]])</strong>
+    </dt>
+    <dd>
+    Sets the rotation of a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_quaternion</span>
+            <span class="types"><span class="type">quaternion</span></span>
+         Rotation quatenion
+        </li>
+        <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
-         Use get_world_rotation instead get_rotation
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.add_rotation"></a>
+    <strong>actions.transform.add_rotation(target_vector[, is_every_frame[, delay[, target_url]]])</strong>
+    </dt>
+    <dd>
+    Add the rotation of a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_vector</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Rotation quatenion
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.animate_euler"></a>
+    <strong>actions.transform.animate_euler(target_euler, time[, finish_event[, delay[, ease_function[, target_url]]]])</strong>
+    </dt>
+    <dd>
+    Animate the rotation of a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_euler</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Rotation quaternion
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to animate
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before animate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.get_euler"></a>
+    <strong>actions.transform.get_euler(variable[, is_every_frame[, target_url]])</strong>
+    </dt>
+    <dd>
+    Get the rotation property of a game object and store to variable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The variable to store result
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
          (<em>optional</em>)
         </li>
     </ul>
@@ -2142,7 +2940,7 @@
 </dd>
     <dt>
     <a name = "actions.transform.set_scale"></a>
-    <strong>actions.transform.set_scale(target_scale[, is_every_frame[, delay[, ease_function]]])</strong>
+    <strong>actions.transform.set_scale(target_scale[, is_every_frame[, delay[, target_url]]])</strong>
     </dt>
     <dd>
     Set scale to a game object
@@ -2164,9 +2962,51 @@
          Delay before translate in seconds
          (<em>optional</em>)
         </li>
-        <li><span class="parameter">ease_function</span>
-            <span class="types"><span class="type">ease</span></span>
-         The ease function to animate. Default in settings.get_default_easing
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.add_scale"></a>
+    <strong>actions.transform.add_scale(target_scale[, is_every_frame[, delay[, target_url]]])</strong>
+    </dt>
+    <dd>
+    Add scale to a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_scale</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Scale vector
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
          (<em>optional</em>)
         </li>
     </ul>
@@ -2184,7 +3024,7 @@
 </dd>
     <dt>
     <a name = "actions.transform.animate_scale"></a>
-    <strong>actions.transform.animate_scale(target_scale[, time[, finish_event[, delay[, ease_function]]]])</strong>
+    <strong>actions.transform.animate_scale(target_scale, time[, finish_event[, delay[, ease_function[, target_url]]]])</strong>
     </dt>
     <dd>
     Animate scale to a game object
@@ -2199,7 +3039,6 @@
         <li><span class="parameter">time</span>
             <span class="types"><span class="type">number</span></span>
          The time to animate
-         (<em>optional</em>)
         </li>
         <li><span class="parameter">finish_event</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
@@ -2214,6 +3053,62 @@
         <li><span class="parameter">ease_function</span>
             <span class="types"><span class="type">ease</span></span>
          The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.animate_scale_by"></a>
+    <strong>actions.transform.animate_scale_by(target_scale, time[, finish_event[, delay[, ease_function[, target_url]]]])</strong>
+    </dt>
+    <dd>
+    Animate scale to a game object with relative vector
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_scale</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Add scale vector
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to animate
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before animate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
          (<em>optional</em>)
         </li>
     </ul>
@@ -2231,7 +3126,7 @@
 </dd>
     <dt>
     <a name = "actions.transform.get_scale"></a>
-    <strong>actions.transform.get_scale(variable[, is_every_frame[, is_world_space]])</strong>
+    <strong>actions.transform.get_scale(variable[, is_every_frame[, target_url]])</strong>
     </dt>
     <dd>
     Get the scale property of a game object and store to variable
@@ -2248,51 +3143,9 @@
          Repeat this action every frame
          (<em>optional</em>)
         </li>
-        <li><span class="parameter">is_world_space</span>
-            <span class="types"><span class="type">boolean</span></span>
-         Use get_world_scale instead get_scale
-         (<em>optional</em>)
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">ActionInstance</span></span>
-
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "actions.transform.translate"></a>
-    <strong>actions.transform.translate(delta_vector[, is_every_frame[, delay[, ease_function]]])</strong>
-    </dt>
-    <dd>
-    Translates a game object via delta vector
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">delta_vector</span>
-            <span class="types"><span class="type">vector3</span></span>
-         Vector with x/y/z params to translate
-        </li>
-        <li><span class="parameter">is_every_frame</span>
-            <span class="types"><span class="type">boolean</span></span>
-         Repeat this action every frame
-         (<em>optional</em>)
-        </li>
-        <li><span class="parameter">delay</span>
-            <span class="types"><span class="type">number</span></span>
-         Delay before translate in seconds
-         (<em>optional</em>)
-        </li>
-        <li><span class="parameter">ease_function</span>
-            <span class="types"><span class="type">ease</span></span>
-         The ease function to animate. Default in settings.get_default_easing
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
          (<em>optional</em>)
         </li>
     </ul>
@@ -2340,6 +3193,172 @@
             <span class="types"><span class="type">number</span></span>
          The z value to set. Pass nil to not change value
          (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.vmath.add_xyz"></a>
+    <strong>actions.vmath.add_xyz(source[, value_x[, value_y[, value_z[, is_every_frame]]]])</strong>
+    </dt>
+    <dd>
+    Add the XYZ channels of a Vector3 variable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to add
+        </li>
+        <li><span class="parameter">value_x</span>
+            <span class="types"><span class="type">number</span></span>
+         The x value to add. Pass nil to not change value
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">value_y</span>
+            <span class="types"><span class="type">number</span></span>
+         The y value to add. Pass nil to not change value
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">value_z</span>
+            <span class="types"><span class="type">number</span></span>
+         The z value to add. Pass nil to not change value
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.vmath.add"></a>
+    <strong>actions.vmath.add(source, variable[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Adds a Vector3 value to a Vector3 variable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to add
+        </li>
+        <li><span class="parameter">variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         Vector3 to add
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.vmath.get_xyz"></a>
+    <strong>actions.vmath.get_xyz(source[, value_x[, value_y[, value_z[, is_every_frame]]]])</strong>
+    </dt>
+    <dd>
+    Get the XYZ channels of a Vector3 variable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to get
+        </li>
+        <li><span class="parameter">value_x</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The variable to store x value. Pass nil to not store
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">value_y</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The variable to store y value. Pass nil to not store
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">value_z</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The variable to store z value. Pass nil to not store
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.vmath.multiply"></a>
+    <strong>actions.vmath.multiply(source, valube[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Multiply a vector by a varialbe
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable vector to multiply
+        </li>
+        <li><span class="parameter">valube</span>
+            <span class="types"><span class="type">variable</span></span>
+         The multiplier variable
         </li>
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
