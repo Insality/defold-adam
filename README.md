@@ -84,20 +84,20 @@ Short description how to create your custom actions and how to use it in code. F
 
 ## Learn more
 
-- [Core Concepts && Glossary](docs_ms/01-core-concepts.md)
-- [States](docs_ms/02-states.md)
-- [Events](docs_ms/03-events.md)
-- [Actions](docs_ms/04-actions.md)
-- [Variables](docs_ms/05-variables.md)
-- [Custom Actions](docs_ms/06-custom-actions.md)
-- [Template Actions](docs_ms/07-template-actions.md)
-- [Nested State Machines](docs_ms/08-nested-fsm.md)
-- [JSON representation](docs_ms/09-json-format.md)
-- [EmmyLua annotations](docs_ms/10-emmylua.md)
-- [Performance](docs_ms/11-performance.md)
-- [Usage examples](docs_ms/12-examples.md)
-- [FAQ](docs_ms/13-faq.md)
-- [Tips](docs_ms/14-tips.md)
+- [Core Concepts && Glossary](docs_md/01-core-concepts.md)
+- [States](docs_md/02-states.md)
+- [Events](docs_md/03-events.md)
+- [Actions](docs_md/04-actions.md)
+- [Variables](docs_md/05-variables.md)
+- [Custom Actions](docs_md/06-custom-actions.md)
+- [Template Actions](docs_md/07-template-actions.md)
+- [Nested State Machines](docs_md/08-nested-fsm.md)
+- [JSON representation](docs_md/09-json-format.md)
+- [EmmyLua annotations](docs_md/10-emmylua.md)
+- [Performance](docs_md/11-performance.md)
+- [Usage examples](docs_md/12-examples.md)
+- [FAQ](docs_md/13-faq.md)
+- [Tips](docs_md/14-tips.md)
 
 
 ## Examples
