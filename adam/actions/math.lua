@@ -299,16 +299,16 @@ function M.atan2(value, store_variable, is_degrees, is_every_frame)
 end
 
 
---- Apply a math function (a, b)=>c to a variable.
+--- Apply a math function (a, b)=>c to source variable.
 -- Useful if you want do something, what is not designed in Adam.
 -- @function actions.math.operator
--- @tparam variable value_a First variable
--- @tparam variable value_b Second variable
+-- @tparam variable source_variable_a First variable
+-- @tparam variable variable_b Second variable
 -- @tparam function operator The callback function
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @treturn ActionInstance
-function M.operator(value_a, value_b, operator, is_every_frame)
-	return math_operation(value_a, value_b, is_every_frame, nil, "math.operator", function(self, a, b)
+function M.operator(source_variable_a, variable_b, operator, is_every_frame)
+	return math_operation(source_variable_a, variable_b, is_every_frame, nil, "math.operator", function(self, a, b)
 		return operator(a, b)
 	end)
 end

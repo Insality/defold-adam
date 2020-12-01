@@ -24,6 +24,13 @@ local function for_adam_instances(action, target, callback)
 end
 
 
+local function for_all_adam_instances(action, callback)
+	for _, adam in ipairs(instances.get_all_instances()) do
+		callback(adam)
+	end
+end
+
+
 --- Send event to target Adam instance
 -- @function actions.fsm.send_event
 -- @tparam string|adam target The target instance for send event. If there are several instances with equal ID, event will be delivered to all of them.
@@ -33,11 +40,12 @@ end
 -- @treturn ActionInstance
 function M.send_event(target, event_name, delay, is_every_frame)
 	local action = ActionInstance(function(self)
-		for _, instance in ipairs(instances.get_all_instances_with_id(target)) do
-			instance:event(event_name)
-		end
+		for_adam_instances(self, target, function(adam)
+			adam:event(event_name)
+		end)
 		self:finish()
 	end)
+
 
 	action:set_delay(delay)
 	if is_every_frame then
@@ -56,11 +64,13 @@ end
 -- @treturn ActionInstance
 function M.broadcast_event(event_name, is_exclude_self, delay)
 	local action = ActionInstance(function(self)
-		for _, instance in ipairs(instances.get_all_instances()) do
-			if not is_exclude_self or instance ~= self:get_adam_instance() then
-				instance:event(event_name)
+		local current_adam_instance = self:get_adam_instance()
+
+		for_all_adam_instances(self, function(adam)
+			if not is_exclude_self or adam ~= current_adam_instance then
+				adam:event(event_name)
 			end
-		end
+		end)
 		self:finish()
 	end)
 
