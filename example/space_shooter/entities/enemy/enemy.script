@@ -6,7 +6,11 @@ function init(self)
 	self.adams = {}
 
 	local shoot = adam.state(
-		actions.msg.post(".", "create_projectile")
+		actions.msg.post(".", "create_projectile"),
+		actions.math.random("euler_diff", -30, 30),
+		actions.math.add("euler_diff", actions.value("start_euler_z")),
+		actions.vmath.set_xyz("current_euler", nil, nil, actions.value("euler_diff")),
+		actions.transform.animate_euler(actions.value("current_euler"), 0.4)
 	):set_name("shoot")
 
 	local damage = adam.state(
@@ -18,7 +22,8 @@ function init(self)
 	)
 
 	local initial = adam.state(
-		actions.transform.get_euler("current_euler")
+		actions.transform.get_euler("current_euler"),
+		actions.vmath.get_xyz("current_euler", nil, nil, "start_euler_z")
 	):set_name("initial")
 
 	local death = adam.state(
@@ -27,7 +32,7 @@ function init(self)
 	)
 
 	local idle = adam.state(
-		actions.time.random_delay(0.3, 0.8, "shoot")
+		actions.time.random_delay(0.1, 0.3, "shoot")
 	):set_name("idle")
 
 	self.adam = adam.new(initial,
@@ -36,6 +41,7 @@ function init(self)
 			{idle, shoot, "shoot"},
 			{shoot, idle},
 			{idle, damage, actions.EVENT.TRIGGER_ENTER},
+			{shoot, damage, actions.EVENT.TRIGGER_ENTER},
 			{damage, damage, actions.EVENT.TRIGGER_ENTER},
 			{damage, idle},
 			{damage, death, "death"},
@@ -43,13 +49,8 @@ function init(self)
 		{
 			health = 10,
 			current_euler = vmath.vector3(0),
-			move_euler = 0,
-			angle_move_x = 0,
-			angle_move_y = 0,
-			accelerate_power = 0,
-			move_vector = vmath.vector3(0),
-			pressed_shoot = false,
-			can_shoot = true,
+			start_euler_z = 0,
+			euler_diff = 0,
 		}):start()
 
 	table.insert(self.adams, self.adam)
@@ -78,7 +79,7 @@ end
 
 local function create_projectile(self)
 	-- Example how to not spawn script for every FSM
-	local pos = go.get_world_position("/enemy/spawn_pos")
+	local pos = go.get_world_position(go.get_id("spawn_pos"))
 	local projectile_id = factory.create("#projectiles", pos)
 	sprite.play_flipbook(msg.url(nil, projectile_id, "sprite"), "laser_enemy")
 	local projectile_adam = projectile.create(projectile_id)

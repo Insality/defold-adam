@@ -208,7 +208,7 @@ function M.add_euler(target_vector, is_every_frame, delay, target_url)
 end
 
 
---- Animate the rotation of a game object
+--- Animate the rotation of a game object with euler vector
 -- @function actions.transform.animate_euler
 -- @tparam vector3 target_euler Rotation quaternion
 -- @tparam number time The time to animate
@@ -220,6 +220,21 @@ end
 function M.animate_euler(target_euler, time, finish_event, delay, ease_function, target_url)
 	return animate_property(target_url or ".", target_euler, time, finish_event, delay, ease_function,
 		"transform.animate_euler", const.PROP_EULER, false)
+end
+
+
+--- Animate the rotation of a game object with relative euler vector
+-- @function actions.transform.animate_euler_by
+-- @tparam vector3 target_euler Rotation quaternion
+-- @tparam number time The time to animate
+-- @tparam[opt] string finish_event Name of trigger event
+-- @tparam[opt] number delay Delay before animate in seconds
+-- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] url target_url The object to apply transform
+-- @treturn ActionInstance
+function M.animate_euler_by(target_euler, time, finish_event, delay, ease_function, target_url)
+	return animate_property(target_url or ".", target_euler, time, finish_event, delay, ease_function,
+		"transform.animate_euler_by", const.PROP_EULER, true)
 end
 
 

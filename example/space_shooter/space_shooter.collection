@@ -20,7 +20,7 @@ collection_instances {
   }
 }
 collection_instances {
-  id: "enemy"
+  id: "enemy_left"
   collection: "/example/space_shooter/entities/enemy/enemy.collection"
   position {
     x: 184.0
@@ -32,6 +32,26 @@ collection_instances {
     y: 0.0
     z: -0.80806375
     w: 0.5890951
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+collection_instances {
+  id: "enemy_right"
+  collection: "/example/space_shooter/entities/enemy/enemy.collection"
+  position {
+    x: 808.0
+    y: 488.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.80385685
+    w: 0.59482276
   }
   scale3 {
     x: 1.0

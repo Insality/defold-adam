@@ -24,6 +24,7 @@ function AdamInstance:initialize(initial_state, transitions, variables)
 
 	self._states = {}
 	self._variables = variables or {}
+	self._adams = {} -- Nested Adam instances
 
 	self._is_debug = false
 	self._current_state = nil
@@ -90,6 +91,10 @@ function AdamInstance:update(dt)
 		self._current_state:update(dt)
 	end
 
+	for i = 1, #self._adams do
+		self._adams[i]:update(dt)
+	end
+
 	self:_clear_input()
 end
 
@@ -103,6 +108,10 @@ function AdamInstance:on_input(action_id, action)
 	end
 
 	self:_process_input(action_id, action)
+
+	for i = 1, #self._adams do
+		self._adams[i]:on_input(action_id, action)
+	end
 end
 
 
@@ -116,6 +125,11 @@ function AdamInstance:on_message(message_id, message, sender)
 	end
 
 	self:_process_message(message_id, message, sender)
+
+	-- TODO: Is need to propagate all messages?
+	for i = 1, #self._adams do
+		self._adams[i]:on_messages(message_id, message, sender)
+	end
 end
 
 
