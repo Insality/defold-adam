@@ -1,5 +1,6 @@
 
-## IN DEVELOPMENT
+# IN DEVELOPMENT, NO ANY VERSION FOR USE
+---
 
 ![](media/adam-logo.png)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/insality/defold-adam/Run%20tests)](https://github.com/Insality/defold-adam/actions)
@@ -42,52 +43,35 @@ To use **Adam**, you should do next:
 
 - Describe transitions between states via create Adam instances: `adam.new`
 
-The most basic code look like this:
+The basic code looks like this:
 ```lua
 local adam = require("adam.adam")
 local actions = require("adam.actions")
 
-
 function init(self)
-	-- Empty state
-	local initial = adam.state()
+    -- Empty state
+    local initial = adam.state()
 
-	-- The state with one instant action
-	local hello = adam.state(
-		actions.debug.print("Hello guys")
-	)
+    -- The state with one instant action
+    local hello = adam.state(
+        actions.debug.print("Hello guys")
+    )
 
-	-- The adam instance itself
-	self.adam = adam.new(initial,
-		{
-			{initial, hello, adam.FINISHED}	-- Third parameter is optional, it's FINISHED by default
-		}
-	)
+    -- The Adam instance itself
+    self.adam = adam.new(initial,
+        {
+            {initial, hello, adam.FINISHED}  -- Third parameter is optional, it's adam.FINISHED by default
+        }
+    )
+    self.adam:start()
 end
 
-
---- The final call is important!
 function final(self)
-	self.adam:final()
+	self.adam:final() --- The final call is important!
 end
 
-
---- The update call is important!
 function update(self, dt)
-	self.adam:update(dt)
-end
-
-
---- If you are using input, you should `acquire_input_focus` by youself
--- `adam:on_input` using for all input interactions (actions.input module)
-function on_input(self, action_id, action)
-	self.adam:on_input(action_id, action)
-end
-
-
---- On message used for physics responces and other stuff
-function on_message(self, message_id, message, sender)
-	self.adam:on_message(message_id, message, sender)
+	self.adam:update(dt) --- The update call is important!
 end
 
 ```
@@ -100,19 +84,20 @@ Short description how to create your custom actions and how to use it in code. F
 
 ## Learn more
 
-- Core Concepts / Glossary
-- States
-- Events
-- Actions
-- Variables
-- Custom Actions
-- Template Actions
-- Nested State Machines
-- JSON representation
-- EmmyLua annotations
-- Performance hints/tests (is possible to use one FSM to control a lot of entities?)
-- Usage examples
-- FAQ
+- [Core Concepts && Glossary](docs_ms/01-core-concepts.md)
+- [States](docs_ms/02-states.md)
+- [Events](docs_ms/03-events.md)
+- [Actions](docs_ms/04-actions.md)
+- [Variables](docs_ms/05-variables.md)
+- [Custom Actions](docs_ms/06-custom-actions.md)
+- [Template Actions](docs_ms/07-template-actions.md)
+- [Nested State Machines](docs_ms/08-nested-fsm.md)
+- [JSON representation](docs_ms/09-json-format.md)
+- [EmmyLua annotations](docs_ms/10-emmylua.md)
+- [Performance](docs_ms/11-performance.md)
+- [Usage examples](docs_ms/12-examples.md)
+- [FAQ](docs_ms/13-faq.md)
+- [Tips](docs_ms/14-tips.md)
 
 
 ## Examples
