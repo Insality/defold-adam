@@ -3,6 +3,7 @@
 -- Useful for non scriptable game objects, created by other
 -- script, but with physics, for example
 
+go.property("is_can_propagate_adam_event", true)
 local instances = require("adam.system.instances")
 
 
