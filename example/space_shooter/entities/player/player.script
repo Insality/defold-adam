@@ -46,6 +46,12 @@ function init(self)
 		actions.time.delay(actions.value("reload_time"), "reload")
 	):set_name("idle")
 
+	local final_state = adam.state(
+		actions.debug.print("Hello?"),
+		actions.debug.print("i am final state"),
+		actions.debug.print("so sadly you want to leave me alone...")
+	)
+
 	self.adam = adam.new(initial,
 		{
 			{initial, idle},
@@ -64,7 +70,7 @@ function init(self)
 			pressed_shoot = false,
 			can_shoot = true,
 			reload_time = 0.04,
-		}):start()
+		}, final_state):start()
 
 	table.insert(self.adams, self.adam)
 	msg.post(".", "acquire_input_focus")

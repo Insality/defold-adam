@@ -22,8 +22,8 @@ end
 
 
 --- Create new instance of Adam FSM
-function M.new(initial, transitions, variables)
-	local adam_instance = AdamInstance(initial, transitions, variables)
+function M.new(initial, transitions, variables, final_state)
+	local adam_instance = AdamInstance(initial, transitions, variables, final_state)
 
 	instances.add_instance(adam_instance)
 	return adam_instance

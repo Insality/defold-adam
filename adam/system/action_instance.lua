@@ -229,6 +229,13 @@ function ActionInstance:set_deferred(state)
 end
 
 
+--- Return action deferred state. If action is deferred - it can be executed in one frame
+-- @treturn boolean Action deferred state
+function ActionInstance:is_deferred()
+	return self._is_deferred
+end
+
+
 --- Set the name of the action
 -- @tparam string name The action name
 -- @treturn ActionInstance Self

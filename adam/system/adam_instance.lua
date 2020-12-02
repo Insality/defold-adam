@@ -11,11 +11,12 @@ local AdamInstance = class("adam.instance")
 
 --- Adam Instance constructor function.
 -- @tparam StateInstance initial_state The initial FSM state. It will be triggered on start
--- @tparam StateInstance[] transitions The array of next structure: {state_instance, state_instance, [event]},
+-- @tparam[opt] StateInstance[] transitions The array of next structure: {state_instance, state_instance, [event]},
 -- describe transitiom from first state to second on event. By default event is adam.FINISHED
--- @tparam table variables Defined FSM variables. All variables should be defined before use
+-- @tparam[opt] table variables Defined FSM variables. All variables should be defined before use
+-- @tparam[opt] StateInstance final_state This state should contains only instant actions, execute on adam:final, transitions are not required
 -- @treturn AdamInstance
-function AdamInstance:initialize(initial_state, transitions, variables)
+function AdamInstance:initialize(initial_state, transitions, variables, final_state)
 	self._id = nil
 	self._name = ""
 	self._inited = false
@@ -29,6 +30,7 @@ function AdamInstance:initialize(initial_state, transitions, variables)
 	self._is_debug = false
 	self._current_state = nil
 	self._current_depth = 0
+	self._final_state = final_state
 
 	self._input_pressed = {}
 	self._input_current = {}
@@ -38,6 +40,11 @@ function AdamInstance:initialize(initial_state, transitions, variables)
 
 	for _, state in pairs(self._states) do
 		state:set_adam_instance(self)
+	end
+
+	if self._final_state then
+		assert(self._final_state:is_instant(), const.ERROR.FINAL_STATE_DEFERRED)
+		self._final_state:set_adam_instance(self)
 	end
 end
 
@@ -144,6 +151,10 @@ function AdamInstance:final()
 	for i = 1, #self._adams do
 		self._adams[i]:final()
 	end
+
+	if self._final_state then
+		self._final_state:trigger()
+	end
 end
 
 
@@ -201,7 +212,11 @@ function AdamInstance:set_value(variable_name, value)
 		assert(self._variables[name] ~= nil, const.ERROR.NO_DEFINED_VARIABLE .. name)
 
 		local field = variable_name._field
-		return field and self._variables[name][field] or self._variables[name]
+		if field then
+			self._variables[name][field] = value
+		else
+			self._variables[name] = value
+		end
 	else
 		assert(self._variables[variable_name] ~= nil, const.ERROR.NO_DEFINED_VARIABLE .. variable_name)
 

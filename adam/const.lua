@@ -52,7 +52,8 @@ M.ERROR = {
 	WRONG_TIME_PARAMS_EVERY_FRAME = "Action can not executed every frame and have time to execute",
 	NO_VALUE_IN_FSM = "The variable is not defined in Adam Instance",
 	PERIODIC_EVENT_WRONG_PARAMS = "In set_periodic function seconds should be > 0",
-	TIME_DELAY_WRONG = "Delay time for action should be more or equal than 0"
+	TIME_DELAY_WRONG = "Delay time for action should be more or equal than 0",
+	FINAL_STATE_DEFERRED = "The final state for Adam should contains only instant actions"
 }
 
 

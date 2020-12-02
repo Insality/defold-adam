@@ -93,6 +93,19 @@ function StateInstance:event(event_name)
 end
 
 
+--- Check is State can run in one frame. All actions inside this state
+-- are not deferred
+-- @treturn boolean True, if state triggers in one frame
+function StateInstance:is_instant()
+	for _, action in ipairs(self._actions) do
+		if action:is_deferred() then
+			return false
+		end
+	end
+	return true
+end
+
+
 --- Return variable value from FSM variables. Used by ActionInstance
 -- @tparam string variable_name The name of variable in FSM
 -- @see ActionInstance.get_value
