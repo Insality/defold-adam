@@ -119,6 +119,21 @@ function M.animate_position(target_vector, time, finish_event, delay, ease_funct
 end
 
 
+--- Animate the position of a game object by a delta vector
+-- @function actions.transform.animate_position_by
+-- @tparam vector3 target_vector Delta position vector
+-- @tparam number time The time to animate
+-- @tparam[opt] string finish_event Name of trigger event
+-- @tparam[opt] number delay Delay before animate in seconds
+-- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] url target_url The object to apply transform
+-- @treturn ActionInstance
+function M.animate_position_by(target_vector, time, finish_event, delay, ease_function, target_url)
+	return animate_property(target_url or const.SELF, target_vector, time, finish_event, delay, ease_function,
+		"transform.animate_position_by", const.PROP_POS, true)
+end
+
+
 --- Get the position property of a game object and store to variable
 -- @function actions.transform.get_position
 -- @tparam string variable The variable to store result
@@ -139,7 +154,7 @@ end
 -- @treturn ActionInstance
 function M.set_rotation(target_quaternion, is_every_frame, delay, target_url)
 	return set_property(target_url or const.SELF, target_quaternion, is_every_frame, delay,
-		"transform.set_rotation", const.PROP_EULER, false)
+		"transform.set_rotation", const.PROP_ROTATION, false)
 end
 
 
@@ -152,7 +167,7 @@ end
 -- @treturn ActionInstance
 function M.add_rotation(target_quaternion, is_every_frame, delay, target_url)
 	return set_property(target_url or const.SELF, target_quaternion, is_every_frame, delay,
-		"transform.add_rotation", const.PROP_EULER, true)
+		"transform.add_rotation", const.PROP_ROTATION, true)
 end
 
 
@@ -167,7 +182,22 @@ end
 -- @treturn ActionInstance
 function M.animate_rotation(target_quaternion, time, finish_event, delay, ease_function, target_url)
 	return animate_property(target_url or const.SELF, target_quaternion, time, finish_event, delay, ease_function,
-		"transform.animate_rotation", const.PROP_EULER, false)
+		"transform.animate_rotation", const.PROP_ROTATION, false)
+end
+
+
+--- Animate the rotation of a game object with a delta quaternion
+-- @function actions.transform.animate_rotation_by
+-- @tparam quaternion target_quaternion Delta rotation quaternion
+-- @tparam number time The time to animate
+-- @tparam[opt] string finish_event Name of trigger event
+-- @tparam[opt] number delay Delay before animate in seconds
+-- @tparam[opt] ease ease_function The ease function to animate. Default in settings.get_default_easing
+-- @tparam[opt] url target_url The object to apply transform
+-- @treturn ActionInstance
+function M.animate_rotation_by(target_quaternion, time, finish_event, delay, ease_function, target_url)
+	return animate_property(target_url or const.SELF, target_quaternion, time, finish_event, delay, ease_function,
+		"transform.animate_rotation_by", const.PROP_ROTATION, true)
 end
 
 
@@ -178,7 +208,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.get_rotation(variable, is_every_frame, target_url)
-	return get_property(target_url or const.SELF, variable, const.PROP_EULER, is_every_frame, "transform.get_rotation")
+	return get_property(target_url or const.SELF, variable, const.PROP_ROTATION, is_every_frame, "transform.get_rotation")
 end
 
 

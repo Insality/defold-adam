@@ -16,6 +16,9 @@ Ideas:
 
 - Add FSM to running FSM. Ability to start/stop nested FSM (example - projectiles from player)
 -- required for single script and FSM to control different entities
-- Add transition by FSM Final event: usage like {adam.ANY_STATE, final_state, adam.FINAL_EVENT}
+- add final state (should be state with only instant actions. Runs on final method)
 + rename actions template -> actions
 + action.param to timer delay seconds param
+- in params, ability to use actions.value("vector", "x") instead of string of variable
+- ability to use vector.x values in any get/set param
+- game object id as fsm id in spawned instances

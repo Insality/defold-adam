@@ -61,6 +61,7 @@ end
 -- @treturn AdamInstance
 function AdamInstance:resume()
 	self._is_active = true
+	return self
 end
 
 
@@ -69,6 +70,7 @@ end
 -- @treturn AdamInstance
 function AdamInstance:stop()
 	self._is_active = false
+	return self
 end
 
 
@@ -138,6 +140,10 @@ end
 function AdamInstance:final()
 	self:stop()
 	self._is_removed = true
+
+	for i = 1, #self._adams do
+		self._adams[i]:final()
+	end
 end
 
 
@@ -170,25 +176,39 @@ end
 
 
 --- Return variable value from Adam instance
--- @tparam string variable_name The name of variable in FSM
+-- @tparam string|variable variable_name The name of variable in FSM
 -- @treturn variable
 function AdamInstance:get_value(variable_name)
-	if self._variables[variable_name] == nil then
-		print(const.ERROR.NO_DEFINED_VARIABLE, variable_name)
-		error(const.ERROR.NO_DEFINED_VARIABLE)
+	if type(variable_name) == const.TYPE_TABLE and variable_name._type == const.GET_ACTION_VALUE then
+		local name = variable_name._name
+		assert(self._variables[name] ~= nil, const.ERROR.NO_DEFINED_VARIABLE .. name)
+
+		local field = variable_name._field
+		return field and self._variables[name][field] or self._variables[name]
+	else
+		assert(self._variables[variable_name] ~= nil, const.ERROR.NO_DEFINED_VARIABLE .. variable_name)
+		return self._variables[variable_name]
 	end
-	return self._variables[variable_name]
 end
 
 
 --- Set variable value in Adam instance
--- @tparam string variable_name The name of variable in FSM
+-- @tparam string|variable variable_name The name of variable in FSM
 -- @tparam any value New value for variable
 function AdamInstance:set_value(variable_name, value)
-	assert(self._variables[variable_name] ~= nil, const.ERROR.NO_DEFINED_VARIABLE)
+	if type(variable_name) == const.TYPE_TABLE and variable_name._type == const.GET_ACTION_VALUE then
+		local name = variable_name._name
+		assert(self._variables[name] ~= nil, const.ERROR.NO_DEFINED_VARIABLE .. name)
 
-	self._variables[variable_name] = value
-	return value
+		local field = variable_name._field
+		return field and self._variables[name][field] or self._variables[name]
+	else
+		assert(self._variables[variable_name] ~= nil, const.ERROR.NO_DEFINED_VARIABLE .. variable_name)
+
+		self._variables[variable_name] = value
+		return value
+	end
+
 end
 
 

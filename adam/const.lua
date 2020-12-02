@@ -47,7 +47,7 @@ M.EVENT = {
 
 M.ERROR = {
 	NO_BINDED_STATE = "No binded state instance to action instance",
-	NO_DEFINED_VARIABLE = "The variable for FSM is not defined",
+	NO_DEFINED_VARIABLE = "The variable for FSM is not defined: ",
 	MAX_STACK_DEPTH_REACHED = "The Adam FSM reached max depth stack in one frame",
 	WRONG_TIME_PARAMS_EVERY_FRAME = "Action can not executed every frame and have time to execute",
 	NO_VALUE_IN_FSM = "The variable is not defined in Adam Instance",

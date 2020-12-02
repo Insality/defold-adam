@@ -14,12 +14,11 @@ function init(self)
 
 		-- Correct moving angle (sprite is up)
 		actions.math.add("move_euler", 90, true),
-		actions.math.cos(actions.value("move_euler"), "angle_move_x", true, true),
-		actions.math.sin(actions.value("move_euler"), "angle_move_y", true, true),
+		actions.math.cos(actions.value("move_euler"), actions.value("move_vector", "x"), true, true),
+		actions.math.sin(actions.value("move_euler"), actions.value("move_vector", "y"), true, true),
 
 		-- Move ship at moving angle
 		actions.input.get_axis_actions("key_s", "key_w", "accelerate_power", true, 5),
-		actions.vmath.set_xyz("move_vector", actions.value("angle_move_x"), actions.value("angle_move_y"), nil, true),
 		actions.vmath.multiply("move_vector", actions.value("accelerate_power"), true),
 		actions.vmath.multiply("move_vector", 0.1, true),
 		actions.vmath.add("inertion", actions.value("move_vector"), true),
@@ -59,8 +58,6 @@ function init(self)
 			rotate_power = 0,
 			current_euler = vmath.vector3(0),
 			move_euler = 0,
-			angle_move_x = 0,
-			angle_move_y = 0,
 			accelerate_power = 0,
 			move_vector = vmath.vector3(0),
 			inertion = vmath.vector3(0),

@@ -91,6 +91,26 @@ function M.delete_object(target, delay, not_recursive)
 end
 
 
+--- Delete the game objects
+-- @function actions.go.delete_objects
+-- @tparam table target_ids The game objects to delete
+-- @tparam[opt] number delay Delay before delete
+-- @tparam[opt] boolean not_recursive Set true to not delete children of deleted go
+-- @treturn ActionInstance
+function M.delete_objects(target_ids, delay, not_recursive)
+	local action = ActionInstance(function(self)
+		for key, value in pairs(target_ids) do
+			go.delete(key, not not_recursive)
+		end
+		self:finish()
+	end)
+
+	action:set_delay(delay)
+	action:set_name("go.delete_objects")
+	return action
+end
+
+
 --- Enable the receiving component
 -- @function actions.go.enable_object
 -- @tparam[opt="."] url target The game object to delete, self by default
