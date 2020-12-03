@@ -1,4 +1,4 @@
---- All Adam instances created by this calss. Instantiate it via `adam.new()`.
+--- All Adam Instances created by this class. Instantiate it via `adam.new()`.
 -- @module AdamInstance
 
 local fsm = require("adam.libs.fsm")
@@ -43,7 +43,8 @@ function AdamInstance:initialize(initial_state, transitions, variables, final_st
 	end
 
 	if self._final_state then
-		assert(self._final_state:is_instant(), const.ERROR.FINAL_STATE_DEFERRED)
+		-- TODO: Solve this, how to check instant or what
+		-- assert(self._final_state:is_instant(), const.ERROR.FINAL_STATE_DEFERRED)
 		self._final_state:set_adam_instance(self)
 	end
 end
@@ -64,7 +65,7 @@ end
 
 
 --- Resume the execution of Adam Instance.
--- You can pause execution with stop method.
+-- You can pause execution with pause method.
 -- @treturn AdamInstance
 function AdamInstance:resume()
 	self._is_active = true
@@ -72,10 +73,10 @@ function AdamInstance:resume()
 end
 
 
---- Stop the execution of Adam Instance.
+--- Pause the execution of Adam Instance.
 -- You can resume execution with resume method.
 -- @treturn AdamInstance
-function AdamInstance:stop()
+function AdamInstance:pause()
 	self._is_active = false
 	return self
 end
@@ -105,6 +106,12 @@ function AdamInstance:update(dt)
 	end
 
 	self:_clear_input()
+
+	for i = #self._adams, 1, -1 do
+		if self._adams[i]._is_removed then
+			table.remove(self._adams, i)
+		end
+	end
 end
 
 
@@ -135,17 +142,21 @@ function AdamInstance:on_message(message_id, message, sender)
 
 	self:_process_message(message_id, message, sender)
 
-	-- TODO: Is need to propagate all messages?
-	for i = 1, #self._adams do
-		self._adams[i]:on_messages(message_id, message, sender)
-	end
+	-- TODO: Is need to propagate all messages? Seems no?
+	-- for i = 1, #self._adams do
+	-- 	self._adams[i]:on_messages(message_id, message, sender)
+	-- end
 end
 
 
---- Adam final function. Place in script/gui_script final function on when you wanna to stop FSM.
+--- Adam final function. Place in script/gui_script final function on when you wanna to finish FSM.
 -- Important function, since it track global list of Adam instances
 function AdamInstance:final()
-	self:stop()
+	if self._is_removed then
+		return
+	end
+
+	self:pause()
 	self._is_removed = true
 
 	for i = 1, #self._adams do
@@ -155,6 +166,17 @@ function AdamInstance:final()
 	if self._final_state then
 		self._final_state:trigger()
 	end
+end
+
+
+--- Add Adam Instance to current as nested FSM.
+-- It will work, until parent instance will work. On final parent instance, it call final on
+-- all nested adams
+-- @tparam AdamInstance adam_instance The nested Adam Instance
+-- @treturn AdamInstance Self
+function AdamInstance:add(adam_instance)
+	table.insert(self._adams, adam_instance)
+	return self
 end
 
 

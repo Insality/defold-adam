@@ -275,7 +275,6 @@ function ActionInstance:force_finish(trigger_event)
 	if self._is_debug then
 		settings.log("Action finished", { name = self:get_name() })
 	end
-
 	self._is_finished = true
 
 	-- If we will change state, drop other code execution, correct tail call

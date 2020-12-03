@@ -21,12 +21,21 @@ function M.create(go_id)
 	)
 
 	local destroy = adam.state(
-		actions.go.delete_object(go_id),
-		actions.fsm.stop()
+		actions.fsm.finish()
+	)
+
+	local destroy_print = adam.state(
+		actions.debug.print("im destroyed from collision!"),
+		destroy
+	)
+
+	local final_state = adam.state(
+		actions.go.delete_object(go_id)
 	)
 
 	local fsm = adam.new(initial, {
 		{initial, fly},
+		{fly, destroy, actions.EVENT.TRIGGER_ENTER },
 		{fly, destroy, "destroy"}
 	}, {
 		speed = 15,
@@ -35,7 +44,7 @@ function M.create(go_id)
 		angle_move_x = 0,
 		angle_move_y = 0,
 		current_euler = vmath.vector3(0)
-	})
+	}, final_state)
 
 	return fsm
 end

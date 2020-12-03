@@ -99,20 +99,38 @@ function M.resume(target, delay)
 end
 
 
---- Stop the Adam Instance
--- @function actions.fsm.finish
--- @tparam target string|adam target The target instance to stop
+--- Pause the Adam Instance
+-- @function actions.fsm.pause
+-- @tparam target string|adam target The target instance to pause
 -- @tparam[opt] number delay Time delay in seconds
-function M.stop(target, delay)
+function M.pause(target, delay)
 	local action = ActionInstance(function(self)
 		for_adam_instances(self, target, function(adam)
-			adam:stop()
+			adam:pause()
 		end)
 		self:finish()
 	end)
 
 	action:set_delay(delay)
-	action:set_name("fsm.stop")
+	action:set_name("fsm.pause")
+	return action
+end
+
+
+--- Finalize the Adam Instance
+-- @function actions.fsm.final
+-- @tparam target string|adam target The target instance to finish
+-- @tparam[opt] number delay Time delay in seconds
+function M.finish(target, delay)
+	local action = ActionInstance(function(self)
+		for_adam_instances(self, target, function(adam)
+			adam:final()
+		end)
+		self:finish()
+	end)
+
+	action:set_delay(delay)
+	action:set_name("fsm.final")
 	return action
 end
 

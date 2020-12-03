@@ -21,5 +21,6 @@ Ideas:
 + action.param to timer delay seconds param
 + in params, ability to use actions.value("vector", "x") instead of string of variable
 + ability to use vector.x values in any get/set param
++ add global adam event for trigger it for all instances
 - game object id as fsm id in spawned instances	
 - bind ID to fsm. It should correct call with delete_self and self animations

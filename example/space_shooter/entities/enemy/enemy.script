@@ -3,8 +3,6 @@ local actions = require("adam.actions")
 local projectile = require("example.space_shooter.entities.projectile.projectile")
 
 function init(self)
-	self.adams = {}
-
 	local shoot = adam.state(
 		actions.msg.post(".", "create_projectile"),
 		actions.math.random("euler_diff", -30, 30),
@@ -52,28 +50,16 @@ function init(self)
 			start_euler_z = 0,
 			euler_diff = 0,
 		}):start()
-
-	table.insert(self.adams, self.adam)
 end
 
 
 function final(self)
-	for _, adam_instance in ipairs(self.adams) do
-		adam_instance:final()
-	end
+	self.adam:final()
 end
 
 
 function update(self, dt)
-	for _, adam_instance in ipairs(self.adams) do
-		adam_instance:update(dt)
-	end
-
-	for i = #self.adams, 1, -1 do
-		if not self.adams[i]:is_active() then
-			table.remove(self.adams, i)
-		end
-	end
+	self.adam:update(dt)
 end
 
 
@@ -84,7 +70,7 @@ local function create_projectile(self)
 	sprite.play_flipbook(msg.url(nil, projectile_id, "sprite"), "laser_enemy")
 	local projectile_adam = projectile.create(projectile_id)
 	projectile_adam:start()
-	table.insert(self.adams, projectile_adam)
+	self.adam:add(projectile_adam)
 end
 
 
@@ -93,7 +79,5 @@ function on_message(self, message_id, message, sender)
 		create_projectile(self)
 	end
 
-	for _, adam_instance in ipairs(self.adams) do
-		adam_instance:on_message(message_id, message, sender)
-	end
+	self.adam:on_message(message_id, message, sender)
 end

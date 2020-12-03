@@ -198,7 +198,8 @@ function StateInstance:_load_actions(actions)
 	local loaded_actions = {}
 
 	for _, action in ipairs(actions) do
-		if action._type == const.ACTIONS_TEMPLATE then
+		-- Actions template or use other state to copy
+		if action._type == const.ACTIONS_TEMPLATE or action:isInstanceOf(StateInstance) then
 			local copy_actions = self:_load_actions(action._actions)
 			for _, copied_action in ipairs(copy_actions) do
 				table.insert(loaded_actions, ActionInstance.copy(copied_action))

@@ -11,17 +11,24 @@ local StateInstance = require("adam.system.state_instance")
 local M = {}
 
 M.FINISHED = const.FINISHED
-
 M.ANY_STATE = const.ANY_STATE
 
 
---- Return state to use it in Adam FSM
+--- Create new instance of State
+-- @tparam ActionInstance ... The any amount of ActionInstance for this State
+-- @treturn StateInstance
 function M.state(...)
 	return StateInstance(...)
 end
 
 
---- Create new instance of Adam FSM
+--- Create new instance of Adam
+-- @tparam StateInstance initial_state The initial FSM state. It will be triggered on start
+-- @tparam[opt] StateInstance[] transitions The array of next structure: {state_instance, state_instance, [event]},
+-- describe transitiom from first state to second on event. By default event is adam.FINISHED
+-- @tparam[opt] table variables Defined FSM variables. All variables should be defined before use
+-- @tparam[opt] StateInstance final_state This state should contains only instant actions, execute on adam:final, transitions are not required
+-- @treturn AdamInstance
 function M.new(initial, transitions, variables, final_state)
 	local adam_instance = AdamInstance(initial, transitions, variables, final_state)
 
@@ -30,6 +37,9 @@ function M.new(initial, transitions, variables, final_state)
 end
 
 
+--- Return new Adam Instance from JSON representation
+-- @tparam string json_data The Adam Instance JSON representation
+-- @treturn AdamInstance The new Adam Instance
 function M.parse(json_data)
 	local params = adam_parser.parse(json.decode(json_data))
 
@@ -39,11 +49,25 @@ function M.parse(json_data)
 end
 
 
+--- Return the group of actions what can be used instead single action.
+-- Use it as template actions
+-- @tparam ActionInstance ... The Actions for template
+-- @treturn ActionInstance Structure what can be used instead single action in state description
 function M.actions(...)
 	return {
 		_type = const.ACTIONS_TEMPLATE,
 		_actions = { ... }
 	}
+end
+
+
+--- Trigger event for all current Adam Instances
+-- @tparam string event_name
+function M.event(event_name)
+	local all_instances = instances.get_all_instances()
+	for i = 1, #all_instances do
+		all_instances[i]:event(event_name)
+	end
 end
 
 
