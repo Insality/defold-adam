@@ -112,11 +112,11 @@ end
 
 
 --- Enable the receiving component
--- @function actions.go.enable_object
+-- @function actions.go.enable
 -- @tparam[opt="."] url target The game object to delete, self by default
 -- @tparam[opt] number delay Delay before delete
 -- @treturn ActionInstance
-function M.enable_object(target, delay)
+function M.enable(target, delay)
 	local action = ActionInstance(function(self)
 		msg.post(target or const.SELF, "enable")
 		self:finish()
@@ -129,11 +129,11 @@ end
 
 
 --- Enable the receiving component
--- @function actions.go.disable_object
+-- @function actions.go.disable
 -- @tparam[opt="."] url target The game object to delete, self by default
 -- @tparam[opt] number delay Delay before delete
 -- @treturn ActionInstance
-function M.disable_object(target, delay)
+function M.disable(target, delay)
 	local action = ActionInstance(function(self)
 		msg.post(target or const.SELF, "disable")
 		self:finish()

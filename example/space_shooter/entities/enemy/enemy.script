@@ -26,6 +26,7 @@ function init(self)
 
 	local death = adam.state(
 		actions.transform.animate_scale(vmath.vector3(0), 0.5),
+		actions.go.disable("#collisionobject"),
 		actions.go.delete_self(0.5)
 	)
 

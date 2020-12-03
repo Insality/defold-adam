@@ -30,7 +30,7 @@ function M.create(go_id)
 	)
 
 	local final_state = adam.state(
-		actions.go.delete_object(go_id)
+		actions.go.delete_self(go_id)
 	)
 
 	local fsm = adam.new(initial, {
@@ -45,6 +45,7 @@ function M.create(go_id)
 		angle_move_y = 0,
 		current_euler = vmath.vector3(0)
 	}, final_state)
+	fsm:set_id(go_id)
 
 	return fsm
 end

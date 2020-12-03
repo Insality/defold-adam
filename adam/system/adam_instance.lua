@@ -180,6 +180,16 @@ function AdamInstance:add(adam_instance)
 end
 
 
+--- Change the self context instante (the go instante instead of "." in all of action)
+-- also set the game object id as FSM id
+-- @tparam hash game_object The game object to bind
+-- @treturn AdamInstace Self
+function AdamInstance:bind_self(game_object)
+	-- TODO:
+	return self
+end
+
+
 --- Trigger event in Adam FSM. If any transitions on this event exists, go to next state instantly
 -- @tparam string event_name The trigger event name
 function AdamInstance:event(event_name)

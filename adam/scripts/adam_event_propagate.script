@@ -14,7 +14,6 @@ end
 
 function on_message(self, message_id, message, sender)
 	local adam_instances = instances.get_all_instances_with_id(self._id)
-
 	for i = 1, #adam_instances do
 		adam_instances[i]:on_message(message_id, message, sender)
 	end
