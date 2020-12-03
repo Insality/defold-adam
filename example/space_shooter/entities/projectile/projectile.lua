@@ -30,12 +30,12 @@ function M.create(go_id)
 	)
 
 	local final_state = adam.state(
-		actions.go.delete_self(go_id)
+		actions.go.delete_self()
 	)
 
 	local fsm = adam.new(initial, {
 		{initial, fly},
-		{fly, destroy, actions.EVENT.TRIGGER_ENTER },
+		{fly, destroy_print, actions.EVENT.TRIGGER_ENTER },
 		{fly, destroy, "destroy"}
 	}, {
 		speed = 15,
@@ -45,7 +45,6 @@ function M.create(go_id)
 		angle_move_y = 0,
 		current_euler = vmath.vector3(0)
 	}, final_state)
-	fsm:set_id(go_id)
 
 	return fsm
 end

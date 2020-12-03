@@ -67,7 +67,7 @@ end
 -- @tparam[opt] boolean not_recursive Set true to not delete children of deleted go
 -- @treturn ActionInstance
 function M.delete_self(delay, not_recursive)
-	local action = M.delete_object(const.SELF, delay, not_recursive)
+	local action = M.delete_object(nil, delay, not_recursive)
 	action:set_name("go.delete_self")
 	return action
 end
@@ -81,7 +81,8 @@ end
 -- @treturn ActionInstance
 function M.delete_object(target, delay, not_recursive)
 	local action = ActionInstance(function(self)
-		go.delete(target or const.SELF, not not_recursive)
+		local adam = self:get_adam_instance()
+		go.delete(target or adam:get_self(), not not_recursive)
 		self:finish()
 	end)
 
@@ -118,7 +119,8 @@ end
 -- @treturn ActionInstance
 function M.enable(target, delay)
 	local action = ActionInstance(function(self)
-		msg.post(target or const.SELF, "enable")
+		local adam = self:get_adam_instance()
+		msg.post(target or adam:get_self(), "enable")
 		self:finish()
 	end)
 
@@ -135,7 +137,8 @@ end
 -- @treturn ActionInstance
 function M.disable(target, delay)
 	local action = ActionInstance(function(self)
-		msg.post(target or const.SELF, "disable")
+		local adam = self:get_adam_instance()
+		msg.post(target or adam:get_self(), "disable")
 		self:finish()
 	end)
 

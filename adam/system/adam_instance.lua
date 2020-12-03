@@ -22,6 +22,7 @@ function AdamInstance:initialize(initial_state, transitions, variables, final_st
 	self._inited = false
 	self._is_active = false
 	self._is_removed = nil
+	self._object = const.SELF
 
 	self._states = {}
 	self._variables = variables or {}
@@ -184,8 +185,9 @@ end
 -- also set the game object id as FSM id
 -- @tparam hash game_object The game object to bind
 -- @treturn AdamInstace Self
-function AdamInstance:bind_self(game_object)
-	-- TODO:
+function AdamInstance:bind(game_object)
+	self._object = game_object
+	self:set_id(game_object)
 	return self
 end
 
@@ -323,6 +325,12 @@ function AdamInstance:get_current_state()
 	return self._current_state
 end
 
+
+--- Return current game object binded to Adam (default ".")
+-- @treturn url The game object id
+function AdamInstance:get_self()
+	return self._object
+end
 
 --- Set debug state of state. If true, will print debug info to console
 -- @tparam boolean is_debug The debug state

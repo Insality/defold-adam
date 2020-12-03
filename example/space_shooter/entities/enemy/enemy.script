@@ -70,6 +70,7 @@ local function create_projectile(self)
 	local projectile_id = factory.create("#projectiles", pos)
 	sprite.play_flipbook(msg.url(nil, projectile_id, "sprite"), "laser_enemy")
 	local projectile_adam = projectile.create(projectile_id)
+	projectile_adam:bind(projectile_id)
 	projectile_adam:start()
 	self.adam:add(projectile_adam)
 end

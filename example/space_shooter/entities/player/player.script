@@ -91,6 +91,7 @@ local function create_projectile(self)
 												 go.get_world_position("/player/spawn_pos_right")
 	local projectile_id = factory.create("#projectiles", pos)
 	local projectile_adam = projectile.create(projectile_id)
+	projectile_adam:bind(projectile_id)
 	self.adam:add(projectile_adam)
 
 	projectile_adam:start()
