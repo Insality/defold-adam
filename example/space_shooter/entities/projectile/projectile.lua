@@ -4,7 +4,7 @@ local actions = require("adam.actions")
 
 local M = {}
 
-function M.create(go_id)
+function M.create(go_id, impact_image)
 	local initial = adam.state(
 		actions.transform.get_euler("current_euler"),
 		actions.vmath.get_xyz("current_euler", nil, nil, "angle"),
@@ -21,12 +21,8 @@ function M.create(go_id)
 	)
 
 	local destroy = adam.state(
-		actions.fsm.finish()
-	)
-
-	local destroy_print = adam.state(
-		actions.debug.print("im destroyed from collision!"),
-		destroy
+		actions.animation.play_flipbook(nil, impact_image),
+		actions.fsm.finish(nil, 0.1)
 	)
 
 	local final_state = adam.state(
@@ -35,7 +31,7 @@ function M.create(go_id)
 
 	local fsm = adam.new(initial, {
 		{initial, fly},
-		{fly, destroy_print, actions.EVENT.TRIGGER_ENTER },
+		{fly, destroy, actions.EVENT.TRIGGER_ENTER },
 		{fly, destroy, "destroy"}
 	}, {
 		speed = 15,

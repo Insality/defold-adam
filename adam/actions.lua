@@ -6,6 +6,7 @@ local const = require("adam.const")
 
 local M = {}
 
+M.animation = require("adam.actions.animation")
 M.debug = require("adam.actions.debug")
 M.device = require("adam.actions.device")
 M.fsm = require("adam.actions.fsm")

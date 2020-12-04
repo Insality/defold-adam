@@ -8,11 +8,13 @@
 
 ## Events
 
+
 # Glossary
 
 FSM
 Adam
 Adam Instance
+Adam Instance Context
 State
 State Instance
 Action

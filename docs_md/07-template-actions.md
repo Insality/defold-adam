@@ -5,3 +5,5 @@
 ## Use template actions
 
 ## Use template actions with parameters
+
+## Use states as template actions

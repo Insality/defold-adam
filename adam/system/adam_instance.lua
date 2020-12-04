@@ -143,10 +143,8 @@ function AdamInstance:on_message(message_id, message, sender)
 
 	self:_process_message(message_id, message, sender)
 
-	-- TODO: Is need to propagate all messages? Seems no?
-	-- for i = 1, #self._adams do
-	-- 	self._adams[i]:on_messages(message_id, message, sender)
-	-- end
+	-- on_message events will not propagate for nested instances.
+	-- For this I should use adam_events_propagate.script
 end
 
 
