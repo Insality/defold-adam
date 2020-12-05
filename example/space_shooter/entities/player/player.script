@@ -34,7 +34,8 @@ function init(self)
 	):set_name("reload")
 
 	local initial = adam.state(
-		actions.transform.get_euler("current_euler")
+		actions.transform.get_euler("current_euler"),
+		actions.transform.get_position("position")
 	):set_name("initial")
 
 	local idle = adam.state(
@@ -68,6 +69,7 @@ function init(self)
 			pressed_shoot = false,
 			can_shoot = true,
 			reload_time = 0.04,
+			position = vmath.vector3(0),
 		}, final_state):start()
 
 	msg.post(".", "acquire_input_focus")

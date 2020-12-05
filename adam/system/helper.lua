@@ -1,6 +1,10 @@
 -- Several utilitary functions
 -- @local
 
+local settings = require("adam.system.settings")
+local ActionInstance = require("adam.system.action_instance")
+
+
 local M = {}
 
 
@@ -45,6 +49,96 @@ function M.pick_sprite(sprite_url, x, y, padding)
 	if y < bottom or y > top then return false end
 
 	return true
+end
+
+
+function M.set_property(target_id, target_vector, is_every_frame, delay, action_name, property, is_relative, target_component)
+	local action = ActionInstance(function(self, context)
+		target_id = target_id or self:get_adam_instance():get_self()
+
+		if target_component then
+			target_id = msg.url(target_id)
+			target_id.fragment = target_component
+		end
+
+		local value = self:get_param(target_vector)
+
+		if is_relative then
+			value = value + go.get(target_id, property)
+		end
+
+		go.set(target_id, property, value)
+		self:finish()
+	end)
+
+	if is_every_frame then
+		action:set_every_frame()
+	end
+	action:set_delay(delay)
+	action:set_name(action_name)
+	return action
+end
+
+
+function M.animate_property(target_id, target_vector, time, finish_event, delay, ease_function, action_name, property, is_relative, playback, target_component)
+	local action = ActionInstance(function(self, context)
+		target_id = target_id or self:get_adam_instance():get_self()
+
+		if target_component then
+			target_id = msg.url(target_id)
+			target_id.fragment = target_component
+		end
+
+		local value = self:get_param(target_vector)
+
+		if is_relative then
+			value = value + go.get(target_id, property)
+		end
+
+		local easing = ease_function or settings.get_default_easing()
+		context.animate_started = true
+		go.animate(target_id, property, playback or go.PLAYBACK_ONCE_FORWARD, value, easing, time)
+
+		context.callback_timer_id = M.delay(time, function()
+			context.animate_started = false
+			self:finish(finish_event)
+		end)
+	end, function(self, context)
+		if context.animate_started then
+			target_id = target_id or self:get_adam_instance():get_self()
+			go.cancel_animations(target_id, property)
+			context.animate_started = false
+		end
+		if context.callback_timer_id then
+			timer.cancel(context.callback_timer_id)
+			context.callback_timer_id = false
+		end
+	end)
+
+	action:set_delay(delay)
+	action:set_name(action_name)
+	return action
+end
+
+
+function M.get_property(target_id, variable, property, is_every_frame, action_name, target_component)
+	local action = ActionInstance(function(self)
+		target_id = target_id or self:get_adam_instance():get_self()
+
+		if target_component then
+			target_id = msg.url(target_id)
+			target_id.fragment = target_component
+		end
+
+		local value = go.get(target_id, property)
+		self:set_value(variable, value)
+	end)
+
+	if is_every_frame then
+		action:set_every_frame()
+	end
+	action:set_name(action_name)
+	return action
 end
 
 

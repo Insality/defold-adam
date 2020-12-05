@@ -26,7 +26,7 @@ function M.create(go_id, impact_image, parent_id)
 	)
 
 	local destroy = adam.state(
-		actions.animation.play_flipbook(nil, impact_image),
+		actions.sprite.play_flipbook(impact_image),
 		actions.transform.set_random_euler(true, true),
 		actions.fsm.finish(nil, 0.1)
 	)

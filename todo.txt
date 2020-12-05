@@ -10,7 +10,7 @@
 - keep add actions
 
 Ideas:
-* Default variables for Adam FSM?
+* Default variables for Adam FSM? Done :)
 
 
 

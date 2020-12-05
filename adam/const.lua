@@ -19,6 +19,8 @@ M.PROP_SCALE = "scale"
 M.PROP_SCALE_X = "scale.x"
 M.PROP_SCALE_Y = "scale.y"
 M.PROP_SCALE_Z = "scale.z"
+M.PROP_TINT = "tint"
+M.PROP_TINT_ALPHA = "tint.w"
 
 M.SECOND = 1
 M.MAX_STACK_DEPTH = 10000
@@ -28,6 +30,7 @@ M.NONE_STATE = "none"
 M.INIT_EVENT = "init"
 M.FINISHED = "finished"
 M.TYPE_TABLE = "table"
+M.SPRITE = "sprite"
 
 M.ANY_STATE = nil
 M.WILDCARD = "*"
