@@ -13,6 +13,9 @@ local M = {}
 M.FINISHED = const.FINISHED
 M.ANY_STATE = const.ANY_STATE
 
+M.VALUE_CONTEXT = const.VALUE.CONTEXT
+M.VALUE_LIFETIME = const.VALUE.LIFETIME
+
 
 --- Create new instance of State
 -- @tparam ActionInstance ... The any amount of ActionInstance for this State

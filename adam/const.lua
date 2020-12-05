@@ -45,6 +45,11 @@ M.EVENT = {
 	ACTION_RELEASED = "adam:action_released"
 }
 
+M.VALUE = {
+	CONTEXT = "adam:value:context",
+	LIFETIME = "adam:value:lifetime"
+}
+
 M.ERROR = {
 	NO_BINDED_STATE = "No binded state instance to action instance",
 	NO_DEFINED_VARIABLE = "The variable for FSM is not defined: ",

@@ -22,10 +22,8 @@ function AdamInstance:initialize(initial_state, transitions, variables, final_st
 	self._inited = false
 	self._is_active = false
 	self._is_removed = nil
-	self._object = const.SELF
 
 	self._states = {}
-	self._variables = variables or {}
 	self._adams = {} -- Nested Adam instances
 
 	self._is_debug = false
@@ -36,7 +34,9 @@ function AdamInstance:initialize(initial_state, transitions, variables, final_st
 	self._input_pressed = {}
 	self._input_current = {}
 	self._input_released = {}
+	self._trigger_message = {}
 
+	self:_init_variables(variables)
 	self._fsm = self:_init_fsm(initial_state, transitions)
 
 	for _, state in pairs(self._states) do
@@ -96,6 +96,8 @@ function AdamInstance:update(dt)
 	if not self._is_active then
 		return
 	end
+
+	self._variables[const.VALUE.LIFETIME] = self._variables[const.VALUE.LIFETIME] + dt
 
 	self._current_depth = 0
 	if self._current_state then
@@ -184,7 +186,7 @@ end
 -- @tparam hash game_object The game object to bind
 -- @treturn AdamInstace Self
 function AdamInstance:bind(game_object)
-	self._object = game_object
+	self._variables[const.VALUE.CONTEXT] = game_object
 	self:set_id(game_object)
 	return self
 end
@@ -286,6 +288,14 @@ function AdamInstance:get_input_released(action_id)
 end
 
 
+--- Return last message from trigger collission
+-- @treturn table|nil The last trigger message
+-- @local
+function AdamInstance:get_trigger_message()
+	return self._trigger_message
+end
+
+
 --- Set id for Adam instance. Several Adam instances can have single id
 -- Useful for select multiply Adam instances on fsm actions
 -- @tparam hash hash The Adam Instance id
@@ -327,7 +337,7 @@ end
 --- Return current game object binded to Adam (default ".")
 -- @treturn url The game object id
 function AdamInstance:get_self()
-	return self._object
+	return self._variables[const.VALUE.CONTEXT]
 end
 
 --- Set debug state of state. If true, will print debug info to console
@@ -374,6 +384,13 @@ function AdamInstance:_init_fsm(initial_state, transitions)
 	end
 
 	return fsm.create(fsm_param)
+end
+
+
+function AdamInstance:_init_variables(variables)
+	self._variables = variables or {}
+	self._variables[const.VALUE.LIFETIME] = 0
+	self._variables[const.VALUE.CONTEXT] = const.SELF
 end
 
 
@@ -444,7 +461,7 @@ end
 -- @local
 function AdamInstance:_process_message(message_id, message, sender)
 	if message_id == const.TRIGGER_RESPONSE then
-		-- pprint(message_id, message)
+		self._trigger_message = message
 		if message.enter then
 			self:event(const.EVENT.TRIGGER_ENTER)
 		else
