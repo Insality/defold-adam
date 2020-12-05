@@ -130,7 +130,7 @@ function M.enable(target, delay)
 end
 
 
---- Enable the receiving component
+--- Disable the receiving component
 -- @function actions.go.disable
 -- @tparam[opt="."] url target The game object to delete, self by default
 -- @tparam[opt] number delay Delay before delete

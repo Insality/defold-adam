@@ -387,6 +387,8 @@ function AdamInstance:_init_fsm(initial_state, transitions)
 end
 
 
+--- Set variable to current Adam Instance and set initial general variables
+-- @local
 function AdamInstance:_init_variables(variables)
 	self._variables = variables or {}
 	self._variables[const.VALUE.LIFETIME] = 0

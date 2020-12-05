@@ -21,7 +21,10 @@ function init(self)
 		actions.vmath.multiply("move_vector", 0.1, true),
 		actions.vmath.add("inertion", actions.value("move_vector"), true),
 		actions.vmath.multiply("inertion", 0.97, true),
-		actions.transform.add_position(actions.value("inertion"), true)
+		actions.vmath.add(actions.value("position"), actions.value("inertion"), true),
+		actions.math.clamp(actions.value("position", "x"), 0, 960, true),
+		actions.math.clamp(actions.value("position", "y"), 0, 640, true),
+		actions.transform.set_position(actions.value("position"), true)
 	)
 
 	local shoot = adam.state(

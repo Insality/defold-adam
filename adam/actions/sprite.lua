@@ -184,5 +184,4 @@ function M.get_alpha(variable, is_every_frame, target_component, target_url)
 end
 
 
-
 return M

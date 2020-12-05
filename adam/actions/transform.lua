@@ -18,7 +18,7 @@ local M = {}
 -- @treturn ActionInstance
 function M.set_position(target_vector, is_every_frame, delay, target_url)
 	return helper.set_property(target_url, target_vector, is_every_frame, delay,
-		"transform.set_position", const.PROP_POS, go.set_position, go.get_position, false)
+		"transform.set_position", const.PROP_POS, false)
 end
 
 
@@ -143,35 +143,35 @@ function M.get_rotation(variable, is_every_frame, target_url)
 end
 
 
---- Sets the rotation of a game object
--- @function actions.transform.set_rotation
--- @tparam vector3 target_vector Euler quatenion
+--- Sets the euler of a game object
+-- @function actions.transform.set_euler
+-- @tparam vector3 target_euler The euler vector
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] number delay Delay before translate in seconds
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
-function M.set_euler(target_vector, is_every_frame, delay, target_url)
-	return helper.set_property(target_url, target_vector, is_every_frame, delay,
+function M.set_euler(target_euler, is_every_frame, delay, target_url)
+	return helper.set_property(target_url, target_euler, is_every_frame, delay,
 		"transform.set_euler", const.PROP_EULER, false)
 end
 
 
---- Add the rotation of a game object
--- @function actions.transform.add_rotation
--- @tparam vector3 target_vector Rotation quatenion
+--- Add the euler of a game object
+-- @function actions.transform.add_euler
+-- @tparam vector3 target_euler The euler vector
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] number delay Delay before translate in seconds
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
-function M.add_euler(target_vector, is_every_frame, delay, target_url)
-	return helper.set_property(target_url, target_vector, is_every_frame, delay,
+function M.add_euler(target_euler, is_every_frame, delay, target_url)
+	return helper.set_property(target_url, target_euler, is_every_frame, delay,
 		"transform.add_euler", const.PROP_EULER, true)
 end
 
 
---- Animate the rotation of a game object with euler vector
+--- Animate the euler of a game object with euler vector
 -- @function actions.transform.animate_euler
--- @tparam vector3 target_euler Rotation quaternion
+-- @tparam vector3 target_euler The euler vector
 -- @tparam number time The time to animate
 -- @tparam[opt] string finish_event Name of trigger event
 -- @tparam[opt] number delay Delay before animate in seconds
@@ -184,7 +184,7 @@ function M.animate_euler(target_euler, time, finish_event, delay, ease_function,
 end
 
 
---- Animate the rotation of a game object with relative euler vector
+--- Animate the euler of a game object with relative euler vector
 -- @function actions.transform.animate_euler_by
 -- @tparam vector3 target_euler Rotation quaternion
 -- @tparam number time The time to animate
@@ -199,7 +199,7 @@ function M.animate_euler_by(target_euler, time, finish_event, delay, ease_functi
 end
 
 
---- Get the rotation property of a game object and store to variable
+--- Get the euler property of a game object and store to variable
 -- @function actions.transform.get_euler
 -- @tparam string variable The variable to store result
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
@@ -210,8 +210,8 @@ function M.get_euler(variable, is_every_frame, target_url)
 end
 
 
---- Sets the rotation of a game object
--- @function actions.transform.set_rotation
+--- Sets the random euler of a game object
+-- @function actions.transform.set_random_euler
 -- @tparam[opt] boolean keep_x Set true to keep x euler angle
 -- @tparam[opt] boolean keep_y Set true to keep x euler angle
 -- @tparam[opt] boolean keep_z Set true to keep x euler angle
