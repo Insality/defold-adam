@@ -26,7 +26,7 @@ function M.play_flipbook(target_url, image, finish_event, delay)
 		-- how can i animate table property?
 		target_url = target_url or self:get_adam_instance():get_self()
 		sprite.play_flipbook(target_url, image, function()
-			self:event(finish_event)
+			self:finish(finish_event)
 		end)
 	end)
 

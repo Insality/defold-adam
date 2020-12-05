@@ -218,14 +218,45 @@ end
 
 --- Sets the rotation of a game object
 -- @function actions.transform.set_rotation
--- @tparam quaternion target_quaternion Rotation quatenion
+-- @tparam vector3 target_vector Euler quatenion
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] number delay Delay before translate in seconds
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
-function M.set_euler(target_quaternion, is_every_frame, delay, target_url)
-	return set_property(target_url, target_quaternion, is_every_frame, delay,
-		"transform.set_rotation", const.PROP_EULER, false)
+function M.set_euler(target_vector, is_every_frame, delay, target_url)
+	return set_property(target_url, target_vector, is_every_frame, delay,
+		"transform.set_euler", const.PROP_EULER, false)
+end
+
+
+--- Sets the rotation of a game object
+-- @function actions.transform.set_rotation
+-- @tparam[opt] boolean keep_x Set true to keep x euler angle
+-- @tparam[opt] boolean keep_y Set true to keep x euler angle
+-- @tparam[opt] boolean keep_z Set true to keep x euler angle
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] number delay Delay before translate in seconds
+-- @tparam[opt] url target_url The object to apply transform
+-- @treturn ActionInstance
+function M.set_random_euler(keep_x, keep_y, keep_z, is_every_frame, delay, target_url)
+	local action = ActionInstance(function(self, context)
+		target_url = target_url or self:get_adam_instance():get_self()
+		local random_vector = vmath.vector3(0)
+		random_vector.x = keep_x and random_vector.x or math.random(360)
+		random_vector.y = keep_y and random_vector.y or math.random(360)
+		random_vector.z = keep_z and random_vector.z or math.random(360)
+
+		random_vector = random_vector + go.get(target_url, const.PROP_EULER)
+		go.set(target_url, const.PROP_EULER, random_vector)
+		self:finish()
+	end)
+
+	if is_every_frame then
+		action:set_every_frame()
+	end
+	action:set_delay(delay)
+	action:set_name("transform.set_random_euler")
+	return action
 end
 
 
