@@ -67,6 +67,10 @@
 	<td class="summary">Trigger event to FSM.</td>
 	</tr>
 	<tr>
+	<td class="name" ><a href="#is_instant">is_instant()</a></td>
+	<td class="summary">Check is State can run in one frame.</td>
+	</tr>
+	<tr>
 	<td class="name" ><a href="#get_adam_instance">get_adam_instance()</a></td>
 	<td class="summary">Get the current AdamInstance, attached to this state</td>
 	</tr>
@@ -174,6 +178,27 @@
         </li>
     </ul>
 
+
+
+
+
+</dd>
+    <dt>
+    <a name = "is_instant"></a>
+    <strong>is_instant()</strong>
+    </dt>
+    <dd>
+    Check is State can run in one frame.  All actions inside this state
+ are not deferred
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">boolean</span></span>
+        True, if state triggers in one frame
+    </ol>
 
 
 

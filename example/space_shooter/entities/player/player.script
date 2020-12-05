@@ -5,7 +5,7 @@ local projectile = require("example.space_shooter.entities.projectile.projectile
 function init(self)
 	local moving_actions = adam.actions(
 		-- Rotate ship
-		actions.input.get_axis_actions("key_a", "key_d", "rotate_power", true, -5),
+		actions.input.get_axis_actions("key_a", "key_d", "rotate_power", true, -4),
 		actions.vmath.add_xyz("current_euler", nil, nil, actions.value("rotate_power"), true),
 		actions.transform.set_euler(actions.value("current_euler"), true),
 		actions.vmath.get_xyz("current_euler", nil, nil, "move_euler", true),
@@ -20,7 +20,7 @@ function init(self)
 		actions.vmath.multiply("move_vector", actions.value("accelerate_power"), true),
 		actions.vmath.multiply("move_vector", 0.1, true),
 		actions.vmath.add("inertion", actions.value("move_vector"), true),
-		actions.vmath.multiply("inertion", 0.95, true),
+		actions.vmath.multiply("inertion", 0.97, true),
 		actions.transform.add_position(actions.value("inertion"), true)
 	)
 
@@ -90,7 +90,7 @@ local function create_projectile(self)
 	local pos = self._side_choose and go.get_world_position("/player/spawn_pos_left") or
 												 go.get_world_position("/player/spawn_pos_right")
 	local projectile_id = factory.create("#projectiles", pos)
-	local projectile_adam = projectile.create(projectile_id, "laser_player_impact")
+	local projectile_adam = projectile.create(projectile_id, "laser_player_impact", go.get_id())
 	projectile_adam:bind(projectile_id)
 	self.adam:add(projectile_adam)
 

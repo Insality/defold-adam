@@ -45,6 +45,10 @@ function ActionInstance.get_value(variable_name) end
 ---@param release_callback function The release function. Clean up stuff, it you need
 function ActionInstance.initialize(trigger_callback, release_callback) end
 
+--- Return action deferred state.
+---@return boolean Action deferred state
+function ActionInstance.is_deferred() end
+
 --- Set debug state of action.
 ---@param state boolean The debug state
 ---@return ActionInstance Self
@@ -92,6 +96,16 @@ function ActionInstance__static.copy(prefab) end
 ---@class AdamInstance
 local AdamInstance = {}
 
+--- Add Adam Instance to current as nested FSM.
+---@param adam_instance AdamInstance The nested Adam Instance
+---@return AdamInstance Self
+function AdamInstance.add(adam_instance) end
+
+--- Change the self context instante (the go instante instead of "." in all of action)  also set the game object id as FSM id
+---@param game_object hash The game object to bind
+---@return AdamInstace Self
+function AdamInstance.bind(game_object) end
+
 --- Check available to make transition from current state with event
 ---@param event_name string The trigger event
 ---@return boolean True, if FSM will make transition on this event
@@ -116,8 +130,12 @@ function AdamInstance.get_id() end
 ---@return string The Adam Instance name
 function AdamInstance.get_name() end
 
+--- Return current game object binded to Adam (default ".")
+---@return url The game object id
+function AdamInstance.get_self() end
+
 --- Return variable value from Adam instance
----@param variable_name string The name of variable in FSM
+---@param variable_name string|variable The name of variable in FSM
 ---@return variable
 function AdamInstance.get_value(variable_name) end
 
@@ -125,8 +143,9 @@ function AdamInstance.get_value(variable_name) end
 ---@param initial_state StateInstance The initial FSM state. It will be triggered on start
 ---@param transitions StateInstance[] The array of next structure: {state_instance, state_instance, [event]},  describe transitiom from first state to second on event. By default event is adam.FINISHED
 ---@param variables table Defined FSM variables. All variables should be defined before use
+---@param final_state StateInstance This state should contains only instant actions, execute on adam:final, transitions are not required
 ---@return AdamInstance
-function AdamInstance.initialize(initial_state, transitions, variables) end
+function AdamInstance.initialize(initial_state, transitions, variables, final_state) end
 
 --- Return true if Adam Instance is now working
 ---@return boolean Is active state
@@ -143,6 +162,14 @@ function AdamInstance.on_input(action_id, action) end
 ---@param sender hash The message sender id
 function AdamInstance.on_message(message_id, message, sender) end
 
+--- Pause the execution of Adam Instance.
+---@return AdamInstance
+function AdamInstance.pause() end
+
+--- Resume the execution of Adam Instance.
+---@return AdamInstance
+function AdamInstance.resume() end
+
 --- Set debug state of state.
 ---@param is_debug boolean The debug state
 ---@return AdamInstance Self
@@ -157,17 +184,13 @@ function AdamInstance.set_id(hash) end
 function AdamInstance.set_name(name) end
 
 --- Set variable value in Adam instance
----@param variable_name string The name of variable in FSM
+---@param variable_name string|variable The name of variable in FSM
 ---@param value any New value for variable
 function AdamInstance.set_value(variable_name, value) end
 
 --- Start the Adam Instance.
 ---@return AdamInstance
 function AdamInstance.start() end
-
---- Stop the execution of Adam Instance
----@return AdamInstance
-function AdamInstance.stop() end
 
 --- Adam update functions.
 ---@param dt numbet The delta time
@@ -196,6 +219,10 @@ function StateInstance.get_name() end
 ---@param ... ActionInstance The any amount of ActionInstance for this State
 ---@return StateInstance
 function StateInstance.initialize(...) end
+
+--- Check is State can run in one frame.
+---@return boolean True, if state triggers in one frame
+function StateInstance.is_instant() end
 
 --- Set debug state of state.
 ---@param state boolean The debug state
@@ -253,10 +280,27 @@ local actions__fsm = {}
 ---@return ActionInstance
 function actions__fsm.broadcast_event(event_name, is_exclude_self, delay) end
 
---- Stop the Adam Instance
+--- Finalize the Adam Instance
 ---@param string target |adam target The target instance to finish
 ---@param delay number Time delay in seconds
-function actions__fsm.finish(string, delay) end
+function actions__fsm.final(string, delay) end
+
+--- Get variable from FSM.
+---@param string target |adam target The target instance to get value
+---@param variable variable Name of variable to get from target FSM
+---@param store_value string The name of variable in current FSM to store get value
+---@param is_every_frame boolean Repeat this action every frame
+function actions__fsm.get_value(string, variable, store_value, is_every_frame) end
+
+--- Pause the Adam Instance
+---@param string target |adam target The target instance to pause
+---@param delay number Time delay in seconds
+function actions__fsm.pause(string, delay) end
+
+--- Resume the Adam Instance
+---@param string target |adam target The target instance to resume
+---@param delay number Time delay in seconds
+function actions__fsm.resume(string, delay) end
 
 --- Send event to target Adam instance
 ---@param target string|adam The target instance for send event. If there are several instances with equal ID, event will be delivered to all of them.
@@ -265,6 +309,13 @@ function actions__fsm.finish(string, delay) end
 ---@param is_every_frame bool Repeat every frame
 ---@return ActionInstance
 function actions__fsm.send_event(target, event_name, delay, is_every_frame) end
+
+--- Set variable from FSM.
+---@param string target |adam target The target instance to set value
+---@param variable variable Name of variable to set value on target FSM
+---@param source string The variable in current FSM to set the variable to
+---@param is_every_frame boolean Repeat this action every frame
+function actions__fsm.set_value(string, variable, source, is_every_frame) end
 
 
 ---@class actions.go
@@ -299,6 +350,13 @@ function actions__go.create_objects(collection_factory_url, position, variable, 
 ---@return ActionInstance
 function actions__go.delete_object(target, delay, not_recursive) end
 
+--- Delete the game objects
+---@param target_ids table The game objects to delete
+---@param delay number Delay before delete
+---@param not_recursive boolean Set true to not delete children of deleted go
+---@return ActionInstance
+function actions__go.delete_objects(target_ids, delay, not_recursive) end
+
 --- Delete the current game object  Useful for game objects that need to kill themselves, for example a projectile that explodes on impact.
 ---@param delay number Delay before delete
 ---@param not_recursive boolean Set true to not delete children of deleted go
@@ -309,13 +367,13 @@ function actions__go.delete_self(delay, not_recursive) end
 ---@param target url The game object to delete, self by default
 ---@param delay number Delay before delete
 ---@return ActionInstance
-function actions__go.disable_object(target, delay) end
+function actions__go.disable(target, delay) end
 
 --- Enable the receiving component
 ---@param target url The game object to delete, self by default
 ---@param delay number Delay before delete
 ---@return ActionInstance
-function actions__go.enable_object(target, delay) end
+function actions__go.enable(target, delay) end
 
 
 ---@class actions.input
@@ -539,13 +597,13 @@ function actions__math.min(source, min, is_every_frame, is_every_second) end
 ---@return ActionInstance
 function actions__math.multiply(source, value, is_every_frame) end
 
---- Apply a math function (a, b)=>c to a variable.
----@param value_a variable First variable
----@param value_b variable Second variable
+--- Apply a math function (a, b)=>c to source variable.
+---@param source_variable_a variable First variable
+---@param variable_b variable Second variable
 ---@param operator function The callback function
 ---@param is_every_frame boolean Repeat this action every frame
 ---@return ActionInstance
-function actions__math.operator(value_a, value_b, operator, is_every_frame) end
+function actions__math.operator(source_variable_a, variable_b, operator, is_every_frame) end
 
 --- Sets a variable to a random value between min/max.
 ---@param source string Variable to set
@@ -612,7 +670,7 @@ function actions__msg.post(target, message_id, message, delay) end
 local actions__time = {}
 
 --- Trigger event after time elapsed.
----@param seconds number Amount of seconds for delay
+---@param seconds number|variable Amount of seconds for delay
 ---@param trigger_event string Name of trigger event
 ---@return ActionInstance
 function actions__time.delay(seconds, trigger_event) end
@@ -622,6 +680,13 @@ function actions__time.delay(seconds, trigger_event) end
 ---@param trigger_event string Name of trigger event
 ---@return ActionInstance
 function actions__time.frames(frames, trigger_event) end
+
+--- Trigger event after random time elapsed.
+---@param min_seconds number|variable Minimum amount of seconds for delay
+---@param max_seconds number|variable Maximum amount of seconds for delay
+---@param trigger_event string Name of trigger event
+---@return ActionInstance
+function actions__time.random_delay(min_seconds, max_seconds, trigger_event) end
 
 
 ---@class actions.transform
@@ -636,20 +701,20 @@ local actions__transform = {}
 function actions__transform.add_position(delta_vector, is_every_frame, delay, target_url) end
 
 --- Add the rotation of a game object
----@param target_quaternion quaternion Rotation quatenion
----@param is_every_frame boolean Repeat this action every frame
----@param delay number Delay before translate in seconds
----@param target_url url The object to apply transform
----@return ActionInstance
-function actions__transform.add_rotation(target_quaternion, is_every_frame, delay, target_url) end
-
---- Add the rotation of a game object
 ---@param target_vector vector3 Rotation quatenion
 ---@param is_every_frame boolean Repeat this action every frame
 ---@param delay number Delay before translate in seconds
 ---@param target_url url The object to apply transform
 ---@return ActionInstance
 function actions__transform.add_rotation(target_vector, is_every_frame, delay, target_url) end
+
+--- Add the rotation of a game object
+---@param target_quaternion quaternion Rotation quatenion
+---@param is_every_frame boolean Repeat this action every frame
+---@param delay number Delay before translate in seconds
+---@param target_url url The object to apply transform
+---@return ActionInstance
+function actions__transform.add_rotation(target_quaternion, is_every_frame, delay, target_url) end
 
 --- Add scale to a game object
 ---@param target_scale vector3 Scale vector
@@ -659,7 +724,7 @@ function actions__transform.add_rotation(target_vector, is_every_frame, delay, t
 ---@return ActionInstance
 function actions__transform.add_scale(target_scale, is_every_frame, delay, target_url) end
 
---- Animate the rotation of a game object
+--- Animate the rotation of a game object with euler vector
 ---@param target_euler vector3 Rotation quaternion
 ---@param time number The time to animate
 ---@param finish_event string Name of trigger event
@@ -668,6 +733,16 @@ function actions__transform.add_scale(target_scale, is_every_frame, delay, targe
 ---@param target_url url The object to apply transform
 ---@return ActionInstance
 function actions__transform.animate_euler(target_euler, time, finish_event, delay, ease_function, target_url) end
+
+--- Animate the rotation of a game object with relative euler vector
+---@param target_euler vector3 Rotation quaternion
+---@param time number The time to animate
+---@param finish_event string Name of trigger event
+---@param delay number Delay before animate in seconds
+---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@param target_url url The object to apply transform
+---@return ActionInstance
+function actions__transform.animate_euler_by(target_euler, time, finish_event, delay, ease_function, target_url) end
 
 --- Animate the position of a game object
 ---@param target_vector vector3 Position vector
@@ -679,6 +754,16 @@ function actions__transform.animate_euler(target_euler, time, finish_event, dela
 ---@return ActionInstance
 function actions__transform.animate_position(target_vector, time, finish_event, delay, ease_function, target_url) end
 
+--- Animate the position of a game object by a delta vector
+---@param target_vector vector3 Delta position vector
+---@param time number The time to animate
+---@param finish_event string Name of trigger event
+---@param delay number Delay before animate in seconds
+---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@param target_url url The object to apply transform
+---@return ActionInstance
+function actions__transform.animate_position_by(target_vector, time, finish_event, delay, ease_function, target_url) end
+
 --- Animate the rotation of a game object
 ---@param target_quaternion quaternion Rotation quaternion
 ---@param time number The time to animate
@@ -688,6 +773,16 @@ function actions__transform.animate_position(target_vector, time, finish_event, 
 ---@param target_url url The object to apply transform
 ---@return ActionInstance
 function actions__transform.animate_rotation(target_quaternion, time, finish_event, delay, ease_function, target_url) end
+
+--- Animate the rotation of a game object with a delta quaternion
+---@param target_quaternion quaternion Delta rotation quaternion
+---@param time number The time to animate
+---@param finish_event string Name of trigger event
+---@param delay number Delay before animate in seconds
+---@param ease_function ease The ease function to animate. Default in settings.get_default_easing
+---@param target_url url The object to apply transform
+---@return ActionInstance
+function actions__transform.animate_rotation_by(target_quaternion, time, finish_event, delay, ease_function, target_url) end
 
 --- Animate scale to a game object
 ---@param target_scale vector3 Scale vector
@@ -746,12 +841,14 @@ function actions__transform.get_scale(variable, is_every_frame, target_url) end
 function actions__transform.set_position(target_vector, is_every_frame, delay, target_url) end
 
 --- Sets the rotation of a game object
----@param target_quaternion quaternion Rotation quatenion
+---@param keep_x boolean Set true to keep x euler angle
+---@param keep_y boolean Set true to keep x euler angle
+---@param keep_z boolean Set true to keep x euler angle
 ---@param is_every_frame boolean Repeat this action every frame
 ---@param delay number Delay before translate in seconds
 ---@param target_url url The object to apply transform
 ---@return ActionInstance
-function actions__transform.set_rotation(target_quaternion, is_every_frame, delay, target_url) end
+function actions__transform.set_rotation(keep_x, keep_y, keep_z, is_every_frame, delay, target_url) end
 
 --- Sets the rotation of a game object
 ---@param target_quaternion quaternion Rotation quatenion
@@ -760,6 +857,14 @@ function actions__transform.set_rotation(target_quaternion, is_every_frame, dela
 ---@param target_url url The object to apply transform
 ---@return ActionInstance
 function actions__transform.set_rotation(target_quaternion, is_every_frame, delay, target_url) end
+
+--- Sets the rotation of a game object
+---@param target_vector vector3 Euler quatenion
+---@param is_every_frame boolean Repeat this action every frame
+---@param delay number Delay before translate in seconds
+---@param target_url url The object to apply transform
+---@return ActionInstance
+function actions__transform.set_rotation(target_vector, is_every_frame, delay, target_url) end
 
 --- Set scale to a game object
 ---@param target_scale vector3 Scale vector
@@ -818,14 +923,31 @@ function actions__vmath.set_xyz(source, value_x, value_y, value_z, is_every_fram
 ---@class adam
 local adam = {}
 
---- Create new instance of Adam FSM
----@param initial unknown
----@param transitions unknown
----@param variables unknown
-function adam.new(initial, transitions, variables) end
+--- Return the group of actions what can be used instead single action.
+---@param ... ActionInstance The Actions for template
+---@return ActionInstance Structure what can be used instead single action in state description
+function adam.actions(...) end
 
---- Return state to use it in Adam FSM
----@param ... unknown
+--- Trigger event for all current Adam Instances
+---@param event_name string
+function adam.event(event_name) end
+
+--- Create new instance of Adam
+---@param initial_state StateInstance The initial FSM state. It will be triggered on start
+---@param transitions StateInstance[] The array of next structure: {state_instance, state_instance, [event]},  describe transitiom from first state to second on event. By default event is adam.FINISHED
+---@param variables table Defined FSM variables. All variables should be defined before use
+---@param final_state StateInstance This state should contains only instant actions, execute on adam:final, transitions are not required
+---@return AdamInstance
+function adam.new(initial_state, transitions, variables, final_state) end
+
+--- Return new Adam Instance from JSON representation
+---@param json_data string The Adam Instance JSON representation
+---@return AdamInstance The new Adam Instance
+function adam.parse(json_data) end
+
+--- Create new instance of State
+---@param ... ActionInstance The any amount of ActionInstance for this State
+---@return StateInstance
 function adam.state(...) end
 
 
@@ -838,6 +960,20 @@ local adam__actions = {}
 ---@param is_every_frame unknown
 ---@return ActionInstance
 function adam__actions.func(source, value, is_every_frame) end
+
+--- Add operator
+---@param source unknown
+---@param value unknown
+---@param is_every_frame unknown
+---@return ActionInstance
+function adam__actions.func(source, value, is_every_frame) end
+
+--- Get info about last trigger event
+---@param string other_group Variable to save own_group info
+---@param string other_id Variable to save own_group info
+---@param string own_group Variable to save own_group info
+---@return ActionInstance
+function adam__actions.get_trigger_info(string, string, string) end
 
 --- Return value from FSM variables for action params
 ---@param variable_name string The variable name in Adam instance

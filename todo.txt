@@ -24,3 +24,4 @@ Ideas:
 + add global adam event for trigger it for all instances
 - game object id as fsm id in spawned instances	
 - bind ID to fsm. It should correct call with delete_self and self animations
++ general variables: lifetime, go_id context,

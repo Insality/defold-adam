@@ -51,14 +51,14 @@
 <div id="content">
 
 <h1>Module <code>AdamInstance</code></h1>
-<p>All Adam instances created by this calss.</p>
+<p>All Adam Instances created by this class.</p>
 <p> Instantiate it via `adam.new()`.</p>
 
 
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" ><a href="#initialize">initialize(initial_state, transitions, variables)</a></td>
+	<td class="name" ><a href="#initialize">initialize(initial_state[, transitions[, variables[, final_state]]])</a></td>
 	<td class="summary">Adam Instance constructor function.</td>
 	</tr>
 	<tr>
@@ -66,8 +66,12 @@
 	<td class="summary">Start the Adam Instance.</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#stop">stop()</a></td>
-	<td class="summary">Stop the execution of Adam Instance</td>
+	<td class="name" ><a href="#resume">resume()</a></td>
+	<td class="summary">Resume the execution of Adam Instance.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#pause">pause()</a></td>
+	<td class="summary">Pause the execution of Adam Instance.</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#is_active">is_active()</a></td>
@@ -88,6 +92,15 @@
 	<tr>
 	<td class="name" ><a href="#final">final()</a></td>
 	<td class="summary">Adam final function.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#add">add(adam_instance)</a></td>
+	<td class="summary">Add Adam Instance to current as nested FSM.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#bind">bind(game_object)</a></td>
+	<td class="summary">Change the self context instante (the go instante instead of "." in all of action)
+ also set the game object id as FSM id</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#event">event(event_name)</a></td>
@@ -126,6 +139,10 @@
 	<td class="summary">Return current adam state</td>
 	</tr>
 	<tr>
+	<td class="name" ><a href="#get_self">get_self()</a></td>
+	<td class="summary">Return current game object binded to Adam (default ".")</td>
+	</tr>
+	<tr>
 	<td class="name" ><a href="#set_debug">set_debug(is_debug)</a></td>
 	<td class="summary">Set debug state of state.</td>
 	</tr>
@@ -143,6 +160,10 @@
 	<tr>
 	<td class="name" ><a href="#get_input_released">get_input_released(action_id)</a></td>
 	<td class="summary">Return input state of released action</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#get_trigger_message">get_trigger_message()</a></td>
+	<td class="summary">Return last message from trigger collission</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#_init_fsm">_init_fsm(initial_state, transitions)</a></td>
@@ -179,7 +200,7 @@
     <dl class="function">
     <dt>
     <a name = "initialize"></a>
-    <strong>initialize(initial_state, transitions, variables)</strong>
+    <strong>initialize(initial_state[, transitions[, variables[, final_state]]])</strong>
     </dt>
     <dd>
     Adam Instance constructor function.
@@ -195,10 +216,17 @@
             <span class="types"><span class="type">StateInstance[]</span></span>
          The array of next structure: {state_instance, state_instance, [event]},
  describe transitiom from first state to second on event. By default event is adam.FINISHED
+         (<em>optional</em>)
         </li>
         <li><span class="parameter">variables</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
          Defined FSM variables. All variables should be defined before use
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">final_state</span>
+            <span class="types"><span class="type">StateInstance</span></span>
+         This state should contains only instant actions, execute on adam:final, transitions are not required
+         (<em>optional</em>)
         </li>
     </ul>
 
@@ -235,11 +263,33 @@
 
 </dd>
     <dt>
-    <a name = "stop"></a>
-    <strong>stop()</strong>
+    <a name = "resume"></a>
+    <strong>resume()</strong>
     </dt>
     <dd>
-    Stop the execution of Adam Instance
+    Resume the execution of Adam Instance.
+ You can pause execution with pause method.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">AdamInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "pause"></a>
+    <strong>pause()</strong>
+    </dt>
+    <dd>
+    Pause the execution of Adam Instance.
+ You can resume execution with resume method.
 
 
 
@@ -354,11 +404,68 @@
     <strong>final()</strong>
     </dt>
     <dd>
-    Adam final function.  Place in script/gui_script final function on when you wanna to stop FSM.
+    Adam final function.  Place in script/gui_script final function on when you wanna to finish FSM.
  Important function, since it track global list of Adam instances
 
 
 
+
+
+
+
+</dd>
+    <dt>
+    <a name = "add"></a>
+    <strong>add(adam_instance)</strong>
+    </dt>
+    <dd>
+    Add Adam Instance to current as nested FSM.
+ It will work, until parent instance will work. On final parent instance, it call final on
+ all nested adams
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">adam_instance</span>
+            <span class="types"><span class="type">AdamInstance</span></span>
+         The nested Adam Instance
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">AdamInstance</span></span>
+        Self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "bind"></a>
+    <strong>bind(game_object)</strong>
+    </dt>
+    <dd>
+    Change the self context instante (the go instante instead of "." in all of action)
+ also set the game object id as FSM id
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">game_object</span>
+            <span class="types"><span class="type">hash</span></span>
+         The game object to bind
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">AdamInstace</span></span>
+        Self
+    </ol>
 
 
 
@@ -423,7 +530,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">variable_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a> or <span class="type">variable</span></span>
          The name of variable in FSM
         </li>
     </ul>
@@ -450,7 +557,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">variable_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a> or <span class="type">variable</span></span>
          The name of variable in FSM
         </li>
         <li><span class="parameter">value</span>
@@ -568,6 +675,26 @@
 
 </dd>
     <dt>
+    <a name = "get_self"></a>
+    <strong>get_self()</strong>
+    </dt>
+    <dd>
+    Return current game object binded to Adam (default ".")
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">url</span></span>
+        The game object id
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "set_debug"></a>
     <strong>set_debug(is_debug)</strong>
     </dt>
@@ -673,6 +800,26 @@
 
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
         The input info
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_trigger_message"></a>
+    <strong>get_trigger_message()</strong>
+    </dt>
+    <dd>
+    Return last message from trigger collission
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+        The last trigger message
     </ol>
 
 

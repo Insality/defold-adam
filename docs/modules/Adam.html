@@ -58,11 +58,23 @@
 <table class="function_list">
 	<tr>
 	<td class="name" ><a href="#state">state(...)</a></td>
-	<td class="summary">Return state to use it in Adam FSM</td>
+	<td class="summary">Create new instance of State</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#new">new(initial, transitions, variables)</a></td>
-	<td class="summary">Create new instance of Adam FSM</td>
+	<td class="name" ><a href="#new">new(initial_state[, transitions[, variables[, final_state]]])</a></td>
+	<td class="summary">Create new instance of Adam</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#parse">parse(json_data)</a></td>
+	<td class="summary">Return new Adam Instance from JSON representation</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions">actions(...)</a></td>
+	<td class="summary">Return the group of actions what can be used instead single action.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#event">event(event_name)</a></td>
+	<td class="summary">Trigger event for all current Adam Instances</td>
 	</tr>
 </table>
 
@@ -78,16 +90,23 @@
     <strong>state(...)</strong>
     </dt>
     <dd>
-    Return state to use it in Adam FSM
+    Create new instance of State
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">...</span>
-
+            <span class="types"><span class="type">ActionInstance</span></span>
+         The any amount of ActionInstance for this State
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">StateInstance</span></span>
+
+    </ol>
 
 
 
@@ -95,21 +114,114 @@
 </dd>
     <dt>
     <a name = "new"></a>
-    <strong>new(initial, transitions, variables)</strong>
+    <strong>new(initial_state[, transitions[, variables[, final_state]]])</strong>
     </dt>
     <dd>
-    Create new instance of Adam FSM
+    Create new instance of Adam
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">initial</span>
-
+        <li><span class="parameter">initial_state</span>
+            <span class="types"><span class="type">StateInstance</span></span>
+         The initial FSM state. It will be triggered on start
         </li>
         <li><span class="parameter">transitions</span>
-
+            <span class="types"><span class="type">StateInstance[]</span></span>
+         The array of next structure: {state_instance, state_instance, [event]},
+ describe transitiom from first state to second on event. By default event is adam.FINISHED
+         (<em>optional</em>)
         </li>
         <li><span class="parameter">variables</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Defined FSM variables. All variables should be defined before use
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">final_state</span>
+            <span class="types"><span class="type">StateInstance</span></span>
+         This state should contains only instant actions, execute on adam:final, transitions are not required
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">AdamInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "parse"></a>
+    <strong>parse(json_data)</strong>
+    </dt>
+    <dd>
+    Return new Adam Instance from JSON representation
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">json_data</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The Adam Instance JSON representation
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">AdamInstance</span></span>
+        The new Adam Instance
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions"></a>
+    <strong>actions(...)</strong>
+    </dt>
+    <dd>
+    Return the group of actions what can be used instead single action.
+ Use it as template actions
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+            <span class="types"><span class="type">ActionInstance</span></span>
+         The Actions for template
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+        Structure what can be used instead single action in state description
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "event"></a>
+    <strong>event(event_name)</strong>
+    </dt>
+    <dd>
+    Trigger event for all current Adam Instances
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">event_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
 
         </li>
     </ul>

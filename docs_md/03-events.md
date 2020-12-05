@@ -4,7 +4,11 @@
 
 ### Basic
 
+### Input
+Tell how input is collected and deliver to actions
+
 ### Physics
+Tell how physics info is collected and deliver to actions
 
 ### Other
 

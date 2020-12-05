@@ -100,6 +100,10 @@
 	<td class="summary">Set action to deferred state.</td>
 	</tr>
 	<tr>
+	<td class="name" ><a href="#is_deferred">is_deferred()</a></td>
+	<td class="summary">Return action deferred state.</td>
+	</tr>
+	<tr>
 	<td class="name" ><a href="#set_name">set_name(name)</a></td>
 	<td class="summary">Set the name of the action</td>
 	</tr>
@@ -184,6 +188,10 @@
 	<tr>
 	<td class="name" ><a href="#set_state_instance">set_state_instance(state_instance)</a></td>
 	<td class="summary">Set StateInstance for this action instance.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#_get_delay_seconds">_get_delay_seconds()</a></td>
+	<td class="summary">Get seconds to delay for trigger action</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#_trigger_action">_trigger_action()</a></td>
@@ -449,6 +457,26 @@
         </li>
     </ul>
 
+
+
+
+
+</dd>
+    <dt>
+    <a name = "is_deferred"></a>
+    <strong>is_deferred()</strong>
+    </dt>
+    <dd>
+    Return action deferred state.  If action is deferred - it can be executed in one frame
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">boolean</span></span>
+        Action deferred state
+    </ol>
 
 
 
@@ -866,6 +894,26 @@
         </li>
     </ul>
 
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_get_delay_seconds"></a>
+    <strong>_get_delay_seconds()</strong>
+    </dt>
+    <dd>
+    Get seconds to delay for trigger action
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        Seconds to delay
+    </ol>
 
 
 

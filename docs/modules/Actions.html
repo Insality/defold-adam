@@ -40,6 +40,8 @@
 <li><a href="#actions_logic_Functions">actions.logic Functions</a></li>
 <li><a href="#actions_math_Functions">actions.math Functions</a></li>
 <li><a href="#actions_msg_Functions">actions.msg Functions</a></li>
+<li><a href="#actions_physics_Functions">actions.physics Functions</a></li>
+<li><a href="#actions_sprite_Functions">actions.sprite Functions</a></li>
 <li><a href="#actions_template_Functions">actions.template Functions</a></li>
 <li><a href="#actions_time_Functions">actions.time Functions</a></li>
 <li><a href="#actions_transform_Functions">actions.transform Functions</a></li>
@@ -98,8 +100,24 @@
 	<td class="summary">Broadcast event to all active FSM</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.fsm.finish">actions.fsm.finish(string[, delay])</a></td>
-	<td class="summary">Stop the Adam Instance</td>
+	<td class="name" ><a href="#actions.fsm.resume">actions.fsm.resume(string[, delay])</a></td>
+	<td class="summary">Resume the Adam Instance</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.fsm.pause">actions.fsm.pause(string[, delay])</a></td>
+	<td class="summary">Pause the Adam Instance</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.fsm.final">actions.fsm.final(string[, delay])</a></td>
+	<td class="summary">Finalize the Adam Instance</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.fsm.get_value">actions.fsm.get_value(string, variable, store_value[, is_every_frame])</a></td>
+	<td class="summary">Get variable from FSM.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.fsm.set_value">actions.fsm.set_value(string, variable, source[, is_every_frame])</a></td>
+	<td class="summary">Set variable from FSM.</td>
 	</tr>
 </table>
 <h2><a href="#actions_go_Functions">actions.go Functions</a></h2>
@@ -122,11 +140,15 @@
 	<td class="summary">Delete the game object</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.go.enable_object">actions.go.enable_object([target="."[, delay]])</a></td>
+	<td class="name" ><a href="#actions.go.delete_objects">actions.go.delete_objects(target_ids[, delay[, not_recursive]])</a></td>
+	<td class="summary">Delete the game objects</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.go.enable">actions.go.enable([target="."[, delay]])</a></td>
 	<td class="summary">Enable the receiving component</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.go.disable_object">actions.go.disable_object([target="."[, delay]])</a></td>
+	<td class="name" ><a href="#actions.go.disable">actions.go.disable([target="."[, delay]])</a></td>
 	<td class="summary">Enable the receiving component</td>
 	</tr>
 </table>
@@ -267,8 +289,8 @@
 	<td class="summary">Get a atan2 value</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.math.operator">actions.math.operator(value_a, value_b, operator[, is_every_frame])</a></td>
-	<td class="summary">Apply a math function (a, b)=>c to a variable.</td>
+	<td class="name" ><a href="#actions.math.operator">actions.math.operator(source_variable_a, variable_b, operator[, is_every_frame])</a></td>
+	<td class="summary">Apply a math function (a, b)=>c to source variable.</td>
 	</tr>
 </table>
 <h2><a href="#actions_msg_Functions">actions.msg Functions</a></h2>
@@ -276,6 +298,20 @@
 	<tr>
 	<td class="name" ><a href="#actions.msg.post">actions.msg.post(target, message_id[, message[, delay]])</a></td>
 	<td class="summary">Post message via msg.post</td>
+	</tr>
+</table>
+<h2><a href="#actions_physics_Functions">actions.physics Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#get_trigger_info">get_trigger_info(string, string, string)</a></td>
+	<td class="summary">Get info about last trigger event</td>
+	</tr>
+</table>
+<h2><a href="#actions_sprite_Functions">actions.sprite Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#func">func(source, value, is_every_frame)</a></td>
+	<td class="summary">Add operator</td>
 	</tr>
 </table>
 <h2><a href="#actions_template_Functions">actions.template Functions</a></h2>
@@ -290,6 +326,10 @@
 	<tr>
 	<td class="name" ><a href="#actions.time.delay">actions.time.delay(seconds[, trigger_event])</a></td>
 	<td class="summary">Trigger event after time elapsed.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.time.random_delay">actions.time.random_delay(min_seconds, max_seconds[, trigger_event])</a></td>
+	<td class="summary">Trigger event after random time elapsed.</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.time.frames">actions.time.frames(frames[, trigger_event])</a></td>
@@ -311,6 +351,10 @@
 	<td class="summary">Animate the position of a game object</td>
 	</tr>
 	<tr>
+	<td class="name" ><a href="#actions.transform.animate_position_by">actions.transform.animate_position_by(target_vector, time[, finish_event[, delay[, ease_function[, target_url]]]])</a></td>
+	<td class="summary">Animate the position of a game object by a delta vector</td>
+	</tr>
+	<tr>
 	<td class="name" ><a href="#actions.transform.get_position">actions.transform.get_position(variable[, is_every_frame[, target_url]])</a></td>
 	<td class="summary">Get the position property of a game object and store to variable</td>
 	</tr>
@@ -327,11 +371,19 @@
 	<td class="summary">Animate the rotation of a game object</td>
 	</tr>
 	<tr>
+	<td class="name" ><a href="#actions.transform.animate_rotation_by">actions.transform.animate_rotation_by(target_quaternion, time[, finish_event[, delay[, ease_function[, target_url]]]])</a></td>
+	<td class="summary">Animate the rotation of a game object with a delta quaternion</td>
+	</tr>
+	<tr>
 	<td class="name" ><a href="#actions.transform.get_rotation">actions.transform.get_rotation(variable[, is_every_frame[, target_url]])</a></td>
 	<td class="summary">Get the rotation property of a game object and store to variable</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.transform.set_rotation">actions.transform.set_rotation(target_quaternion[, is_every_frame[, delay[, target_url]]])</a></td>
+	<td class="name" ><a href="#actions.transform.set_rotation">actions.transform.set_rotation(target_vector[, is_every_frame[, delay[, target_url]]])</a></td>
+	<td class="summary">Sets the rotation of a game object</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.set_rotation">actions.transform.set_rotation([keep_x[, keep_y[, keep_z[, is_every_frame[, delay[, target_url]]]]]])</a></td>
 	<td class="summary">Sets the rotation of a game object</td>
 	</tr>
 	<tr>
@@ -340,7 +392,11 @@
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.transform.animate_euler">actions.transform.animate_euler(target_euler, time[, finish_event[, delay[, ease_function[, target_url]]]])</a></td>
-	<td class="summary">Animate the rotation of a game object</td>
+	<td class="summary">Animate the rotation of a game object with euler vector</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.animate_euler_by">actions.transform.animate_euler_by(target_euler, time[, finish_event[, delay[, ease_function[, target_url]]]])</a></td>
+	<td class="summary">Animate the rotation of a game object with relative euler vector</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.transform.get_euler">actions.transform.get_euler(variable[, is_every_frame[, target_url]])</a></td>
@@ -605,11 +661,63 @@
 
 </dd>
     <dt>
-    <a name = "actions.fsm.finish"></a>
-    <strong>actions.fsm.finish(string[, delay])</strong>
+    <a name = "actions.fsm.resume"></a>
+    <strong>actions.fsm.resume(string[, delay])</strong>
     </dt>
     <dd>
-    Stop the Adam Instance
+    Resume the Adam Instance
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">string</span>
+            <span class="types"><span class="type">target</span></span>
+        |adam target The target instance to resume
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Time delay in seconds
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.fsm.pause"></a>
+    <strong>actions.fsm.pause(string[, delay])</strong>
+    </dt>
+    <dd>
+    Pause the Adam Instance
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">string</span>
+            <span class="types"><span class="type">target</span></span>
+        |adam target The target instance to pause
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Time delay in seconds
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.fsm.final"></a>
+    <strong>actions.fsm.final(string[, delay])</strong>
+    </dt>
+    <dd>
+    Finalize the Adam Instance
 
 
     <h3>Parameters:</h3>
@@ -621,6 +729,76 @@
         <li><span class="parameter">delay</span>
             <span class="types"><span class="type">number</span></span>
          Time delay in seconds
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.fsm.get_value"></a>
+    <strong>actions.fsm.get_value(string, variable, store_value[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Get variable from FSM.
+ If at target will be multiply FSM, no any order which FSM will be used to get value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">string</span>
+            <span class="types"><span class="type">target</span></span>
+        |adam target The target instance to get value
+        </li>
+        <li><span class="parameter">variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         Name of variable to get from target FSM
+        </li>
+        <li><span class="parameter">store_value</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The name of variable in current FSM to store get value
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.fsm.set_value"></a>
+    <strong>actions.fsm.set_value(string, variable, source[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Set variable from FSM.
+ If at target will be multiply FSM, set value to all of them
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">string</span>
+            <span class="types"><span class="type">target</span></span>
+        |adam target The target instance to set value
+        </li>
+        <li><span class="parameter">variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         Name of variable to set value on target FSM
+        </li>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The variable in current FSM to set the variable to
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
          (<em>optional</em>)
         </li>
     </ul>
@@ -821,8 +999,45 @@
 
 </dd>
     <dt>
-    <a name = "actions.go.enable_object"></a>
-    <strong>actions.go.enable_object([target="."[, delay]])</strong>
+    <a name = "actions.go.delete_objects"></a>
+    <strong>actions.go.delete_objects(target_ids[, delay[, not_recursive]])</strong>
+    </dt>
+    <dd>
+    Delete the game objects
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_ids</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         The game objects to delete
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before delete
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">not_recursive</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Set true to not delete children of deleted go
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.go.enable"></a>
+    <strong>actions.go.enable([target="."[, delay]])</strong>
     </dt>
     <dd>
     Enable the receiving component
@@ -854,8 +1069,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.go.disable_object"></a>
-    <strong>actions.go.disable_object([target="."[, delay]])</strong>
+    <a name = "actions.go.disable"></a>
+    <strong>actions.go.disable([target="."[, delay]])</strong>
     </dt>
     <dd>
     Enable the receiving component
@@ -2230,20 +2445,20 @@
 </dd>
     <dt>
     <a name = "actions.math.operator"></a>
-    <strong>actions.math.operator(value_a, value_b, operator[, is_every_frame])</strong>
+    <strong>actions.math.operator(source_variable_a, variable_b, operator[, is_every_frame])</strong>
     </dt>
     <dd>
-    Apply a math function (a, b)=>c to a variable.
+    Apply a math function (a, b)=>c to source variable.
  Useful if you want do something, what is not designed in Adam.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">value_a</span>
+        <li><span class="parameter">source_variable_a</span>
             <span class="types"><span class="type">variable</span></span>
          First variable
         </li>
-        <li><span class="parameter">value_b</span>
+        <li><span class="parameter">variable_b</span>
             <span class="types"><span class="type">variable</span></span>
          Second variable
         </li>
@@ -2315,6 +2530,81 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="actions_physics_Functions"></a>actions.physics Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "get_trigger_info"></a>
+    <strong>get_trigger_info(string, string, string)</strong>
+    </dt>
+    <dd>
+    Get info about last trigger event
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">string</span>
+            <span class="types"><span class="type">own_group</span></span>
+         Variable to save own_group info
+        </li>
+        <li><span class="parameter">string</span>
+            <span class="types"><span class="type">own_group</span></span>
+         Variable to save own_group info
+        </li>
+        <li><span class="parameter">string</span>
+            <span class="types"><span class="type">own_group</span></span>
+         Variable to save own_group info
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="actions_sprite_Functions"></a>actions.sprite Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "func"></a>
+    <strong>func(source, value, is_every_frame)</strong>
+    </dt>
+    <dd>
+    Add operator
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+
+        </li>
+        <li><span class="parameter">value</span>
+
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="actions_template_Functions"></a>actions.template Functions</h2>
 
     <dl class="function">
@@ -2365,8 +2655,44 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">seconds</span>
-            <span class="types"><span class="type">number</span></span>
+            <span class="types"><span class="type">number</span> or <span class="type">variable</span></span>
          Amount of seconds for delay
+        </li>
+        <li><span class="parameter">trigger_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.time.random_delay"></a>
+    <strong>actions.time.random_delay(min_seconds, max_seconds[, trigger_event])</strong>
+    </dt>
+    <dd>
+    Trigger event after random time elapsed.  Trigger event is optional
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">min_seconds</span>
+            <span class="types"><span class="type">number</span> or <span class="type">variable</span></span>
+         Minimum amount of seconds for delay
+        </li>
+        <li><span class="parameter">max_seconds</span>
+            <span class="types"><span class="type">number</span> or <span class="type">variable</span></span>
+         Maximum amount of seconds for delay
         </li>
         <li><span class="parameter">trigger_event</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
@@ -2519,6 +2845,57 @@
         <li><span class="parameter">target_vector</span>
             <span class="types"><span class="type">vector3</span></span>
          Position vector
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to animate
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before animate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.animate_position_by"></a>
+    <strong>actions.transform.animate_position_by(target_vector, time[, finish_event[, delay[, ease_function[, target_url]]]])</strong>
+    </dt>
+    <dd>
+    Animate the position of a game object by a delta vector
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_vector</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Delta position vector
         </li>
         <li><span class="parameter">time</span>
             <span class="types"><span class="type">number</span></span>
@@ -2730,6 +3107,57 @@
 
 </dd>
     <dt>
+    <a name = "actions.transform.animate_rotation_by"></a>
+    <strong>actions.transform.animate_rotation_by(target_quaternion, time[, finish_event[, delay[, ease_function[, target_url]]]])</strong>
+    </dt>
+    <dd>
+    Animate the rotation of a game object with a delta quaternion
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_quaternion</span>
+            <span class="types"><span class="type">quaternion</span></span>
+         Delta rotation quaternion
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to animate
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before animate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "actions.transform.get_rotation"></a>
     <strong>actions.transform.get_rotation(variable[, is_every_frame[, target_url]])</strong>
     </dt>
@@ -2768,7 +3196,7 @@
 </dd>
     <dt>
     <a name = "actions.transform.set_rotation"></a>
-    <strong>actions.transform.set_rotation(target_quaternion[, is_every_frame[, delay[, target_url]]])</strong>
+    <strong>actions.transform.set_rotation(target_vector[, is_every_frame[, delay[, target_url]]])</strong>
     </dt>
     <dd>
     Sets the rotation of a game object
@@ -2776,9 +3204,62 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">target_quaternion</span>
-            <span class="types"><span class="type">quaternion</span></span>
-         Rotation quatenion
+        <li><span class="parameter">target_vector</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Euler quatenion
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.set_rotation"></a>
+    <strong>actions.transform.set_rotation([keep_x[, keep_y[, keep_z[, is_every_frame[, delay[, target_url]]]]]])</strong>
+    </dt>
+    <dd>
+    Sets the rotation of a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">keep_x</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Set true to keep x euler angle
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">keep_y</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Set true to keep x euler angle
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">keep_z</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Set true to keep x euler angle
+         (<em>optional</em>)
         </li>
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
@@ -2855,7 +3336,58 @@
     <strong>actions.transform.animate_euler(target_euler, time[, finish_event[, delay[, ease_function[, target_url]]]])</strong>
     </dt>
     <dd>
-    Animate the rotation of a game object
+    Animate the rotation of a game object with euler vector
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target_euler</span>
+            <span class="types"><span class="type">vector3</span></span>
+         Rotation quaternion
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to animate
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before animate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.animate_euler_by"></a>
+    <strong>actions.transform.animate_euler_by(target_euler, time[, finish_event[, delay[, ease_function[, target_url]]]])</strong>
+    </dt>
+    <dd>
+    Animate the rotation of a game object with relative euler vector
 
 
     <h3>Parameters:</h3>
