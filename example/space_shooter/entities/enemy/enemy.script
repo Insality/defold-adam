@@ -3,6 +3,8 @@ local actions = require("adam.actions")
 local projectile = require("example.space_shooter.entities.projectile.projectile")
 
 function init(self)
+	self.player_id = go.get_id("/player")
+
 	local shoot = adam.state(
 		actions.msg.post(".", "create_projectile"),
 		actions.math.random("euler_diff", -30, 30),
@@ -10,6 +12,51 @@ function init(self)
 		actions.vmath.set_xyz("current_euler", nil, nil, actions.value("euler_diff")),
 		actions.transform.animate_euler(actions.value("current_euler"), 0.4)
 	):set_name("shoot")
+
+	local initial = adam.state(
+		actions.transform.get_euler("current_euler"),
+		actions.transform.get_position("position"),
+		actions.vmath.get_xyz("current_euler", nil, nil, "start_euler_z")
+	):set_name("initial")
+
+	local idle = adam.state(
+		actions.time.random_delay(0.1, 0.3, "move")
+	):set_name("idle")
+
+	local move = adam.state(
+		actions.math.random(actions.value("position", "x"), 200, 760),
+		actions.transform.animate_position(actions.value("position"), 2, "shoot")
+	)
+
+	self.adam = adam.new(initial,
+		{
+			{initial, idle},
+			{idle, shoot, "shoot"},
+			{idle, move, "move"},
+			{move, shoot, "shoot"},
+			{shoot, idle}
+		},
+		{
+			current_euler = vmath.vector3(0),
+			start_euler_z = 0,
+			euler_diff = 0,
+			position = vmath.vector3(0),
+		}):start()
+
+
+	local health_idle = adam.state()
+
+	local death = adam.state(
+		actions.sprite.set_alpha(1, nil, 0.1),
+		actions.transform.animate_scale(vmath.vector3(0), 0.5),
+		actions.go.disable("#collisionobject"),
+		actions.go.delete_self(0.5)
+	)
+
+	local check_damage = adam.state(
+		actions.physics.get_trigger_info("other_group"),
+		actions.logic.equals(actions.value("other_group"), hash("projectile"), "damage")
+	)
 
 	local damage = adam.state(
 		actions.transform.set_scale(vmath.vector3(1)),
@@ -21,39 +68,19 @@ function init(self)
 		actions.logic.compare(actions.value("health"), 1, nil, "death")
 	)
 
-	local initial = adam.state(
-		actions.transform.get_euler("current_euler"),
-		actions.vmath.get_xyz("current_euler", nil, nil, "start_euler_z")
-	):set_name("initial")
-
-	local death = adam.state(
-		actions.sprite.set_alpha(1, nil, 0.1),
-		actions.transform.animate_scale(vmath.vector3(0), 0.5),
-		actions.go.disable("#collisionobject"),
-		actions.go.delete_self(0.5)
-	)
-
-	local idle = adam.state(
-		actions.time.random_delay(0.1, 0.3, "shoot")
-	):set_name("idle")
-
-	self.adam = adam.new(initial,
-		{
-			{initial, idle},
-			{idle, shoot, "shoot"},
-			{shoot, idle},
-			{idle, damage, actions.EVENT.TRIGGER_ENTER},
-			{shoot, damage, actions.EVENT.TRIGGER_ENTER},
-			{damage, damage, actions.EVENT.TRIGGER_ENTER},
-			{damage, idle},
-			{damage, death, "death"},
-		},
-		{
-			health = 10,
-			current_euler = vmath.vector3(0),
-			start_euler_z = 0,
-			euler_diff = 0,
-		}):start()
+	local health_adam = adam.new(health_idle, {
+		{health_idle, check_damage, actions.EVENT.TRIGGER_ENTER},
+		{check_damage, health_idle},
+		{check_damage, damage, "damage"},
+		{damage, health_idle},
+		{damage, death, "death"},
+		{damage, check_damage, actions.EVENT.TRIGGER_ENTER},
+	}, {
+		health = 10,
+		other_group = ""
+	}):start():set_name("heatlh")
+	self.adam:add(health_adam)
+	self.adam:forward_events(health_adam, actions.EVENT.TRIGGER_ENTER, true)
 end
 
 

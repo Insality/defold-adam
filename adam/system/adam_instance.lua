@@ -25,6 +25,7 @@ function AdamInstance:initialize(initial_state, transitions, variables, final_st
 
 	self._states = {}
 	self._adams = {} -- Nested Adam instances
+	self._forward_events = {}
 
 	self._is_debug = false
 	self._current_state = nil
@@ -144,9 +145,6 @@ function AdamInstance:on_message(message_id, message, sender)
 	end
 
 	self:_process_message(message_id, message, sender)
-
-	-- on_message events will not propagate for nested instances.
-	-- For this I should use adam_events_propagate.script
 end
 
 
@@ -181,6 +179,21 @@ function AdamInstance:add(adam_instance)
 end
 
 
+--- Forward incoming events to other adam instance
+-- @tparam AdamInstance adam_instance The adam instance to get events
+-- @tparam table|string events The name of event[s] to forward
+-- @tparam boolean is_consume Is event should be consumed on forward
+-- @tparam AdamInstance Self
+function AdamInstance:forward_events(adam_instance, events, is_consume)
+	table.insert(self._forward_events, {
+		adam = adam_instance,
+		events = type(events) == "table" and events or { events },
+		is_consume = is_consume
+	})
+	return self
+end
+
+
 --- Change the self context instante (the go instante instead of "." in all of action)
 -- also set the game object id as FSM id
 -- @tparam hash game_object The game object to bind
@@ -194,13 +207,29 @@ end
 
 --- Trigger event in Adam FSM. If any transitions on this event exists, go to next state instantly
 -- @tparam string event_name The trigger event name
-function AdamInstance:event(event_name)
+-- @tparam[opt] table event_context The event data
+function AdamInstance:event(event_name, event_context)
 	if not self._is_active then
 		return
 	end
 
+	for _, event_info in ipairs(self._forward_events) do
+		for _, event in ipairs(event_info.events) do
+			if event == event_name then
+				event_info.adam:event(event_name, event_context)
+				if event_info.is_consume then
+					return
+				end
+			end
+		end
+	end
+
 	if self._is_debug then
 		settings.log("Adam event", { name = self:get_name(), event = event_name })
+	end
+
+	if event_context then
+		self:_process_event_context(event_name, event_context)
 	end
 
 	if self:can_transition(event_name) then
@@ -463,12 +492,22 @@ end
 -- @local
 function AdamInstance:_process_message(message_id, message, sender)
 	if message_id == const.TRIGGER_RESPONSE then
-		self._trigger_message = message
 		if message.enter then
-			self:event(const.EVENT.TRIGGER_ENTER)
+			self:event(const.EVENT.TRIGGER_ENTER, message)
 		else
-			self:event(const.EVENT.TRIGGER_LEAVE)
+			self:event(const.EVENT.TRIGGER_LEAVE, message)
 		end
+	end
+end
+
+
+--- Store context, vary on event_name
+-- @tparam string event_name The trigger event name
+-- @tparam table event_context The event data
+-- @local
+function AdamInstance:_process_event_context(event_name, event_context)
+	if event_name == const.EVENT.TRIGGER_ENTER or event_name == const.EVENT.TRIGGER_LEAVE then
+		self._trigger_message = event_context
 	end
 end
 
