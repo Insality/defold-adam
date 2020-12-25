@@ -56,6 +56,8 @@ function M.create(go_id, impact_image, parent_id)
 		current_euler = vmath.vector3(0)
 	}, final_state)
 
+	-- Bind to get the physics event from this GO
+	fsm:bind(go_id)
 	return fsm
 end
 
