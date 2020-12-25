@@ -1,18 +1,39 @@
+local actions = require("adam.actions")
+local adam = require("adam.adam")
 
 function init(self)
 	particlefx.play("#stars")
+
+	local initial = adam.state(
+		actions.go.create_objects("/system#enemy_factory", vmath.vector3(400, 400, 0))
+	)
+
+	local wait = adam.state()
+
+	local spawn_enemy = adam.state(
+		actions.go.create_objects("/system#enemy_factory", vmath.vector3(400, 400, 0))
+	)
+
+	self.adam = adam.new(initial, {
+		{initial, wait},
+		{wait, spawn_enemy, "spawn_enemy"},
+		{spawn_enemy, wait}
+	}):start()--:set_debug(true)
 end
 
 
 function final(self)
+	self.adam:final()
 end
 
 
 function update(self, dt)
+	self.adam:update(dt)
 end
 
 
 function on_message(self, message_id, message, sender)
+	self.adam:on_message(message_id, message, sender)
 end
 
 

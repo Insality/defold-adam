@@ -6,11 +6,15 @@ function init(self)
 	self.player_id = go.get_id("/player")
 
 	local shoot = adam.state(
-		actions.msg.post(".", "create_projectile"),
 		actions.math.random("euler_diff", -30, 30),
-		actions.math.add("euler_diff", actions.value("start_euler_z")),
-		actions.vmath.set_xyz("current_euler", nil, nil, actions.value("euler_diff")),
-		actions.transform.animate_euler(actions.value("current_euler"), 0.4)
+		actions.math.add("euler_diff", actions.value("move_euler", "z")),
+		actions.transform.get_position("player_pos", nil, "/player/player"),
+		actions.vmath.get_euler(actions.value("position"), actions.value("player_pos"), actions.value("current_euler", "z")),
+		actions.math.add(actions.value("current_euler", "z"), -90),
+		actions.transform.animate_euler(actions.value("current_euler"), 0.4),
+		actions.msg.post(".", "create_projectile", nil, 0.4),
+		actions.msg.post(".", "create_projectile", nil, 0.5),
+		actions.msg.post(".", "create_projectile", nil, 0.7)
 	):set_name("shoot")
 
 	local initial = adam.state(
@@ -24,8 +28,13 @@ function init(self)
 	):set_name("idle")
 
 	local move = adam.state(
+		actions.transform.get_position("current_position"),
 		actions.math.random(actions.value("position", "x"), 200, 760),
-		actions.transform.animate_position(actions.value("position"), 2, "shoot")
+		actions.math.random(actions.value("position", "y"), 300, 500),
+		actions.vmath.get_euler(actions.value("current_position"), actions.value("position"), actions.value("move_euler", "z")),
+		actions.math.add(actions.value("move_euler", "z"), -90),
+		actions.transform.animate_euler(actions.value("move_euler"), 0.5),
+		actions.transform.animate_position(actions.value("position"), 1, "shoot", nil, go.EASING_INSINE)
 	)
 
 	self.adam = adam.new(initial,
@@ -37,11 +46,15 @@ function init(self)
 			{shoot, idle}
 		},
 		{
+			player_pos = vmath.vector3(0),
+			current_position = vmath.vector3(0),
 			current_euler = vmath.vector3(0),
 			start_euler_z = 0,
+			test = vmath.vector3(),
 			euler_diff = 0,
+			move_euler = vmath.vector3(0),
 			position = vmath.vector3(0),
-		}):start()
+		}):start():set_name("enemy")
 
 
 	local health_idle = adam.state()
@@ -50,7 +63,9 @@ function init(self)
 		actions.sprite.set_alpha(1, nil, 0.1),
 		actions.transform.animate_scale(vmath.vector3(0), 0.5),
 		actions.go.disable("#collisionobject"),
-		actions.go.delete_self(0.5)
+		actions.fsm.broadcast_event("spawn_enemy", true, 0.5),
+		actions.go.delete_self(0.5),
+		actions.fsm.finish(self.adam, 0.5)
 	)
 
 	local check_damage = adam.state(
@@ -79,6 +94,7 @@ function init(self)
 		health = 10,
 		other_group = ""
 	}):start():set_name("heatlh")
+
 	self.adam:add(health_adam)
 	self.adam:forward_events(health_adam, actions.EVENT.TRIGGER_ENTER, true)
 end

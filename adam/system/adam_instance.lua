@@ -53,12 +53,14 @@ end
 
 
 --- Start the Adam Instance. On create FSM is not started and should be started manually.
+-- On Adam Instance start system will remember url for this Adam Instance for msg.post (send event actions).
 -- You can use `local adam = AdamInstance({}):start()`
 -- @treturn AdamInstance
 function AdamInstance:start()
 	if not self._inited then
 		self._inited = true
 		self._is_active = true
+		self._url = msg.url()
 		self._fsm.init()
 	end
 
@@ -199,7 +201,7 @@ end
 -- @tparam hash game_object The game object to bind
 -- @treturn AdamInstace Self
 function AdamInstance:bind(game_object)
-	self._variables[const.VALUE.CONTEXT] = game_object
+	self._variables[const.VALUE.CONTEXT] = msg.url(game_object)
 	self:set_id(game_object)
 	return self
 end
@@ -369,6 +371,21 @@ function AdamInstance:get_self()
 	return self._variables[const.VALUE.CONTEXT]
 end
 
+
+--- Get context url, where Adam Instance was started. Used for post messages
+-- @treturn url|nil The Adam Instance url
+function AdamInstance:get_url()
+	return self._url and msg.url(self._url) or nil
+end
+
+
+--- Return true, if Adam Instance was started
+-- @treturn boolean The Adam Instance inited state
+function AdamInstance:is_inited()
+	return self._inited
+end
+
+
 --- Set debug state of state. If true, will print debug info to console
 -- @tparam boolean is_debug The debug state
 -- @treturn AdamInstance Self
@@ -421,7 +438,7 @@ end
 function AdamInstance:_init_variables(variables)
 	self._variables = variables or {}
 	self._variables[const.VALUE.LIFETIME] = 0
-	self._variables[const.VALUE.CONTEXT] = const.SELF
+	self._variables[const.VALUE.CONTEXT] = msg.url(const.SELF)
 end
 
 
@@ -497,6 +514,9 @@ function AdamInstance:_process_message(message_id, message, sender)
 		else
 			self:event(const.EVENT.TRIGGER_LEAVE, message)
 		end
+	end
+	if message_id == const.ADAM_EVENT then
+		self:event(message.event, message)
 	end
 end
 

@@ -25,3 +25,4 @@ Ideas:
 - game object id as fsm id in spawned instances	
 - bind ID to fsm. It should correct call with delete_self and self animations
 + general variables: lifetime, go_id context,
+- how to start Adam FSM from other FSM?

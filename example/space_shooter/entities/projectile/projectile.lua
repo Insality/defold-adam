@@ -7,6 +7,7 @@ local M = {}
 function M.create(go_id, impact_image, parent_id)
 	local initial = adam.state(
 		actions.transform.get_euler("current_euler"),
+		actions.transform.get_position("position"),
 		actions.vmath.get_xyz("current_euler", nil, nil, "angle"),
 		actions.math.add("angle", 90),
 		actions.math.cos(actions.value("angle"), "angle_move_x", true),
@@ -16,7 +17,10 @@ function M.create(go_id, impact_image, parent_id)
 	)
 
 	local fly = adam.state(
-		actions.transform.add_position(actions.value("move_vector"), true, 0, go_id),
+		actions.vmath.add(actions.value("position"), actions.value("move_vector"), true),
+		-- actions.math.loop(actions.value("position", "x"), 0-64, 960+64, true),
+		-- actions.math.loop(actions.value("position", "y"), 0-64, 640+64, true),
+		actions.transform.set_position(actions.value("position"), true),
 		actions.logic.compare(actions.value(adam.VALUE_LIFETIME), 1, nil, nil, "destroy", true)
 	)
 
@@ -45,6 +49,7 @@ function M.create(go_id, impact_image, parent_id)
 		speed = 15,
 		angle = 0,
 		move_vector = vmath.vector3(0),
+		position = vmath.vector3(0),
 		other_id = "",
 		angle_move_x = 0,
 		angle_move_y = 0,

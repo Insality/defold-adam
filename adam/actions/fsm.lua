@@ -1,6 +1,7 @@
 --- FSM actions let you control other FSM instances
 -- @submodule Actions
 
+local const = require("adam.const")
 local instances = require("adam.system.instances")
 local ActionInstance = require("adam.system.action_instance")
 
@@ -9,7 +10,7 @@ local M = {}
 -- TODO: start/finish/random_event/
 
 -- @tparam ActionInstance action The called ActionInstance
--- @tparam string|AdamInstnace|nil target The target for callbacks
+-- @tparam string|AdamInstance|nil target The target for callbacks
 -- @tparam function callback The callback for every finded AdamInstance
 local function for_adam_instances(action, target, callback)
 	if target == "string" then
@@ -31,7 +32,22 @@ local function for_all_adam_instances(action, callback)
 end
 
 
---- Send event to target Adam instance
+local function send_context_event(target_adam, event_name)
+	local current_url = msg.url()
+	current_url.fragment = nil
+	local target_url = target_adam:get_url()
+	target_url.fragment = nil
+
+	if current_url == target_url then
+		target_adam:event(event_name)
+	else
+		msg.post(target_adam:get_url(), const.ADAM_EVENT, { event = event_name })
+	end
+end
+
+
+--- Send event to target Adam instance.
+-- Event inside current msg.url() context sent instantly, otherwise it send via msg.post (not instant)
 -- @function actions.fsm.send_event
 -- @tparam string|adam target The target instance for send event. If there are several instances with equal ID, event will be delivered to all of them.
 -- @tparam string event_name The event to send
@@ -41,7 +57,9 @@ end
 function M.send_event(target, event_name, delay, is_every_frame)
 	local action = ActionInstance(function(self)
 		for_adam_instances(self, target, function(adam)
-			adam:event(event_name)
+			if adam:is_inited() then
+				send_context_event(adam, event_name)
+			end
 		end)
 		self:finish()
 	end)
@@ -56,7 +74,8 @@ function M.send_event(target, event_name, delay, is_every_frame)
 end
 
 
---- Broadcast event to all active FSM
+--- Broadcast event to all active FSM.
+-- Event inside current msg.url() context sent instantly, otherwise it send via msg.post (not instant)
 -- @function actions.fsm.broadcast_event
 -- @tparam string event_name The event to send
 -- @tparam[opt] bool is_exclude_self Don't send the event to self
@@ -68,7 +87,9 @@ function M.broadcast_event(event_name, is_exclude_self, delay)
 
 		for_all_adam_instances(self, function(adam)
 			if not is_exclude_self or adam ~= current_adam_instance then
-				adam:event(event_name)
+				if adam:is_inited() then
+					send_context_event(adam, event_name)
+				end
 			end
 		end)
 		self:finish()

@@ -127,5 +127,22 @@ function M.multiply(source, value, is_every_frame)
 end
 
 
+--- Get euler value between two points
+-- @function actions.vmath.get_euler
+function M.get_euler(from, to, store, is_every_frame)
+	local action = ActionInstance(function(self)
+		local dir_vector = self:get_param(to) - self:get_param(from)
+		local angle = math.atan2(dir_vector.y, dir_vector.x)
+		self:set_value(store, math.deg(angle))
+	end)
+
+	if is_every_frame then
+		action:set_every_frame()
+	end
+	action:set_name("vmath.get_euler")
+	return action
+end
+
+
 
 return M

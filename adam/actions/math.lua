@@ -97,17 +97,41 @@ end
 --- Clamps the value of a variable to a min/max range.
 -- @function actions.math.clamp
 -- @tparam string source Variable to clamp
--- @tparam number min The minimum value allowed.
--- @tparam number max The maximum value allowed.
+-- @tparam variable min The minimum value allowed.
+-- @tparam variable max The maximum value allowed.
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] boolean is_every_second Repeat this action every second
 -- @treturn ActionInstance
 function M.clamp(source, min, max, is_every_frame, is_every_second)
 	return math_operation(source, nil, is_every_frame, is_every_second, "math.clamp", function(self, a)
-		if min > max then
-			min, max = max, min
+		local min_value, max_value = self:get_param(min), self:get_param(max)
+		if min_value > max_value then
+			min_value, max_value = max_value, min_value
 		end
-		return math.min(math.max(min, a), max)
+		return math.min(math.max(min_value, a), max_value)
+	end)
+end
+
+
+--- Loop value in range.
+-- For example If value less of min value it turns to max
+-- @function actions.math.loop
+-- @tparam string source Variable to loop
+-- @tparam number min The minimum value to loop.
+-- @tparam number max The maximum value to loop.
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] boolean is_every_second Repeat this action every second
+-- @treturn ActionInstance
+function M.loop(source, min, max, is_every_frame,is_every_second)
+	return math_operation(source, nil, is_every_frame, is_every_second, "math.loop", function(self, a)
+		local min_value, max_value = self:get_param(min), self:get_param(max)
+		while a > max_value do
+			a = min_value + (a - max_value)
+		end
+		while a < min_value do
+			a = max_value - (min_value - a)
+		end
+		return a
 	end)
 end
 

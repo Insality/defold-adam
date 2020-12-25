@@ -40,6 +40,7 @@ M.ACTIONS_TEMPLATE = "adam:actions_template"
 M.GET_ACTION_VALUE = "adam:get_action_value"
 
 M.TRIGGER_RESPONSE = hash("trigger_response")
+M.ADAM_EVENT = hash("adam:event")
 
 M.EVENT = {
 	TRIGGER_ENTER = "adam:trigger_enter",

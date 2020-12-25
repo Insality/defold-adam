@@ -19,46 +19,6 @@ collection_instances {
     z: 1.0
   }
 }
-collection_instances {
-  id: "enemy_left"
-  collection: "/example/space_shooter/entities/enemy/enemy.collection"
-  position {
-    x: 184.0
-    y: 488.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: -0.80806375
-    w: 0.5890951
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-collection_instances {
-  id: "enemy_right"
-  collection: "/example/space_shooter/entities/enemy/enemy.collection"
-  position {
-    x: 808.0
-    y: 488.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.80385685
-    w: 0.59482276
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
 scale_along_z: 0
 embedded_instances {
   id: "system"
@@ -80,6 +40,24 @@ embedded_instances {
   "components {\n"
   "  id: \"space_shooter\"\n"
   "  component: \"/example/space_shooter/space_shooter.script\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"enemy_factory\"\n"
+  "  type: \"collectionfactory\"\n"
+  "  data: \"prototype: \\\"/example/space_shooter/entities/enemy/enemy.collection\\\"\\n"
+  "load_dynamically: false\\n"
+  "\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"
