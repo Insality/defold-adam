@@ -2,11 +2,17 @@
 
 ## Action container
 
+States contains list of Actions, which will be executed, when State become active.
+
 
 ## Execution order
 
+Actions insite state executed from first to the last. If some events are defered or have repeat logic (every frame or second) it will executed in same order
+
 
 ## Execution interrupt
+
+If some action will trigger event, which cause transition in current Adam Instance, all other actions will be not executed.
 
 
 ## Final state

@@ -20,8 +20,8 @@ Defold Adam has next features:
 - **Rich features**: reusable action templates and nested FSM
 - **Comfort**: Any action describes in one line of code. It provides fast developing, easy reading and less bugs
 - **Performance**: Good performance even with a lot of instances of FSM
-- **Code as Data**: Ability to load your FSM as JSON (from resources, from web, etc)
 - **Visual Editor**: not provided now, but who knows?
+- **Code as Data**: Ability to load your FSM as JSON (from resources, from web, etc). _Need visual editor to make it_ :)
 
 
 ## Setup
