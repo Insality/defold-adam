@@ -41,7 +41,7 @@ function M.create(go_id, impact_image, parent_id)
 
 	local fsm = adam.new(initial, {
 		{initial, fly},
-		{fly, check_destroy, actions.EVENT.TRIGGER_ENTER },
+		{fly, check_destroy, actions.EVENT.TRIGGER_ENTER},
 		{check_destroy, destroy, "destroy"},
 		{check_destroy, fly},
 		{fly, destroy, "destroy"}

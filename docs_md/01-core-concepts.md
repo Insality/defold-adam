@@ -1,12 +1,23 @@
 # Core concepts
 
 ## FSM
+A Finite State Machine (FSM) organizes transitions between states. In one time always only one state. Adam is a FSM with logic upon it. Adam describes states and transitions between them.
+
+
+## States
+The actions container. States start own execution on entering in this state. All actions start execution from their declare order and can be interrupted.
+
 
 ## Actions
+Action is a piece of code what will be executed in this action. Action can use variables, can be repeated(every frame, every second) and delayed (with several seconds, for example). Actions can be deferred - this mean action is not instant and have their finish condition (again, delayer actions).
+
 
 ## Variables
+Variables are named containers for a value. For use variables inside FSM you should to declare it on Adam Instance create. Actions can use variables instead of values by name.
+
 
 ## Events
+All transitions between states are triggered by Events. Events can be system (like default Adam event - adam.FINISHED) or user events, for example key pressed event. Usually, all transitions are instant, so in one frame Adam can complete several states.
 
 
 # Glossary
