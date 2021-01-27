@@ -74,6 +74,6 @@ Variables - just a container without any logic, so you can use any type of varia
 For more comfort usage vector variables, you can get the field inside of this vector (or any other table value) with second argument in `actions.value` method:
 
 ```lua
-	actions.value("position"), # This will return vector "position"
-	actions.value("position", "x"), # This will return the "x" field of variable "position"
+actions.value("position"), -- This will return vector "position"
+actions.value("position", "x"), -- This will return the "x" field of variable "position"
 ```
