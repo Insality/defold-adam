@@ -14,7 +14,7 @@ function init(self)
 	local movable_action = adam.actions(
 		wasd_keys_params(actions.value("speed")), -- here can use as FSM variables or hard-coded values
 		actions.vmath.set_xyz("move_vector", actions.value("hor_move"), actions.value("ver_move"), nil, true),
-		actions.transform.translate(actions.value("move_vector"), true)
+		actions.transform.add_position(actions.value("move_vector"), true)
 	)
 
 	-- Template usage. It will create copy of template actions
