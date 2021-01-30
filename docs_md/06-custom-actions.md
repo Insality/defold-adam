@@ -19,9 +19,10 @@ local state = adam.state(
 )
 ```
 
+
 ## How to create
 
-All actions are created via `ActionInstance` class. You can see any basic action for reference one or other stuff, but in general, it's look like this:
+All actions are created via `ActionInstance` class. You can see any basic action for reference, but in general, it's look like this:
 
 ```lua
 local ActionInstance = require("adam.system.action_instance")
@@ -39,10 +40,13 @@ local move_camera = function(x, y, time)
 		-- You can set variable from Adam:
 		self:set_value("variable_name", 200)
 
-		-- Time in this function call is usual variable, not from Adam Instance
+		-- Time argument in this function is usual variable, not from Adam Instance
 		gui.animate("/camera", "position", camera_target, gui.EASING_OUTSINE, time, 0, function()
 			-- Pass User events with `self:event` function
 			self:event("camera_moved")
+
+			-- Call `self:finish` function, if you actions is not instant (deferred flag is true)
+			self:finish()
 		end)
 	end, function(self)
 		print("This is optional action release callback")
