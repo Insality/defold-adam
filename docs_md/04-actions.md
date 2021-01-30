@@ -2,7 +2,13 @@
 
 ## Action life cycle
 
+Actions runs by State, when Adam FSM entering to this state. Every action have a runtime context. Actions can be interruped or not executed, if Adam FSM will change their state during other state execution. When State is leaving, all actions in this state call "release" callback to clear their state or do some additional stuff.
+
+
 ## Finished event
+
+Almost every actions (exlude the infinity one) pass finished event when actions is done. If action is not deferred, finished event will be triggered instantly after the action call.
+
 
 ## Deferred actions
 

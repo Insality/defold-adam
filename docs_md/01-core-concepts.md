@@ -44,6 +44,6 @@ All transitions between states are triggered by Events. Events can be system (li
 
 *Custom Action* - The action, created by user. Generally, there is no difference in logic between basic actions and custom actions
 
-*Template Action* - The set of actions in one actions. Created by `adam.actions`. Can be used as usual action. Can be used inside get functions to make template actions with paremeters
+*Template Action* - The set of actions described as one action. Created by `adam.actions`. Can be used as usual action. Can be used inside get functions to make template actions with parameters
 
 *Nested Adam* - Adam Instance can be run inside other Adam Instance. This one called as Nested Adam Instance

@@ -16,7 +16,7 @@ Defold Adam has next features:
 
 - **Powerful** Finite State Machine to describe any behaviour you want
 - **Easy to start**: A lot of predefined actions with good API reference and annotations
-- **Enough for game**: Ability to build any game logic just via state machine (like playmaker and bolt in Unity)
+- **Enough for game**: Ability to build any game logic just via state machine (like Playmaker and Bolt in Unity)
 - **Rich features**: reusable action templates and nested FSM
 - **Comfort**: Any action describes in one line of code. It provides fast developing, easy reading and less bugs
 - **Performance**: Good performance even with a lot of instances of FSM
