@@ -30,7 +30,7 @@ Defold Adam has next features:
 
 You can use the **Defold-Adam** extension in your own project by adding this project as a [Defold library dependency](https://www.defold.com/manuals/libraries/). Open your game.project file and in the dependencies field under project add:
 
-> [https://github.com/Insality/defold-adam/archive/master.zip](https://github.com/Insality/defold-adam/archive/master.zip)
+> [https://github.com/Insality/defold-adam/archive/main.zip](https://github.com/Insality/defold-adam/archive/main.zip)
 
 Or point to the ZIP file of a [specific release](https://github.com/Insality/defold-adam/releases).
 
