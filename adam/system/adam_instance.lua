@@ -197,7 +197,7 @@ end
 
 
 --- Change the self context instante (the go instante instead of "." in all of action)
--- also set the game object id as FSM id
+-- also set the game object id as FSM id. Do bind before adam:start function.
 -- @tparam hash game_object The game object to bind
 -- @treturn AdamInstace Self
 function AdamInstance:bind(game_object)

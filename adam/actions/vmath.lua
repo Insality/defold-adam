@@ -192,7 +192,7 @@ function M.subtract(source, variable, is_every_frame)
 end
 
 
---- Normalize a vector variable. His length will be 1
+--- Normalize a vector variable. His length will be 1. Of length of vector - 0 it will be not changed
 -- @function actions.vmath.subtract
 -- @tparam string source Variable vector to normalize
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
@@ -200,7 +200,9 @@ end
 function M.normalize(source, is_every_frame)
 	local action = ActionInstance(function(self)
 		local vector = self:get_value(source)
-		self:set_value(source, vmath.normalize(vector))
+		if vmath.length(vector) > 0 then
+			self:set_value(source, vmath.normalize(vector))
+		end
 	end)
 
 	if is_every_frame then

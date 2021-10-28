@@ -1,61 +1,87 @@
 local adam = require("adam.adam")
 local actions = require("adam.actions")
+local entity_adam = require("example.crowd.entity_adam")
 
 
 local M = {}
 
-local function flip_comparator(current_value, speed)
-	if speed == 0 then
-		return current_value
-	end
-	return speed < 0
-end
+
+local get_distance_to_target = adam.actions(
+	actions.vmath.set_xyz("delta_vector", actions.value("player_position", "x"), actions.value("player_position", "y"), nil, true),
+	actions.vmath.subtract("delta_vector", actions.value("position"), true),
+	actions.vmath.set_xyz("delta_vector", nil, nil, 0, true),
+	actions.vmath.length("delta_vector", "distance", true),
+	actions.debug.print(actions.value("delta_vector"), true),
+	actions.debug.print(actions.value("distance"), true)
+)
+
+local get_move_vector = adam.actions(
+	actions.vmath.set_xyz("move_vector", actions.value("delta_vector", "x"), actions.value("delta_vector", "y"), nil, true),
+	actions.vmath.length(actions.value("move_vector"), "move_speed", true)
+)
 
 
 M.create_adam = function(game_object, player_object)
 	local control = adam.actions(
-		actions.vmath.length("move_vector", "move_speed", true),
-		actions.vmath.add("position", actions.value("move_vector"), true),
-		actions.math.set("z_pos", actions.value("position", "y"), true),
-		actions.math.divide("z_pos", -1000, true),
-		actions.math.add("z_pos", 0.5, true),
-		actions.math.set(actions.value("position", "z"), actions.value("z_pos"), true),
-		actions.transform.set_position(actions.value("position"), true)
+		actions.transform.get_position("move_vector", true, actions.value("target_object")),
+		actions.vmath.subtract("move_vector", actions.value("position"), true),
+		actions.vmath.length("move_vector", "distance", true),
+		actions.vmath.normalize("move_vector", true),
+		actions.vmath.multiply("move_vector", actions.value("move_koef"), true),
+		actions.vmath.multiply("move_vector", 3, true),
+		actions.vmath.length("move_vector", "move_speed", true)
+		-- entity_adam
+	)
+
+	local initial = adam.state(
+		entity_adam.initial,
+		actions.fsm.get_adam(actions.value("player_adam_id"), "player_adam"),
+		-- link on position vector
+		actions.fsm.get_value(actions.value("player_adam"), "position", "player_position")
 	)
 
 	local idle = adam.state(
-		control,
-		actions.logic.compare(actions.value("move_speed"), 0, nil, "move", "move", true),
-		actions.sprite.play_flipbook("enemy_idle")
+		entity_adam.on_idle,
+		get_distance_to_target,
+		get_move_vector,
+
+		actions.logic.compare(actions.value("move_speed"), 0, nil, "move", "move", true)
 	)
 
 	local move = adam.state(
-		actions.transform.get_position("move_vector", true, actions.value("target_object")),
-		actions.vmath.subtract("move_vector", actions.value("position"), true),
-		actions.vmath.normalize("move_vector", true),
-		actions.vmath.multiply("move_vector", 3, true),
-		control,
-		actions.math.operator("is_flip", actions.value("move_vector", "x"), flip_comparator, true),
-		actions.logic.compare(actions.value("move_speed"), 0, "idle", nil, nil, true),
-		actions.sprite.set_hflip(actions.value("is_flip"), nil, true),
-		actions.sprite.play_flipbook("enemy_run")
+		entity_adam.on_move_entity,
+
+		get_move_vector,
+		entity_adam.on_move_entity,
+		actions.logic.compare(actions.value("move_speed"), 0, "idle", nil, nil, true)
 	)
 
-	local enemy_adam = adam.new(idle,
+	local enemy_adam = adam.new(initial,
 		{
+			{initial, idle},
+
 			{idle, move, "move"},
 			{move, idle, "idle"},
 		},
 		{
 			move_speed = 0,
+			move_koef = 1,
 			z_pos = 0,
+			distance = 0,
 			move_vector = vmath.vector3(0.2, 0, 0),
-			position = go.get_position(game_object),
+			position = vmath.vector3(0),
 			target_object = player_object,
 			is_flip = false,
+			anim_run = "enemy_run",
+			anim_idle = "enemy_idle",
+			player_adam_id = "player",
+			player_adam = false,
+			player_position = vmath.vector3(0),
+			delta_vector = vmath.vector3(0)
 		}
-	):start()
+	)
 	enemy_adam:bind(game_object)
+	enemy_adam:start()
 
 	return enemy_adam
 end

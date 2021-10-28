@@ -36,6 +36,20 @@ function M.get_all_instances_with_id(adam_id)
 end
 
 
+--- Return first adam instance with adam_id
+function M.instance_with_id(adam_id)
+	local instances = M.get_all_instances()
+
+	for i = 1, #instances do
+		if instances[i]:get_id() == adam_id then
+			return instances[i]
+		end
+	end
+
+	return nil
+end
+
+
 function M.add_instance(instance)
 	table.insert(_instances, instance)
 end

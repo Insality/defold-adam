@@ -41,6 +41,4 @@ function M.get_trigger_info(other_group, other_id, own_group)
 end
 
 
-
-
 return M

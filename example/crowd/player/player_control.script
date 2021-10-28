@@ -1,59 +1,50 @@
 local adam = require("adam.adam")
 local actions = require("adam.actions")
-
-
-local function flip_comparator(current_value, speed)
-	if speed == 0 then
-		return current_value
-	end
-	return speed < 0
-end
+local entity_adam = require("example.crowd.entity_adam")
 
 
 function init(self)
-	local wasd_control = adam.actions(
-		actions.input.get_axis_actions("key_a", "key_d", actions.value("move_vector", "x"), true, 5),
-		actions.input.get_axis_actions("key_s", "key_w", actions.value("move_vector", "y"), true, 3),
-		actions.vmath.length("move_vector", "move_speed", true),
-		actions.vmath.add("position", actions.value("move_vector"), true),
-		actions.math.clamp(actions.value("position", "x"), 16, 960-16, true),
-		actions.math.clamp(actions.value("position", "y"), 16, 640-64, true),
-
-		actions.math.set("z_pos", actions.value("position", "y"), true),
-		actions.math.divide("z_pos", -1000, true),
-		actions.math.add("z_pos", 0.5, true),
-		actions.math.set(actions.value("position", "z"), actions.value("z_pos"), true),
-
-		actions.transform.set_position(actions.value("position"), true)
+	local get_move_vector = adam.actions(
+		actions.input.get_axis_actions("key_a", "key_d", actions.value("move_vector", "x"), true, 1),
+		actions.input.get_axis_actions("key_s", "key_w", actions.value("move_vector", "y"), true, 1),
+		actions.vmath.normalize("move_vector", true),
+		actions.vmath.multiply("move_vector", actions.value("speed"), true),
+		actions.vmath.length(actions.value("move_vector"), "move_speed", true)
 	)
 
 	local idle = adam.state(
-		wasd_control,
-		actions.logic.compare(actions.value("move_speed"), 0, nil, "move", "move", true),
-		actions.sprite.play_flipbook("player_idle")
+		get_move_vector,
+		entity_adam.on_idle,
+		actions.logic.compare(actions.value("move_speed"), 0, nil, "move", "move", true)
 	)
 
 	local move = adam.state(
-		wasd_control,
-		actions.math.operator("is_flip", actions.value("move_vector", "x"), flip_comparator, true),
-		actions.logic.compare(actions.value("move_speed"), 0, "idle", nil, nil, true),
-		actions.sprite.set_hflip(actions.value("is_flip"), nil, true),
-		actions.sprite.play_flipbook("player_run")
+		get_move_vector,
+		entity_adam.on_move_entity,
+		actions.logic.compare(actions.value("move_speed"), 0, "idle", nil, nil, true)
 	)
 
-	self.adam = adam.new(idle,
+	self.adam = adam.new(entity_adam.initial,
 		{
+			{entity_adam.initial, idle},
+
 			{idle, move, "move"},
 			{move, idle, "idle"},
 		},
 		{
-			move_speed = 0,
+			speed = 5,
 			z_pos = 0,
-			move_vector = vmath.vector3(0),
-			position = go.get_position(),
+			move_speed = 0,
 			is_flip = false,
+			position = vmath.vector3(0),
+			move_vector = vmath.vector3(0),
+			anim_idle = "player_idle",
+			anim_run = "player_run"
 		}
-	):start()
+	)
+
+	self.adam:set_id("player")
+	self.adam:start()
 
 	msg.post(".", "acquire_input_focus")
 end

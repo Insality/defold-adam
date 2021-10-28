@@ -22,14 +22,14 @@ local M = {}
 -- @treturn ActionInstance
 function M.play_flipbook(image, target_url, finish_event, delay, target_component)
 	local action = ActionInstance(function(self)
-		target_url = target_url or self:get_adam_instance():get_self()
+		local object_url = target_url or self:get_adam_instance():get_self()
 
 		if target_component then
-			target_url = msg.url(target_url)
-			target_url.fragment = target_component
+			object_url = msg.url(object_url)
+			object_url.fragment = target_component
 		end
 
-		sprite.play_flipbook(target_url, image, function()
+		sprite.play_flipbook(object_url, self:get_param(image), function()
 			self:finish(finish_event)
 		end)
 	end)

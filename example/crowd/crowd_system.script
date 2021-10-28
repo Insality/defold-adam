@@ -3,7 +3,7 @@ local enemy_adam = require("example.crowd.enemy.enemy_adam")
 
 function init(self)
 	self.adams = {}
-	for i = 1, 50 do
+	for i = 1, 1 do
 		local pos = vmath.vector3(math.random(0, 960), math.random(0, 640), 0)
 		local object = factory.create("#enemy_factory", pos, nil, nil, 4)
 		table.insert(self.adams, enemy_adam.create_adam(object, "/player"))

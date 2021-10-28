@@ -165,7 +165,7 @@ end
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 function M.get_value(target, variable, store_value, is_every_frame)
 	local action = ActionInstance(function(self)
-		for_adam_instances(self, target, function(adam)
+		for_adam_instances(self, self:get_param(target), function(adam)
 			local param_name = self:get_param(variable)
 			self:set_value(store_value, adam:get_value(param_name))
 		end)
@@ -175,6 +175,25 @@ function M.get_value(target, variable, store_value, is_every_frame)
 		action:set_every_frame()
 	end
 	action:set_name("fsm.get_value")
+	return action
+end
+
+
+--- Get adam from adam_id
+-- @function actions.fsm.get_adam
+-- @tparam adam_id string The adam_id for search
+-- @tparam string store_value The name of variable in current FSM to store get value
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+function M.get_adam(target, store_value, is_every_frame)
+	local action = ActionInstance(function(self)
+		local adam_instance = instances.instance_with_id(self:get_param(target))
+		self:set_value(store_value, adam_instance)
+	end)
+
+	if is_every_frame then
+		action:set_every_frame()
+	end
+	action:set_name("fsm.get_adam")
 	return action
 end
 
