@@ -184,4 +184,63 @@ function M.get_alpha(variable, is_every_frame, target_component, target_url)
 end
 
 
+--- Set vertical flip for the sprite
+-- @function actions.sprite.set_vflip
+-- @tparam boolean is_flip The boolean flag for flip
+-- @tparam[opt] target_url The sprite url to play flipbook
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] number delay The Time delay in seconds
+-- @tparam[opt] target_component The name sprite component, by default - all sprite components in object
+-- @treturn ActionInstance
+function M.set_vflip(is_flip, target_url, is_every_frame, delay, target_component)
+	local action = ActionInstance(function(self)
+		target_url = target_url or self:get_adam_instance():get_self()
+
+		if target_component then
+			target_url = msg.url(target_url)
+			target_url.fragment = target_component
+		end
+
+		sprite.set_vflip(target_url, self:get_param(is_flip))
+	end)
+
+	if is_every_frame then
+		action:set_every_frame()
+	end
+	action:set_delay(delay)
+	action:set_name("sprite.set_vflip")
+
+	return action
+end
+
+
+--- Set horizontal flip for the sprite
+-- @function actions.sprite.set_hflip
+-- @tparam boolean is_flip The boolean flag for flip
+-- @tparam[opt] target_url The sprite url to play flipbook
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @tparam[opt] number delay The Time delay in seconds
+-- @tparam[opt] target_component The name sprite component, by default - all sprite components in object
+-- @treturn ActionInstance
+function M.set_hflip(is_flip, target_url, is_every_frame, delay, target_component)
+	local action = ActionInstance(function(self)
+		target_url = target_url or self:get_adam_instance():get_self()
+
+		if target_component then
+			target_url = msg.url(target_url)
+			target_url.fragment = target_component
+		end
+
+		sprite.set_hflip(target_url, self:get_param(is_flip))
+	end)
+
+	if is_every_frame then
+		action:set_every_frame()
+	end
+	action:set_delay(delay)
+	action:set_name("sprite.set_hflip")
+	return action
+end
+
+
 return M

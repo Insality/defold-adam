@@ -1,5 +1,5 @@
 [bootstrap]
-main_collection = /example/space_shooter/space_shooter.collectionc
+main_collection = /example/crowd/crowd.collectionc
 
 [script]
 shared_state = 1
@@ -15,8 +15,12 @@ input_method = HiddenInputField
 title = Defold-Adam
 version = 0.0.1
 publisher = Insality
-dependencies = https://github.com/insalitygames/deftest/archive/master.zip
+dependencies#0 = https://github.com/insalitygames/deftest/archive/master.zip
 
 [library]
 include_dirs = adam
+
+[graphics]
+default_texture_min_filter = nearest
+default_texture_mag_filter = nearest
 

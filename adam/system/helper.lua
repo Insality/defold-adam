@@ -122,7 +122,7 @@ end
 
 function M.get_property(target_id, variable, property, is_every_frame, action_name, target_component)
 	local action = ActionInstance(function(self)
-		target_id = target_id or self:get_adam_instance():get_self()
+		target_id = self:get_param(target_id) or self:get_adam_instance():get_self()
 
 		if target_component then
 			target_id = msg.url(target_id)

@@ -55,14 +55,14 @@ end
 
 
 --- Subtracts a value from a variable
--- @function actions.math.substract
--- @tparam string source Variable to substract from
--- @tparam variable value The value to substract
+-- @function actions.math.subtract
+-- @tparam string source Variable to subtract from
+-- @tparam variable value The value to subtract
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @tparam[opt] boolean is_every_second Repeat this action every second
 -- @treturn ActionInstance
-function M.substract(source, value, is_every_frame, is_every_second)
-	return math_operation(source, value, is_every_frame, is_every_second, "math.substract", function(self, a, b)
+function M.subtract(source, value, is_every_frame, is_every_second)
+	return math_operation(source, value, is_every_frame, is_every_second, "math.subtract", function(self, a, b)
 		return a - b
 	end)
 end

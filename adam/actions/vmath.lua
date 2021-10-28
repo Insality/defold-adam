@@ -107,10 +107,30 @@ function M.get_xyz(source, value_x, value_y, value_z, is_every_frame)
 end
 
 
+--- Get the length of vector to the store value
+-- @function actions.vmath.length
+-- @tparam variable variable The vector3 to get length
+-- @tparam string store The variable to store euler result. Pass nil to not store
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.length(source, store, is_every_frame)
+	local action = ActionInstance(function(self)
+		local vector = self:get_value(source)
+		self:set_value(store, vmath.length(vector))
+	end)
+
+	if is_every_frame then
+		action:set_every_frame()
+	end
+	action:set_name("vmath.length")
+	return action
+end
+
+
 --- Multiply a vector by a varialbe
 -- @function actions.vmath.multiply
 -- @tparam string source Variable vector to multiply
--- @tparam variable valube The multiplier variable
+-- @tparam variable value The multiplier variable
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @treturn ActionInstance
 function M.multiply(source, value, is_every_frame)
@@ -129,6 +149,11 @@ end
 
 --- Get euler value between two points
 -- @function actions.vmath.get_euler
+-- @tparam variable from Vector3 to check from
+-- @tparam variable from Vector3 to check to
+-- @tparam string store The variable to store euler result. Pass nil to not store
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
 function M.get_euler(from, to, store, is_every_frame)
 	local action = ActionInstance(function(self)
 		local dir_vector = self:get_param(to) - self:get_param(from)
@@ -140,6 +165,48 @@ function M.get_euler(from, to, store, is_every_frame)
 		action:set_every_frame()
 	end
 	action:set_name("vmath.get_euler")
+	return action
+end
+
+
+--- Subtracts a one vector3 from another
+-- @function actions.vmath.subtract
+-- @tparam string source Variable vector to subtract from
+-- @tparam variable value The vector to subtract
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.subtract(source, variable, is_every_frame)
+	local action = ActionInstance(function(self)
+		local property = self:get_value(source)
+		local value = self:get_param(variable)
+		property.x = property.x - (value.x or 0)
+		property.y = property.y - (value.y or 0)
+		property.z = property.z - (value.z or 0)
+	end)
+
+	if is_every_frame then
+		action:set_every_frame()
+	end
+	action:set_name("vmath.subtract")
+	return action
+end
+
+
+--- Normalize a vector variable. His length will be 1
+-- @function actions.vmath.subtract
+-- @tparam string source Variable vector to normalize
+-- @tparam[opt] boolean is_every_frame Repeat this action every frame
+-- @treturn ActionInstance
+function M.normalize(source, is_every_frame)
+	local action = ActionInstance(function(self)
+		local vector = self:get_value(source)
+		self:set_value(source, vmath.normalize(vector))
+	end)
+
+	if is_every_frame then
+		action:set_every_frame()
+	end
+	action:set_name("vmath.normalize")
 	return action
 end
 

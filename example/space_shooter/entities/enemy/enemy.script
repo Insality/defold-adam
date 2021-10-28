@@ -79,7 +79,7 @@ function init(self)
 		actions.transform.animate_scale_by(vmath.vector3(-0.1), 0.08, nil, 0.08),
 		actions.sprite.set_alpha(10),
 		actions.sprite.animate_alpha(1, 0.05),
-		actions.math.substract("health", 1),
+		actions.math.subtract("health", 1),
 		actions.logic.compare(actions.value("health"), 1, nil, "death")
 	)
 
