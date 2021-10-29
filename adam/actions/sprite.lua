@@ -22,7 +22,7 @@ local M = {}
 -- @treturn ActionInstance
 function M.play_flipbook(image, target_url, finish_event, delay, target_component)
 	local action = ActionInstance(function(self)
-		local object_url = target_url or self:get_adam_instance():get_self()
+		local object_url = self:get_param(target_url) or self:get_adam_instance():get_self()
 
 		if target_component then
 			object_url = msg.url(object_url)
@@ -194,14 +194,14 @@ end
 -- @treturn ActionInstance
 function M.set_vflip(is_flip, target_url, is_every_frame, delay, target_component)
 	local action = ActionInstance(function(self)
-		target_url = target_url or self:get_adam_instance():get_self()
+		local object_url = self:get_param(target_url) or self:get_adam_instance():get_self()
 
 		if target_component then
-			target_url = msg.url(target_url)
-			target_url.fragment = target_component
+			object_url = msg.url(object_url)
+			object_url.fragment = target_component
 		end
 
-		sprite.set_vflip(target_url, self:get_param(is_flip))
+		sprite.set_vflip(object_url, self:get_param(is_flip))
 	end)
 
 	if is_every_frame then
@@ -224,14 +224,14 @@ end
 -- @treturn ActionInstance
 function M.set_hflip(is_flip, target_url, is_every_frame, delay, target_component)
 	local action = ActionInstance(function(self)
-		target_url = target_url or self:get_adam_instance():get_self()
+		local object_url = self:get_param(target_url) or self:get_adam_instance():get_self()
 
 		if target_component then
-			target_url = msg.url(target_url)
-			target_url.fragment = target_component
+			object_url = msg.url(object_url)
+			object_url.fragment = target_component
 		end
 
-		sprite.set_hflip(target_url, self:get_param(is_flip))
+		sprite.set_hflip(object_url, self:get_param(is_flip))
 	end)
 
 	if is_every_frame then

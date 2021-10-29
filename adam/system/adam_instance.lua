@@ -24,18 +24,18 @@ function AdamInstance:initialize(initial_state, transitions, variables, final_st
 	self._is_removed = nil
 
 	self._states = {}
-	self._adams = {} -- Nested Adam instances
-	self._forward_events = {}
+	self._adams = nil -- Nested Adam instances -- create empty table on first use
+	self._forward_events = nil -- create empty table on first use
 
 	self._is_debug = false
 	self._current_state = nil
 	self._current_depth = 0
 	self._final_state = final_state
 
-	self._input_pressed = {}
-	self._input_current = {}
-	self._input_released = {}
-	self._trigger_message = {}
+	self._input_pressed = nil -- create empty table on first use
+	self._input_current = nil -- create empty table on first use
+	self._input_released = nil -- create empty table on first use
+	self._trigger_message = nil
 
 	self:_init_variables(variables)
 	self._fsm = self:_init_fsm(initial_state, transitions)
@@ -107,15 +107,19 @@ function AdamInstance:update(dt)
 		self._current_state:update(dt)
 	end
 
-	for i = 1, #self._adams do
-		self._adams[i]:update(dt)
+	if self._adams then
+		for i = 1, #self._adams do
+			self._adams[i]:update(dt)
+		end
 	end
 
 	self:_clear_input()
 
-	for i = #self._adams, 1, -1 do
-		if self._adams[i]._is_removed then
-			table.remove(self._adams, i)
+	if self._adams then
+		for i = #self._adams, 1, -1 do
+			if self._adams[i]._is_removed then
+				table.remove(self._adams, i)
+			end
 		end
 	end
 end
@@ -131,8 +135,10 @@ function AdamInstance:on_input(action_id, action)
 
 	self:_process_input(action_id, action)
 
-	for i = 1, #self._adams do
-		self._adams[i]:on_input(action_id, action)
+	if self._adams then
+		for i = 1, #self._adams do
+			self._adams[i]:on_input(action_id, action)
+		end
 	end
 end
 
@@ -160,8 +166,10 @@ function AdamInstance:final()
 	self:pause()
 	self._is_removed = true
 
-	for i = 1, #self._adams do
-		self._adams[i]:final()
+	if self._adams then
+		for i = 1, #self._adams do
+			self._adams[i]:final()
+		end
 	end
 
 	if self._final_state then
@@ -176,6 +184,7 @@ end
 -- @tparam AdamInstance adam_instance The nested Adam Instance
 -- @treturn AdamInstance Self
 function AdamInstance:add(adam_instance)
+	self._adams = self._adams or {}
 	table.insert(self._adams, adam_instance)
 	return self
 end
@@ -187,6 +196,8 @@ end
 -- @tparam boolean is_consume Is event should be consumed on forward
 -- @tparam AdamInstance Self
 function AdamInstance:forward_events(adam_instance, events, is_consume)
+	self._forward_events = self._forward_events or {}
+
 	table.insert(self._forward_events, {
 		adam = adam_instance,
 		events = type(events) == "table" and events or { events },
@@ -215,12 +226,14 @@ function AdamInstance:event(event_name, event_context)
 		return
 	end
 
-	for _, event_info in ipairs(self._forward_events) do
-		for _, event in ipairs(event_info.events) do
-			if event == event_name then
-				event_info.adam:event(event_name, event_context)
-				if event_info.is_consume then
-					return
+	if self._forward_events then
+		for _, event_info in ipairs(self._forward_events) do
+			for _, event in ipairs(event_info.events) do
+				if event == event_name then
+					event_info.adam:event(event_name, event_context)
+					if event_info.is_consume then
+						return
+					end
 				end
 			end
 		end
@@ -297,7 +310,7 @@ end
 -- @treturn table|nil The input info
 -- @local
 function AdamInstance:get_input_pressed(action_id)
-	return self._input_pressed[hash(action_id)]
+	return self._input_pressed and self._input_pressed[hash(action_id)] or nil
 end
 
 
@@ -306,7 +319,7 @@ end
 -- @treturn table|nil The input info
 -- @local
 function AdamInstance:get_input_current(action_id)
-	return self._input_current[hash(action_id)]
+	return self._input_current and self._input_current[hash(action_id)] or nil
 end
 
 
@@ -315,7 +328,7 @@ end
 -- @treturn table|nil The input info
 -- @local
 function AdamInstance:get_input_released(action_id)
-	return self._input_released[hash(action_id)]
+	return self._input_released and self._input_released[hash(action_id)] or nil
 end
 
 
@@ -482,14 +495,17 @@ function AdamInstance:_process_input(action_id, action)
 		return
 	end
 
+	self._input_current = self._input_current or {}
 	self._input_current[action_id] = action
 
 	if action.pressed then
+		self._input_pressed = self._input_pressed or {}
 		self._input_pressed[action_id] = action
 		self:event(const.EVENT.ACTION_PRESSED)
 	end
 
 	if action.released then
+		self._input_released = self._input_released or {}
 		self._input_released[action_id] = action
 		self:event(const.EVENT.ACTION_RELEASED)
 	end
@@ -499,9 +515,21 @@ end
 --- Clear stored input info. Called as last step of update on every frame
 -- @local
 function AdamInstance:_clear_input()
-	self._input_pressed = {}
-	self._input_current = {}
-	self._input_released = {}
+	if self._input_pressed then
+		for key in pairs(self._input_pressed) do
+			self._input_pressed[key] = nil
+		end
+	end
+	if self._input_current then
+		for key in pairs(self._input_current) do
+			self._input_current[key] = nil
+		end
+	end
+	if self._input_released then
+		for key in pairs(self._input_released) do
+			self._input_released[key] = nil
+		end
+	end
 end
 
 

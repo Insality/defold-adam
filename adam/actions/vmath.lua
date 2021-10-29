@@ -200,8 +200,12 @@ end
 function M.normalize(source, is_every_frame)
 	local action = ActionInstance(function(self)
 		local vector = self:get_value(source)
-		if vmath.length(vector) > 0 then
-			self:set_value(source, vmath.normalize(vector))
+		local length = vmath.length(vector)
+		if length > 0 then
+			vector.x = vector.x / length
+			vector.y = vector.y / length
+			vector.z = vector.z / length
+			self:set_value(source, vector)
 		end
 	end)
 
