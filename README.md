@@ -1,5 +1,9 @@
 
-# IN DEVELOPMENT, NO ANY VERSION FOR USE
+# DEVELOPMENT CANCELED
+This project was canceled. The experiment wasn't successful for me. Even it can be good for visual programming, it not worth without it.
+
+The state machine here is powerful and easy describing, but better use simple library with any other fsm.
+
 ---
 
 ![](media/adam-logo.png)
