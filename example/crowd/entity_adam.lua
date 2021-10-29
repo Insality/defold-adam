@@ -12,6 +12,13 @@ local function flip_comparator(current_value, speed)
 end
 
 
+local update_z_pos = adam.actions(
+	actions.math.set("z_pos", actions.value("position", "y"), true),
+	actions.math.divide("z_pos", -1000, true),
+	actions.math.add("z_pos", 0.5, true),
+	actions.math.set(actions.value("position", "z"), actions.value("z_pos"), true)
+)
+
 M.initial = adam.state(
 	actions.transform.get_position("position")
 )
@@ -21,10 +28,7 @@ M.initial = adam.state(
 M.on_move_entity = adam.actions(
 	-- Move
 	actions.vmath.add("position", actions.value("move_vector"), true),
-	actions.math.set("z_pos", actions.value("position", "y"), true),
-	actions.math.divide("z_pos", -1000, true),
-	actions.math.add("z_pos", 0.5, true),
-	actions.math.set(actions.value("position", "z"), actions.value("z_pos"), true),
+	update_z_pos,
 
 	-- Restrict
 	actions.math.clamp(actions.value("position", "x"), 16, 960-16, true),
@@ -41,7 +45,8 @@ M.on_move_entity = adam.actions(
 
 
 M.on_idle = adam.state(
-	actions.sprite.play_flipbook(actions.value("anim_idle"))
+	actions.sprite.play_flipbook(actions.value("anim_idle")),
+	update_z_pos
 )
 
 
