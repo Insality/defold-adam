@@ -1,6 +1,7 @@
 -- Several utilitary functions
 -- @local
 
+local const = require("adam.const")
 local settings = require("adam.system.settings")
 local ActionInstance = require("adam.system.action_instance")
 
@@ -66,7 +67,12 @@ function M.set_property(target_id, target_vector, is_every_frame, delay, action_
 			value = value + go.get(object_id, property)
 		end
 
-		go.set(object_id, property, value)
+		if property == const.PROP_POS then
+			go.set_position(value, object_id)
+		else
+			go.set(object_id, property, value)
+		end
+
 		self:finish()
 	end)
 

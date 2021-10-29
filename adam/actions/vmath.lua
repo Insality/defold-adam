@@ -136,7 +136,11 @@ end
 function M.multiply(source, value, is_every_frame)
 	local action = ActionInstance(function(self)
 		local property = self:get_value(source)
-		self:set_value(source, property * self:get_param(value))
+		local multiplier = self:get_param(value)
+		property.x = property.x * multiplier
+		property.y = property.y * multiplier
+		property.z = property.z * multiplier
+		self:set_value(source, property)
 	end)
 
 	if is_every_frame then
