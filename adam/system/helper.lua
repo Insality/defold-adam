@@ -53,7 +53,7 @@ end
 
 
 function M.set_property(target_id, target_vector, is_every_frame, delay, action_name, property, is_relative, target_component)
-	local action = ActionInstance(function(self, context)
+	local action = ActionInstance(function(self)
 		local object_id = self:get_param(target_id) or self:get_adam_instance():get_self()
 
 		if target_component then
@@ -121,6 +121,7 @@ function M.animate_property(target_id, target_vector, time, finish_event, delay,
 	end)
 
 	action:set_delay(delay)
+	action:set_with_context()
 	action:set_name(action_name)
 	return action
 end

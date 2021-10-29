@@ -220,7 +220,7 @@ end
 -- @tparam[opt] url target_url The object to apply transform
 -- @treturn ActionInstance
 function M.set_random_euler(keep_x, keep_y, keep_z, is_every_frame, delay, target_url)
-	local action = ActionInstance(function(self, context)
+	local action = ActionInstance(function(self)
 		target_url = target_url or self:get_adam_instance():get_self()
 		local random_vector = vmath.vector3(0)
 		random_vector.x = keep_x and random_vector.x or math.random(360)

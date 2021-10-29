@@ -116,6 +116,7 @@ function M.changed(variable, trigger_event, store_result)
 	end)
 
 	action:set_every_frame()
+	action:set_with_context()
 	action:set_name("logic.changed")
 	return action
 end
@@ -130,7 +131,7 @@ end
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @treturn ActionInstance
 function M.test(variable, event_on_true, event_on_false, is_every_frame)
-	local action = ActionInstance(function(self, context)
+	local action = ActionInstance(function(self)
 		if self:get_param(variable) then
 			return self:event(event_on_true)
 		else
@@ -158,7 +159,7 @@ end
 -- @tparam[opt=0] number tolerance The tolerance for comparsion
 -- @treturn ActionInstance
 function M.compare(variable_a, variable_b, event_equal, event_less, event_greater, is_every_frame, tolerance)
-	local action = ActionInstance(function(self, context)
+	local action = ActionInstance(function(self)
 		tolerance = tolerance or 0
 		local result = self:get_param(variable_a) - self:get_param(variable_b)
 		if math.abs(result) < tolerance then
@@ -192,7 +193,7 @@ end
 -- @tparam[opt] boolean is_every_frame Repeat this action every frame
 -- @treturn ActionInstance
 function M.equals(variable_a, variable_b, event_equal, event_not_equal, is_every_frame)
-	local action = ActionInstance(function(self, context)
+	local action = ActionInstance(function(self)
 		if self:get_param(variable_a) == self:get_param(variable_b) then
 			self:event(event_equal)
 		else

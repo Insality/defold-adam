@@ -75,7 +75,7 @@ function ActionInstance:initialize(trigger_callback, release_callback)
 	self._is_debug = false
 	self._name = ""
 
-	self.context = {}
+	self.context = nil
 end
 
 
@@ -98,6 +98,10 @@ function ActionInstance.static.copy(prefab)
 	action._is_skip_initial_call = prefab._is_skip_initial_call
 	action._is_debug = prefab._is_debug
 	action._name = prefab._name
+
+	if prefab.context then
+		action.context = {}
+	end
 
 	return action
 end
@@ -187,6 +191,16 @@ function ActionInstance:set_every_frame()
 	self:set_deferred(true)
 	return self
 end
+
+
+--- Add context to this actions. It's cross call table, the second arg in
+-- trigger and release callbacks
+-- @treturn ActionInstance Self
+function ActionInstance:set_with_context()
+	self.context = {}
+	return self
+end
+
 
 
 --- Set periodic trigger of action.

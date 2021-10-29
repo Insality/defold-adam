@@ -223,7 +223,7 @@ end
 -- @tparam[opt] target_component The name sprite component, by default - all sprite components in object
 -- @treturn ActionInstance
 function M.set_hflip(is_flip, target_url, is_every_frame, delay, target_component)
-	local action = ActionInstance(function(self)
+	local action = ActionInstance(function(self, context)
 		local object_url = self:get_param(target_url) or self:get_adam_instance():get_self()
 
 		if target_component then
@@ -231,13 +231,21 @@ function M.set_hflip(is_flip, target_url, is_every_frame, delay, target_componen
 			object_url.fragment = target_component
 		end
 
-		sprite.set_hflip(object_url, self:get_param(is_flip))
+		-- Memory optimization
+		local is_flip_value = self:get_param(is_flip)
+		if is_flip_value ~= context.last_flip then
+			context.last_flip = is_flip_value
+			sprite.set_hflip(object_url, is_flip_value)
+		end
+	end, function(self, context)
+		context.last_flip = nil
 	end)
 
 	if is_every_frame then
 		action:set_every_frame()
 	end
 	action:set_delay(delay)
+	action:set_with_context()
 	action:set_name("sprite.set_hflip")
 	return action
 end

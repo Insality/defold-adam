@@ -80,6 +80,7 @@ function M.frames(frames, trigger_event)
 	end)
 
 	action:set_every_frame()
+	action:set_with_context()
 	action:set_name("time.frames")
 	return action
 end
