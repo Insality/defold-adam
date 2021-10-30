@@ -43,6 +43,7 @@
   <li><a href="../modules/Adam.html">Adam</a></li>
   <li><a href="../modules/ActionInstance.html">ActionInstance</a></li>
   <li><strong>AdamInstance</strong></li>
+  <li><a href="../modules/system.instances.html">system.instances</a></li>
   <li><a href="../modules/StateInstance.html">StateInstance</a></li>
 </ul>
 
@@ -98,12 +99,16 @@
 	<td class="summary">Add Adam Instance to current as nested FSM.</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#bind">bind(game_object)</a></td>
-	<td class="summary">Change the self context instante (the go instante instead of "." in all of action)
- also set the game object id as FSM id</td>
+	<td class="name" ><a href="#forward_events">forward_events(adam_instance, events, is_consume, Self)</a></td>
+	<td class="summary">Forward incoming events to other adam instance</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#event">event(event_name)</a></td>
+	<td class="name" ><a href="#bind">bind(game_object)</a></td>
+	<td class="summary">Change the self context instante (the go instante instead of "." in all of action)
+ also set the game object id as FSM id.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#event">event(event_name[, event_context])</a></td>
 	<td class="summary">Trigger event in Adam FSM.</td>
 	</tr>
 	<tr>
@@ -143,6 +148,14 @@
 	<td class="summary">Return current game object binded to Adam (default ".")</td>
 	</tr>
 	<tr>
+	<td class="name" ><a href="#get_url">get_url()</a></td>
+	<td class="summary">Get context url, where Adam Instance was started.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#is_inited">is_inited()</a></td>
+	<td class="summary">Return true, if Adam Instance was started</td>
+	</tr>
+	<tr>
 	<td class="name" ><a href="#set_debug">set_debug(is_debug)</a></td>
 	<td class="summary">Set debug state of state.</td>
 	</tr>
@@ -170,6 +183,10 @@
 	<td class="summary">Parse Adam Instance params to create fsm</td>
 	</tr>
 	<tr>
+	<td class="name" ><a href="#_init_variables">_init_variables(variables)</a></td>
+	<td class="summary">Set variable to current Adam Instance and set initial general variables</td>
+	</tr>
+	<tr>
 	<td class="name" ><a href="#_on_leave_state">_on_leave_state(event, from, to)</a></td>
 	<td class="summary">Adam callback on leave state</td>
 	</tr>
@@ -188,6 +205,10 @@
 	<tr>
 	<td class="name" ><a href="#_process_message">_process_message(message_id, message, sender)</a></td>
 	<td class="summary">Process messages to send it to Adam FSM is possile</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#_process_event_context">_process_event_context(event_name, event_context)</a></td>
+	<td class="summary">Store context, vary on event_name</td>
 	</tr>
 </table>
 
@@ -247,6 +268,7 @@
     </dt>
     <dd>
     Start the Adam Instance.  On create FSM is not started and should be started manually.
+ On Adam Instance start system will remember url for this Adam Instance for msg.post (send event actions).
  You can use `local adam = AdamInstance({}):start()`
 
 
@@ -444,12 +466,45 @@
 
 </dd>
     <dt>
+    <a name = "forward_events"></a>
+    <strong>forward_events(adam_instance, events, is_consume, Self)</strong>
+    </dt>
+    <dd>
+    Forward incoming events to other adam instance
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">adam_instance</span>
+            <span class="types"><span class="type">AdamInstance</span></span>
+         The adam instance to get events
+        </li>
+        <li><span class="parameter">events</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The name of event[s] to forward
+        </li>
+        <li><span class="parameter">is_consume</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Is event should be consumed on forward
+        </li>
+        <li><span class="parameter">Self</span>
+            <span class="types"><span class="type">AdamInstance</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "bind"></a>
     <strong>bind(game_object)</strong>
     </dt>
     <dd>
     Change the self context instante (the go instante instead of "." in all of action)
- also set the game object id as FSM id
+ also set the game object id as FSM id.  Do bind before adam:start function.
 
 
     <h3>Parameters:</h3>
@@ -463,7 +518,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">AdamInstace</span></span>
+           <span class="types"><span class="type">AdamInstance</span></span>
         Self
     </ol>
 
@@ -473,7 +528,7 @@
 </dd>
     <dt>
     <a name = "event"></a>
-    <strong>event(event_name)</strong>
+    <strong>event(event_name[, event_context])</strong>
     </dt>
     <dd>
     Trigger event in Adam FSM.  If any transitions on this event exists, go to next state instantly
@@ -484,6 +539,11 @@
         <li><span class="parameter">event_name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The trigger event name
+        </li>
+        <li><span class="parameter">event_context</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         The event data
+         (<em>optional</em>)
         </li>
     </ul>
 
@@ -695,6 +755,46 @@
 
 </dd>
     <dt>
+    <a name = "get_url"></a>
+    <strong>get_url()</strong>
+    </dt>
+    <dd>
+    Get context url, where Adam Instance was started.  Used for post messages
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">url</span> or <span class="type">nil</span></span>
+        The Adam Instance url
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "is_inited"></a>
+    <strong>is_inited()</strong>
+    </dt>
+    <dd>
+    Return true, if Adam Instance was started
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">boolean</span></span>
+        The Adam Instance inited state
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "set_debug"></a>
     <strong>set_debug(is_debug)</strong>
     </dt>
@@ -850,6 +950,26 @@
 
 </dd>
     <dt>
+    <a name = "_init_variables"></a>
+    <strong>_init_variables(variables)</strong>
+    </dt>
+    <dd>
+    Set variable to current Adam Instance and set initial general variables
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variables</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "_on_leave_state"></a>
     <strong>_on_leave_state(event, from, to)</strong>
     </dt>
@@ -956,6 +1076,31 @@
         </li>
         <li><span class="parameter">sender</span>
 
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_process_event_context"></a>
+    <strong>_process_event_context(event_name, event_context)</strong>
+    </dt>
+    <dd>
+    Store context, vary on event_name
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">event_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The trigger event name
+        </li>
+        <li><span class="parameter">event_context</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         The event data
         </li>
     </ul>
 

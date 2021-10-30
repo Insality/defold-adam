@@ -55,6 +55,7 @@
   <li><a href="../modules/Adam.html">Adam</a></li>
   <li><a href="../modules/ActionInstance.html">ActionInstance</a></li>
   <li><a href="../modules/AdamInstance.html">AdamInstance</a></li>
+  <li><a href="../modules/system.instances.html">system.instances</a></li>
   <li><a href="../modules/StateInstance.html">StateInstance</a></li>
 </ul>
 
@@ -93,11 +94,11 @@
 <table class="function_list">
 	<tr>
 	<td class="name" ><a href="#actions.fsm.send_event">actions.fsm.send_event(target, event_name[, delay[, is_every_frame]])</a></td>
-	<td class="summary">Send event to target Adam instance</td>
+	<td class="summary">Send event to target Adam instance.</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.fsm.broadcast_event">actions.fsm.broadcast_event(event_name[, is_exclude_self[, delay]])</a></td>
-	<td class="summary">Broadcast event to all active FSM</td>
+	<td class="summary">Broadcast event to all active FSM.</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.fsm.resume">actions.fsm.resume(string[, delay])</a></td>
@@ -114,6 +115,10 @@
 	<tr>
 	<td class="name" ><a href="#actions.fsm.get_value">actions.fsm.get_value(string, variable, store_value[, is_every_frame])</a></td>
 	<td class="summary">Get variable from FSM.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.fsm.get_adam">actions.fsm.get_adam(string, store_value[, is_every_frame])</a></td>
+	<td class="summary">Get adam from adam_id</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.fsm.set_value">actions.fsm.set_value(string, variable, source[, is_every_frame])</a></td>
@@ -149,7 +154,7 @@
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.go.disable">actions.go.disable([target="."[, delay]])</a></td>
-	<td class="summary">Enable the receiving component</td>
+	<td class="summary">Disable the receiving component</td>
 	</tr>
 </table>
 <h2><a href="#actions_input_Functions">actions.input Functions</a></h2>
@@ -225,7 +230,7 @@
 	<td class="summary">Adds a value to a variable</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.math.substract">actions.math.substract(source, value[, is_every_frame[, is_every_second]])</a></td>
+	<td class="name" ><a href="#actions.math.subtract">actions.math.subtract(source, value[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Subtracts a value from a variable</td>
 	</tr>
 	<tr>
@@ -239,6 +244,10 @@
 	<tr>
 	<td class="name" ><a href="#actions.math.clamp">actions.math.clamp(source, min, max[, is_every_frame[, is_every_second]])</a></td>
 	<td class="summary">Clamps the value of a variable to a min/max range.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.math.loop">actions.math.loop(source, min, max[, is_every_frame[, is_every_second]])</a></td>
+	<td class="summary">Loop value in range.</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.math.min">actions.math.min(source, min[, is_every_frame[, is_every_second]])</a></td>
@@ -290,7 +299,7 @@
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.math.operator">actions.math.operator(source_variable_a, variable_b, operator[, is_every_frame])</a></td>
-	<td class="summary">Apply a math function (a, b)=>c to source variable.</td>
+	<td class="summary">Apply a math function (a, b, adam_instance)=>c to source variable.</td>
 	</tr>
 </table>
 <h2><a href="#actions_msg_Functions">actions.msg Functions</a></h2>
@@ -310,8 +319,56 @@
 <h2><a href="#actions_sprite_Functions">actions.sprite Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" ><a href="#func">func(source, value, is_every_frame)</a></td>
-	<td class="summary">Add operator</td>
+	<td class="name" ><a href="#actions.sprite.play_flipbook">actions.sprite.play_flipbook(image[, The[, finish_event[, delay[, The]]]])</a></td>
+	<td class="summary">Play the flipbook for target url.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.sprite.set_tint">actions.sprite.set_tint(tint[, is_every_frame[, delay[, The="sprite"}[, target_url]]]])</a></td>
+	<td class="summary">Set the tint to the sprite component</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.sprite.add_tint">actions.sprite.add_tint(tint[, is_every_frame[, delay[, The="sprite"}[, target_url]]]])</a></td>
+	<td class="summary">Add the tint to the sprite component</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.sprite.animate_tint">actions.sprite.animate_tint(tint, time[, finish_event[, delay[, ease_function[, The="sprite"}[, target_url]]]]])</a></td>
+	<td class="summary">Animate the tint to the sprite component</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.sprite.animate_tint_by">actions.sprite.animate_tint_by(tint, time[, finish_event[, delay[, ease_function[, The="sprite"}[, target_url]]]]])</a></td>
+	<td class="summary">Animate the tint of the sprite component with relative tint vector</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.sprite.get_tint">actions.sprite.get_tint(variable[, is_every_frame[, The="sprite"}[, target_url]]])</a></td>
+	<td class="summary">Get the tint property of a game object and store to variable</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.sprite.set_alpha">actions.sprite.set_alpha(alpha[, is_every_frame[, delay[, The="sprite"}[, target_url]]]])</a></td>
+	<td class="summary">Set the alpha to the sprite component</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.sprite.add_alpha">actions.sprite.add_alpha(alpha[, is_every_frame[, delay[, The="sprite"}[, target_url]]]])</a></td>
+	<td class="summary">Add the alpha to the sprite component</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.sprite.animate_alpha">actions.sprite.animate_alpha(alpha, time[, finish_event[, delay[, ease_function[, The="sprite"}[, target_url]]]]])</a></td>
+	<td class="summary">Animate the alpha to the sprite component</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.sprite.animate_alpha_by">actions.sprite.animate_alpha_by(alpha, time[, finish_event[, delay[, ease_function[, The="sprite"}[, target_url]]]]])</a></td>
+	<td class="summary">Animate the alpha of the sprite component with relative alpha vector</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.sprite.get_alpha">actions.sprite.get_alpha(variable[, is_every_frame[, The="sprite"}[, target_url]]])</a></td>
+	<td class="summary">Get the alpha property of a game object and store to variable</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.sprite.set_vflip">actions.sprite.set_vflip(is_flip[, The[, is_every_frame[, delay[, The]]]])</a></td>
+	<td class="summary">Set vertical flip for the sprite</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.sprite.set_hflip">actions.sprite.set_hflip(is_flip[, The[, is_every_frame[, delay[, The]]]])</a></td>
+	<td class="summary">Set horizontal flip for the sprite</td>
 	</tr>
 </table>
 <h2><a href="#actions_template_Functions">actions.template Functions</a></h2>
@@ -379,28 +436,28 @@
 	<td class="summary">Get the rotation property of a game object and store to variable</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.transform.set_rotation">actions.transform.set_rotation(target_vector[, is_every_frame[, delay[, target_url]]])</a></td>
-	<td class="summary">Sets the rotation of a game object</td>
+	<td class="name" ><a href="#actions.transform.set_euler">actions.transform.set_euler(target_euler[, is_every_frame[, delay[, target_url]]])</a></td>
+	<td class="summary">Sets the euler of a game object</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.transform.set_rotation">actions.transform.set_rotation([keep_x[, keep_y[, keep_z[, is_every_frame[, delay[, target_url]]]]]])</a></td>
-	<td class="summary">Sets the rotation of a game object</td>
-	</tr>
-	<tr>
-	<td class="name" ><a href="#actions.transform.add_rotation">actions.transform.add_rotation(target_vector[, is_every_frame[, delay[, target_url]]])</a></td>
-	<td class="summary">Add the rotation of a game object</td>
+	<td class="name" ><a href="#actions.transform.add_euler">actions.transform.add_euler(target_euler[, is_every_frame[, delay[, target_url]]])</a></td>
+	<td class="summary">Add the euler of a game object</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.transform.animate_euler">actions.transform.animate_euler(target_euler, time[, finish_event[, delay[, ease_function[, target_url]]]])</a></td>
-	<td class="summary">Animate the rotation of a game object with euler vector</td>
+	<td class="summary">Animate the euler of a game object with euler vector</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.transform.animate_euler_by">actions.transform.animate_euler_by(target_euler, time[, finish_event[, delay[, ease_function[, target_url]]]])</a></td>
-	<td class="summary">Animate the rotation of a game object with relative euler vector</td>
+	<td class="summary">Animate the euler of a game object with relative euler vector</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.transform.get_euler">actions.transform.get_euler(variable[, is_every_frame[, target_url]])</a></td>
-	<td class="summary">Get the rotation property of a game object and store to variable</td>
+	<td class="summary">Get the euler property of a game object and store to variable</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.transform.set_random_euler">actions.transform.set_random_euler([keep_x[, keep_y[, keep_z[, is_every_frame[, delay[, target_url]]]]]])</a></td>
+	<td class="summary">Sets the random euler of a game object</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#actions.transform.set_scale">actions.transform.set_scale(target_scale[, is_every_frame[, delay[, target_url]]])</a></td>
@@ -442,8 +499,24 @@
 	<td class="summary">Get the XYZ channels of a Vector3 variable</td>
 	</tr>
 	<tr>
-	<td class="name" ><a href="#actions.vmath.multiply">actions.vmath.multiply(source, valube[, is_every_frame])</a></td>
+	<td class="name" ><a href="#actions.vmath.length">actions.vmath.length(variable, store[, is_every_frame])</a></td>
+	<td class="summary">Get the length of vector to the store value</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.vmath.multiply">actions.vmath.multiply(source, value[, is_every_frame])</a></td>
 	<td class="summary">Multiply a vector by a varialbe</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.vmath.get_euler">actions.vmath.get_euler(from, from, store[, is_every_frame])</a></td>
+	<td class="summary">Get euler value between two points</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.vmath.subtract">actions.vmath.subtract(source, value[, is_every_frame])</a></td>
+	<td class="summary">Subtracts a one vector3 from another</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#actions.vmath.subtract">actions.vmath.subtract(source[, is_every_frame])</a></td>
+	<td class="summary">Normalize a vector variable.</td>
 	</tr>
 </table>
 
@@ -587,7 +660,8 @@
     <strong>actions.fsm.send_event(target, event_name[, delay[, is_every_frame]])</strong>
     </dt>
     <dd>
-    Send event to target Adam instance
+    Send event to target Adam instance.
+ Event inside current msg.url() context sent instantly, otherwise it send via msg.post (not instant)
 
 
     <h3>Parameters:</h3>
@@ -628,7 +702,8 @@
     <strong>actions.fsm.broadcast_event(event_name[, is_exclude_self[, delay]])</strong>
     </dt>
     <dd>
-    Broadcast event to all active FSM
+    Broadcast event to all active FSM.
+ Event inside current msg.url() context sent instantly, otherwise it send via msg.post (not instant)
 
 
     <h3>Parameters:</h3>
@@ -756,6 +831,36 @@
         <li><span class="parameter">variable</span>
             <span class="types"><span class="type">variable</span></span>
          Name of variable to get from target FSM
+        </li>
+        <li><span class="parameter">store_value</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The name of variable in current FSM to store get value
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.fsm.get_adam"></a>
+    <strong>actions.fsm.get_adam(string, store_value[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Get adam from adam_id
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">string</span>
+            <span class="types"><span class="type">adam_id</span></span>
+         The adam_id for search
         </li>
         <li><span class="parameter">store_value</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
@@ -1073,7 +1178,7 @@
     <strong>actions.go.disable([target="."[, delay]])</strong>
     </dt>
     <dd>
-    Enable the receiving component
+    Disable the receiving component
 
 
     <h3>Parameters:</h3>
@@ -1803,8 +1908,8 @@
 
 </dd>
     <dt>
-    <a name = "actions.math.substract"></a>
-    <strong>actions.math.substract(source, value[, is_every_frame[, is_every_second]])</strong>
+    <a name = "actions.math.subtract"></a>
+    <strong>actions.math.subtract(source, value[, is_every_frame[, is_every_second]])</strong>
     </dt>
     <dd>
     Subtracts a value from a variable
@@ -1814,11 +1919,11 @@
     <ul>
         <li><span class="parameter">source</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         Variable to substract from
+         Variable to subtract from
         </li>
         <li><span class="parameter">value</span>
             <span class="types"><span class="type">variable</span></span>
-         The value to substract
+         The value to subtract
         </li>
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
@@ -1930,12 +2035,58 @@
          Variable to clamp
         </li>
         <li><span class="parameter">min</span>
-            <span class="types"><span class="type">number</span></span>
+            <span class="types"><span class="type">variable</span></span>
          The minimum value allowed.
         </li>
         <li><span class="parameter">max</span>
-            <span class="types"><span class="type">number</span></span>
+            <span class="types"><span class="type">variable</span></span>
          The maximum value allowed.
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_second</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every second
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.math.loop"></a>
+    <strong>actions.math.loop(source, min, max[, is_every_frame[, is_every_second]])</strong>
+    </dt>
+    <dd>
+    Loop value in range.
+ For example If value less of min value it turns to max
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable to loop
+        </li>
+        <li><span class="parameter">min</span>
+            <span class="types"><span class="type">number</span></span>
+         The minimum value to loop.
+        </li>
+        <li><span class="parameter">max</span>
+            <span class="types"><span class="type">number</span></span>
+         The maximum value to loop.
         </li>
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
@@ -2448,7 +2599,7 @@
     <strong>actions.math.operator(source_variable_a, variable_b, operator[, is_every_frame])</strong>
     </dt>
     <dd>
-    Apply a math function (a, b)=>c to source variable.
+    Apply a math function (a, b, adam_instance)=>c to source variable.
  Useful if you want do something, what is not designed in Adam.
 
 
@@ -2456,11 +2607,11 @@
     <ul>
         <li><span class="parameter">source_variable_a</span>
             <span class="types"><span class="type">variable</span></span>
-         First variable
+         First variable A
         </li>
         <li><span class="parameter">variable_b</span>
             <span class="types"><span class="type">variable</span></span>
-         Second variable
+         Second variable B
         </li>
         <li><span class="parameter">operator</span>
             <span class="types"><span class="type">function</span></span>
@@ -2573,23 +2724,629 @@
 
     <dl class="function">
     <dt>
-    <a name = "func"></a>
-    <strong>func(source, value, is_every_frame)</strong>
+    <a name = "actions.sprite.play_flipbook"></a>
+    <strong>actions.sprite.play_flipbook(image[, The[, finish_event[, delay[, The]]]])</strong>
     </dt>
     <dd>
-    Add operator
+    Play the flipbook for target url.  Finish event play on play_flipbook finish callback.
+ The actions take minimum 1 frame.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">source</span>
-
+        <li><span class="parameter">image</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The image to play
         </li>
-        <li><span class="parameter">value</span>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component, by default - all sprite components in object
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         The Time delay in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component, by default - all sprite components in object
+         (<em>optional</em>)
+        </li>
+    </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.sprite.set_tint"></a>
+    <strong>actions.sprite.set_tint(tint[, is_every_frame[, delay[, The="sprite"}[, target_url]]]])</strong>
+    </dt>
+    <dd>
+    Set the tint to the sprite component
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tint</span>
+            <span class="types"><span class="type">vector4</span></span>
+         The tint vector
         </li>
         <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component
+         (<em>default</em> "sprite"})
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply sprite
+         (<em>optional</em>)
+        </li>
+    </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.sprite.add_tint"></a>
+    <strong>actions.sprite.add_tint(tint[, is_every_frame[, delay[, The="sprite"}[, target_url]]]])</strong>
+    </dt>
+    <dd>
+    Add the tint to the sprite component
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tint</span>
+            <span class="types"><span class="type">vector4</span></span>
+         The tint vector
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component
+         (<em>default</em> "sprite"})
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply sprite
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.sprite.animate_tint"></a>
+    <strong>actions.sprite.animate_tint(tint, time[, finish_event[, delay[, ease_function[, The="sprite"}[, target_url]]]]])</strong>
+    </dt>
+    <dd>
+    Animate the tint to the sprite component
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tint</span>
+            <span class="types"><span class="type">vector4</span></span>
+         The tint vector
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to animate
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before animate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component
+         (<em>default</em> "sprite"})
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply sprite
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.sprite.animate_tint_by"></a>
+    <strong>actions.sprite.animate_tint_by(tint, time[, finish_event[, delay[, ease_function[, The="sprite"}[, target_url]]]]])</strong>
+    </dt>
+    <dd>
+    Animate the tint of the sprite component with relative tint vector
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tint</span>
+            <span class="types"><span class="type">vector4</span></span>
+         The tint vector
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to animate
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before animate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component
+         (<em>default</em> "sprite"})
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply sprite
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.sprite.get_tint"></a>
+    <strong>actions.sprite.get_tint(variable[, is_every_frame[, The="sprite"}[, target_url]]])</strong>
+    </dt>
+    <dd>
+    Get the tint property of a game object and store to variable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The variable to store result
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component
+         (<em>default</em> "sprite"})
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply sprite
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.sprite.set_alpha"></a>
+    <strong>actions.sprite.set_alpha(alpha[, is_every_frame[, delay[, The="sprite"}[, target_url]]]])</strong>
+    </dt>
+    <dd>
+    Set the alpha to the sprite component
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">alpha</span>
+            <span class="types"><span class="type">number</span></span>
+         The sprite alpha value
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component
+         (<em>default</em> "sprite"})
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply sprite
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.sprite.add_alpha"></a>
+    <strong>actions.sprite.add_alpha(alpha[, is_every_frame[, delay[, The="sprite"}[, target_url]]]])</strong>
+    </dt>
+    <dd>
+    Add the alpha to the sprite component
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">alpha</span>
+            <span class="types"><span class="type">number</span></span>
+         The sprite alpha value
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component
+         (<em>default</em> "sprite"})
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply sprite
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.sprite.animate_alpha"></a>
+    <strong>actions.sprite.animate_alpha(alpha, time[, finish_event[, delay[, ease_function[, The="sprite"}[, target_url]]]]])</strong>
+    </dt>
+    <dd>
+    Animate the alpha to the sprite component
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">alpha</span>
+            <span class="types"><span class="type">number</span></span>
+         The sprite alpha value
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to animate
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before animate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component
+         (<em>default</em> "sprite"})
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply sprite
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.sprite.animate_alpha_by"></a>
+    <strong>actions.sprite.animate_alpha_by(alpha, time[, finish_event[, delay[, ease_function[, The="sprite"}[, target_url]]]]])</strong>
+    </dt>
+    <dd>
+    Animate the alpha of the sprite component with relative alpha vector
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">alpha</span>
+            <span class="types"><span class="type">number</span></span>
+         The sprite alpha value
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to animate
+        </li>
+        <li><span class="parameter">finish_event</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of trigger event
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before animate in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ease_function</span>
+            <span class="types"><span class="type">ease</span></span>
+         The ease function to animate. Default in settings.get_default_easing
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component
+         (<em>default</em> "sprite"})
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply sprite
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.sprite.get_alpha"></a>
+    <strong>actions.sprite.get_alpha(variable[, is_every_frame[, The="sprite"}[, target_url]]])</strong>
+    </dt>
+    <dd>
+    Get the alpha property of a game object and store to variable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The variable to store result
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component
+         (<em>default</em> "sprite"})
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply sprite
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.sprite.set_vflip"></a>
+    <strong>actions.sprite.set_vflip(is_flip[, The[, is_every_frame[, delay[, The]]]])</strong>
+    </dt>
+    <dd>
+    Set vertical flip for the sprite
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">is_flip</span>
+            <span class="types"><span class="type">boolean</span></span>
+         The boolean flag for flip
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component, by default - all sprite components in object
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         The Time delay in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component, by default - all sprite components in object
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.sprite.set_hflip"></a>
+    <strong>actions.sprite.set_hflip(is_flip[, The[, is_every_frame[, delay[, The]]]])</strong>
+    </dt>
+    <dd>
+    Set horizontal flip for the sprite
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">is_flip</span>
+            <span class="types"><span class="type">boolean</span></span>
+         The boolean flag for flip
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component, by default - all sprite components in object
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         The Time delay in seconds
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">target_component</span></span>
+         name sprite component, by default - all sprite components in object
+         (<em>optional</em>)
         </li>
     </ul>
 
@@ -3195,18 +3952,18 @@
 
 </dd>
     <dt>
-    <a name = "actions.transform.set_rotation"></a>
-    <strong>actions.transform.set_rotation(target_vector[, is_every_frame[, delay[, target_url]]])</strong>
+    <a name = "actions.transform.set_euler"></a>
+    <strong>actions.transform.set_euler(target_euler[, is_every_frame[, delay[, target_url]]])</strong>
     </dt>
     <dd>
-    Sets the rotation of a game object
+    Sets the euler of a game object
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">target_vector</span>
+        <li><span class="parameter">target_euler</span>
             <span class="types"><span class="type">vector3</span></span>
-         Euler quatenion
+         The euler vector
         </li>
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
@@ -3237,71 +3994,18 @@
 
 </dd>
     <dt>
-    <a name = "actions.transform.set_rotation"></a>
-    <strong>actions.transform.set_rotation([keep_x[, keep_y[, keep_z[, is_every_frame[, delay[, target_url]]]]]])</strong>
+    <a name = "actions.transform.add_euler"></a>
+    <strong>actions.transform.add_euler(target_euler[, is_every_frame[, delay[, target_url]]])</strong>
     </dt>
     <dd>
-    Sets the rotation of a game object
+    Add the euler of a game object
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">keep_x</span>
-            <span class="types"><span class="type">boolean</span></span>
-         Set true to keep x euler angle
-         (<em>optional</em>)
-        </li>
-        <li><span class="parameter">keep_y</span>
-            <span class="types"><span class="type">boolean</span></span>
-         Set true to keep x euler angle
-         (<em>optional</em>)
-        </li>
-        <li><span class="parameter">keep_z</span>
-            <span class="types"><span class="type">boolean</span></span>
-         Set true to keep x euler angle
-         (<em>optional</em>)
-        </li>
-        <li><span class="parameter">is_every_frame</span>
-            <span class="types"><span class="type">boolean</span></span>
-         Repeat this action every frame
-         (<em>optional</em>)
-        </li>
-        <li><span class="parameter">delay</span>
-            <span class="types"><span class="type">number</span></span>
-         Delay before translate in seconds
-         (<em>optional</em>)
-        </li>
-        <li><span class="parameter">target_url</span>
-            <span class="types"><span class="type">url</span></span>
-         The object to apply transform
-         (<em>optional</em>)
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">ActionInstance</span></span>
-
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "actions.transform.add_rotation"></a>
-    <strong>actions.transform.add_rotation(target_vector[, is_every_frame[, delay[, target_url]]])</strong>
-    </dt>
-    <dd>
-    Add the rotation of a game object
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">target_vector</span>
+        <li><span class="parameter">target_euler</span>
             <span class="types"><span class="type">vector3</span></span>
-         Rotation quatenion
+         The euler vector
         </li>
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
@@ -3336,14 +4040,14 @@
     <strong>actions.transform.animate_euler(target_euler, time[, finish_event[, delay[, ease_function[, target_url]]]])</strong>
     </dt>
     <dd>
-    Animate the rotation of a game object with euler vector
+    Animate the euler of a game object with euler vector
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">target_euler</span>
             <span class="types"><span class="type">vector3</span></span>
-         Rotation quaternion
+         The euler vector
         </li>
         <li><span class="parameter">time</span>
             <span class="types"><span class="type">number</span></span>
@@ -3387,7 +4091,7 @@
     <strong>actions.transform.animate_euler_by(target_euler, time[, finish_event[, delay[, ease_function[, target_url]]]])</strong>
     </dt>
     <dd>
-    Animate the rotation of a game object with relative euler vector
+    Animate the euler of a game object with relative euler vector
 
 
     <h3>Parameters:</h3>
@@ -3438,7 +4142,7 @@
     <strong>actions.transform.get_euler(variable[, is_every_frame[, target_url]])</strong>
     </dt>
     <dd>
-    Get the rotation property of a game object and store to variable
+    Get the euler property of a game object and store to variable
 
 
     <h3>Parameters:</h3>
@@ -3450,6 +4154,59 @@
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>
          Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">target_url</span>
+            <span class="types"><span class="type">url</span></span>
+         The object to apply transform
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.transform.set_random_euler"></a>
+    <strong>actions.transform.set_random_euler([keep_x[, keep_y[, keep_z[, is_every_frame[, delay[, target_url]]]]]])</strong>
+    </dt>
+    <dd>
+    Sets the random euler of a game object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">keep_x</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Set true to keep x euler angle
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">keep_y</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Set true to keep x euler angle
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">keep_z</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Set true to keep x euler angle
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+         Delay before translate in seconds
          (<em>optional</em>)
         </li>
         <li><span class="parameter">target_url</span>
@@ -3875,8 +4632,44 @@
 
 </dd>
     <dt>
+    <a name = "actions.vmath.length"></a>
+    <strong>actions.vmath.length(variable, store[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Get the length of vector to the store value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variable</span>
+            <span class="types"><span class="type">variable</span></span>
+         The vector3 to get length
+        </li>
+        <li><span class="parameter">store</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The variable to store euler result. Pass nil to not store
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "actions.vmath.multiply"></a>
-    <strong>actions.vmath.multiply(source, valube[, is_every_frame])</strong>
+    <strong>actions.vmath.multiply(source, value[, is_every_frame])</strong>
     </dt>
     <dd>
     Multiply a vector by a varialbe
@@ -3888,9 +4681,117 @@
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          Variable vector to multiply
         </li>
-        <li><span class="parameter">valube</span>
+        <li><span class="parameter">value</span>
             <span class="types"><span class="type">variable</span></span>
          The multiplier variable
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.vmath.get_euler"></a>
+    <strong>actions.vmath.get_euler(from, from, store[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Get euler value between two points
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">from</span>
+            <span class="types"><span class="type">variable</span></span>
+         Vector3 to check to
+        </li>
+        <li><span class="parameter">from</span>
+            <span class="types"><span class="type">variable</span></span>
+         Vector3 to check to
+        </li>
+        <li><span class="parameter">store</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The variable to store euler result. Pass nil to not store
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.vmath.subtract"></a>
+    <strong>actions.vmath.subtract(source, value[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Subtracts a one vector3 from another
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable vector to subtract from
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">variable</span></span>
+         The vector to subtract
+        </li>
+        <li><span class="parameter">is_every_frame</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Repeat this action every frame
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "actions.vmath.subtract"></a>
+    <strong>actions.vmath.subtract(source[, is_every_frame])</strong>
+    </dt>
+    <dd>
+    Normalize a vector variable.  His length will be 1. Of length of vector - 0 it will be not changed
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">source</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Variable vector to normalize
         </li>
         <li><span class="parameter">is_every_frame</span>
             <span class="types"><span class="type">boolean</span></span>

@@ -44,6 +44,7 @@
   <li><a href="../modules/Adam.html">Adam</a></li>
   <li><strong>ActionInstance</strong></li>
   <li><a href="../modules/AdamInstance.html">AdamInstance</a></li>
+  <li><a href="../modules/system.instances.html">system.instances</a></li>
   <li><a href="../modules/StateInstance.html">StateInstance</a></li>
 </ul>
 
@@ -86,6 +87,10 @@
 	<tr>
 	<td class="name" ><a href="#set_every_frame">set_every_frame()</a></td>
 	<td class="summary">Set action triggered every frame.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#set_with_context">set_with_context()</a></td>
+	<td class="summary">Add context to this actions.</td>
 	</tr>
 	<tr>
 	<td class="name" ><a href="#set_periodic">set_periodic([seconds[, skip_initial_call]])</a></td>
@@ -364,6 +369,27 @@
     </dt>
     <dd>
     Set action triggered every frame.  Initial call will be skipped
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ActionInstance</span></span>
+        Self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_with_context"></a>
+    <strong>set_with_context()</strong>
+    </dt>
+    <dd>
+    Add context to this actions.  It's cross call table, the second arg in
+ trigger and release callbacks
 
 
 
